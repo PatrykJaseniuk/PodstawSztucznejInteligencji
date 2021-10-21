@@ -1,0 +1,76 @@
+// Regu³y wygenerowano za pomoc¹ programu
+// DeTreex 4.0 - generator drzew decyzyjnych     14:27:15  03-09-2003
+// ==================================================================
+
+//	Plik Ÿród³owy: "C:\sphinx40\Sphinx305\DeTreex Przyk³ady\AND.lrn"
+//	Dane w pliku : 2 klas(y), 2 atrybutów, 4 przyk³adów ucz¹cych.
+
+//	Parametry generowania drzewa: Min. przyk³adów   = 1,
+//	                              Przyciêcie drzewa = brak.
+
+knowledge base y
+
+facets
+
+  ask yes;
+
+  y : 
+     single no
+     val oneof
+     {
+        "0",
+        "1"
+     };
+
+  x1 : 
+     single yes
+     val oneof
+     {
+        "0",
+        "1"
+     };
+
+  x2 : 
+     single yes
+     val oneof
+     {
+        "0",
+        "1"
+     };
+
+end;   //facets
+
+rules
+
+  0001 : y = "0" if		// (2.0)
+             x1 = "0";
+
+  0002 : y = "0" if		// (1.0)
+             x1 = "1",
+             x2 = "0";
+
+  0003 : y = "1" if		// (1.0)
+             x1 = "1",
+             x2 = "1";
+
+end;   //rules
+
+control
+
+  char Txt1, Txt2, Txt3;
+
+  run;
+  createAppWindow;
+  Txt1 := "Aplikacja 'y'";
+  Txt2 := "\n\n\nBaza wiedzy wygenerowana za pomoc¹ programu\n\n DeTreex 4.0";
+  Txt3 := "© AITECH Artificial Intelligence Laboratory, Katowice 2000";
+  vignette( Txt1, Txt2, Txt3 );
+
+  goal ("y=X");
+  delNewFacts;
+
+  // <- blok instrukcji i funkcji
+
+end;   //control
+
+end;   //knowledge base

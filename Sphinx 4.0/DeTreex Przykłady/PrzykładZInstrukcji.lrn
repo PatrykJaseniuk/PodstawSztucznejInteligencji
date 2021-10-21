@@ -1,0 +1,16 @@
+we	we	we	we	wy
+#Pogoda	#Temperatura	#Wilgotnoœæ	#Wiatr	#Golf
+s³oneczna	wysoka	wysoka	nie	zostajemy w domu
+s³oneczna	wysoka	wysoka	tak	zostajemy w domu
+zachmurzenie	wysoka	wysoka	nie	gramy w golfa
+deszcz	œrednia	wysoka	nie	gramy w golfa
+deszcz	niska	normalna	nie	gramy w golfa
+deszcz	niska	normalna	tak	zostajemy w domu
+zachmurzenie	niska	normalna	tak	gramy w golfa
+s³oneczna	œrednia	wysoka	nie	zostajemy w domu
+s³oneczna	niska	normalna	nie	gramy w golfa
+deszcz	œrednia	normalna	nie	gramy w golfa
+s³oneczna	œrednia	normalna	tak	gramy w golfa
+zachmurzenie	œrednia	wysoka	tak	gramy w golfa
+zachmurzenie	wysoka	normalna	nie	gramy w golfa
+deszcz	œrednia	wysoka	tak	zostajemy w domu

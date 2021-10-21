@@ -1,0 +1,73 @@
+knowledge base generacja_bazy_danych
+
+//
+//    Plik : GEN_DBF.BW   Baza wiedzy zawieraj¹ca program generuj¹cy bazê danych
+//        do przyk³adu K_DBF.BW
+//
+//    Copyright (c) 1990-2003 AITECH Artificial Intelligence Laboratory K-CE
+//
+//    Autor : Tomasz Kaczmarek
+//
+//  Poni¿szy program generuje bazê danych z przyk³adowymi danymi w formacie
+//  bazy typu dBase, w celu wygenerowania innego typu danych nale¿y
+//  zmieniæ parametry instrukcji 'sqlInit' oraz zmodyfikowaæ zapytanie
+//  tworz¹ce bazê wiedzy w zale¿noœci od specyfiki sk³adni danego systemu DBMS.
+//
+//  Przyk³adowa zmiana na system Paradox mo¿e wygl¹daæ nastêpuj¹co :
+//
+//   sqlInit( "DSN=Paradox Files", 1 );
+//   sqlQuery( "CREATE TABLE firmy ( nazwa alphanumeric(20), os_prawna number,
+//                zysk number, zadluz number, zabezp alphanumeric(30),
+//                il_prac number, wynik alphanumeric(20) )" );
+//
+//  Pliki tekstowe :
+//
+//    sqlInit( "DSN=Text Files;DBQ=C:\\txt.txt;FIL=TEXT", 1 );
+//    sqlQuery( "CREATE TABLE firmy ( nazwa char(20), os_prawna integer,
+//                 zysk integer, zadluz integer, zabezp char(30) ,
+//                 il_prac integer, wynik char(20) )" );
+//
+//   Access :
+//
+//    sqlInit( "DSN=MS Access 97 Database;FIL=RedISAM;DBQ=C:\\BAZA.MDB", 1 );
+//    sqlQuery( "CREATE TABLE firmy ( nazwa text(20), os_prawna long, zysk long,
+//               zadluz long, zabezp text(30), il_prac long, wynik text(20) )" );
+//
+//
+
+ control
+
+    // inicjuj po³¹czenie z SQL
+
+    sqlInit( "DSN=Pliki dBase", 1 );
+
+    if ( RETURN == 0 )
+    begin
+        messageBox( 0,0, "Uwaga !", "B³¹d inicjacji Ÿród³a danych. Proszê sprawdziæ czy jest zainstalowany w systemie system ODBC w wersji 32-bitowej. Oraz czy istnieje Ÿród³o danych DSN=Pliki dBase" );
+        mainMenu;
+    end;
+
+    // Twórz now¹ tabelê :
+
+    sqlQuery( "CREATE TABLE firmy ( nazwa char(20), os_prawna logical,
+               zysk numeric, sprzedaz numeric, zadluz numeric, zabezp char(30),
+               il_prac numeric, wynik char(20) )" );
+
+    // Aktualizuj zawartoœæ tabeli
+
+    sqlQuery( "DELETE FROM firmy" );
+    sqlQuery( "INSERT INTO firmy (nazwa,zysk,sprzedaz,zadluz,zabezp,il_prac,os_prawna) VALUES ('Huta Miedzi i Cynku w Lublinie',130000, 900000, 0, 'hipoteka', 1350,1 )" );
+    sqlQuery( "INSERT INTO firmy (nazwa,zysk,sprzedaz,zadluz,zabezp,il_prac,os_prawna) VALUES ('Apex Sp. z.o.o.',2000, 14000, 1000, 'brak', 50,1 )" );
+    sqlQuery( "INSERT INTO firmy (nazwa,zysk,sprzedaz,zadluz,zabezp,il_prac,os_prawna) VALUES ('Delta Trans', 3500, 10000, 100, 'hipoteka', 120,1 )" );
+    sqlQuery( "INSERT INTO firmy (nazwa,zysk,sprzedaz,zadluz,zabezp,il_prac,os_prawna) VALUES ('Audio Team Pl',5000, 200000, 0, 'hipoteka', 20,1 )" );
+    sqlQuery( "INSERT INTO firmy (nazwa,zysk,sprzedaz,zadluz,zabezp,il_prac,os_prawna) VALUES ('FWZ Kordian',120000, 1000000, 10000, 'hipoteka', 700,0 )" );
+
+    // zakoñcz pracê z driver'ami
+
+    sqlDone;
+
+    messageBox( 0, 0, "Koniec", "Baza danych firma.dbf wygenerowana" );
+
+ end;
+
+end;

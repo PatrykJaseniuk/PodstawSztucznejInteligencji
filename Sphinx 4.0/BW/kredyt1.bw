@@ -1,0 +1,48 @@
+knowledge base przyklad_7_3__aplikacja_tablicowa
+
+  sources
+    deckred : 
+        type kb
+        file "deckred.zw";
+    profil : 
+        type kb 
+        file "profil.zw";
+    gwarancje : 
+        type kb
+        file "gwaranc.zw";
+    sytfin : 
+        type kb 
+        file "sytfin.zw";
+  end;
+ 
+    
+  control
+    int Odp;
+    char  S1, S2, S3;
+
+    run;
+    S1 := "KREDYT";
+    S2 := "DEMONSTRACYJNY SYSTEM TABLICOWY\nKrzysztof Michalik\nAITECH Katowice";
+    S3 := "Copyright (C)1990-2003 AITECH Artificial Intelligence Laboratory";
+//    createAppWindow;
+    vignette( S1, S2, S3 );
+    solutionWin( no );
+    Odp := 1;
+    while( Odp == 1 )
+     begin
+       setSysText( problem, "[BOcena profilu klienta[b" );
+       solve( profil, "profil_klienta = Profil_klienta" );
+       setSysText( problem, "[BOcena gwarancji kredytowych[b" );
+       solve( gwarancje, "gwarancje_kredytowe = Gwarancje_kredytowe" );
+       setSysText( problem, "[BOcena sytuacji finansowej kredytobiorcy[b" );
+       solve( sytfin, "sytuacja_finansowa = Sytuacja_finansowa" );
+       solutionWin( yes );
+       setSysText( problem, "[BOcena wniosku kredytowego[b" );
+       solve( deckred, "decyzja_kredytowa = DECYZJA_KREDYTOWA" );
+       confirmBox( 0, 0, "KONTYNUOWAÆ KONSULTACJE ?", "Naciœnij 'OK' jeœli tak, 'ANULUJ' jeœli nie", Odp );
+       delNewFacts;
+       solutionWin( no );
+    end;
+    solutionWin( yes );
+ end;
+end;

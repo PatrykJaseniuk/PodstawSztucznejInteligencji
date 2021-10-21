@@ -1,0 +1,315 @@
+knowledge base pierwsza_baza
+
+sources
+
+   finans :
+	type kb
+	file "pfinans.zw";
+   zadluz :
+	type kb
+	file "ozadluz.zw";
+   zyskow :
+	type kb
+	file "ozyskow.zw";
+   sprawn :
+	type kb
+	file "osprawn.zw";
+   rynkow :
+	type kb
+	file "orynkow.zw";
+   sugest :
+	type kb
+	file "osugest.zw";
+   cotoje :
+	type what_is_file
+	file "kredyt2.dbw";
+   wyjasn :
+	type metaphors
+	file "kredyt2.dbm";
+
+end;
+
+facets
+
+single yes;
+
+ocena_rynkowa_akcji_i_kapita³u:
+   ask no
+   val oneof
+   {
+     "mocna pozycja firmy na rynku",
+     "niski zysk na jedn¹ akcjê",
+     "os³abia siê pozycja firmy na rynku",
+     "s³aba pozycja firmy na rynku"
+   };
+
+ocena_sprawnoœci_dzia³ania:
+   ask no
+   val oneof
+   {
+     "wysoka sprawnoœæ dzia³ania",
+     "firma surowo egzekwuje nale¿noœci",
+     "firma ma zbyt wysokie zapasy",
+     "firma ma zbyt niskie zapasy",
+     "niska sprawnoœæ dzia³ania",
+     "zbyt niska sprawnoœæ dzia³ania"
+   };
+
+ocena_zyskownoœci:
+   ask no
+   val oneof
+   {
+     "firma zyskowna",
+     "niska zyskownoœæ kapita³u w³asnego",
+     "niska zyskownoœæ aktywów",
+     "zyskownoœæ firmy niedostateczna"
+   };
+
+ocena_zad³u¿enia:
+   ask no
+   val oneof
+   {
+     "zad³u¿enie w normie",
+     "firma zbyt wysoko zad³u¿ona",
+     "firma powa¿nie zad³u¿ona",
+     "firma nie jest w stanie pokryæ d³ugu",
+     "œrodki trwa³e nie pokrywaj¹ kredytu",
+     "wysoki poziom zad³u¿enia w aktywach",
+     "istnieje ryzyko zwi¹zane z zad³u¿eniem firmy"
+   };
+
+p³ynnoœæ_finansowa:
+   ask no
+   val oneof
+   {
+     "zachowana",
+     "firma dzia³a z dnia na dzieñ",
+     "firma mo¿e nie sprostaæ zobowi¹zaniom",
+     "niezachowana"
+   };
+
+sugestia:
+   ask no
+   val oneof
+   {
+     "Uwaga - firma dzia³a z dnia na dzieñ",
+     "Uwaga - firma mo¿e nie sprostaæ zobowi¹zaniom",
+     "Uwaga - firma powa¿nie zad³u¿ona",
+     "Uwaga - firma nie jest w stanie pokryæ d³ugu",
+     "Uwaga - œrodki trwa³e nie pokrywaj¹ kredytu",
+     "Uwaga - wysoki poziom zad³u¿enia w aktywach",
+     "Uwaga - istnieje ryzyko zwi¹zane z obecnym zad³u¿eniem firmy",
+     "Uwaga - niska zyskownoœæ kapita³u w³asnego",
+     "Uwaga - niska zyskownoœæ aktywów",
+     "Uwaga - niska sprawnoœæ dzia³ania firmy",
+     "Uwaga - firma bardzo surowa w egzekwowaniu nale¿noœci",
+     "Uwaga - firma ma zbyt wysokie zapasy",
+     "Uwaga - firma ma zbyt niskie zapasy",
+     "Uwaga - firma ma raczej nisk¹ sprawnoœæ dzia³ania",
+     "Uwaga - niski zysk na jedn¹ akcjê",
+     "Uwaga - os³abia siê pozycja firmy na rynku",
+     "Udzieliæ kredytu - doskona³a kondycja finansowa firmy",
+     "Nie udzielaæ kredytu - firma na skraju bankructwa",
+     "Mo¿na udzieliæ kredytu, ale bêdzie to ryzykowne",
+     "Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem",
+     "Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem",
+     "Nie udzielaæ kredytu - zbyt wysokie ryzyko",
+     "UWAGA !!! Brak podstaw prawnych do udzielenia kredytu"
+   };
+
+profil_klienta:
+   query "Profil klienta jest:"
+   val oneof
+   {
+     "prawid³owy",
+     "nieprawid³owy"
+   };
+
+wskaŸnik_p³ynnoœci_bie¿¹cej:
+   query "Jak kszta³tuje si¹ wskaŸnik p³ynnoœci bie¿¹cej (WPB)?"
+   val oneof
+   {
+     "mniejszy od 1.2",
+     "wiêkszy od 1.2"
+   }
+   param
+   {
+     WPB_PAR1 = "mniejszy od 1.2",
+     WPB_PAR2 = "wiêkszy od 1.2"
+   };
+	   
+wskaŸnik_szybki:
+   query "Jak kszta³tuje siê wskaŸnik szybki (WPS)?"
+   val oneof
+   {
+     "WPS < 1",
+     "WPS > 1"
+   };
+
+wskaŸnik_d³ugu:
+   query "Proszê okreœliæ stosunek zobowiazañ d³ugoterminowych do ca³oœci kapita³u w³asnego"
+   val oneof
+   {
+     "oko³o 50%",
+     "powy¿ej 100%"
+   };
+
+wskaŸnik_pokrycia_obs³ugi_d³ugu:
+   query "Czy zysk z dzia³alnoœci pokrywa roczne sp³aty kredytu i odsetki?"
+   val oneof
+   {
+     "Tak",
+     "Nie"
+   };
+
+wskaŸnik_pokrycia_d³ugu_w_œrodkach:
+   query "Czy wartoœæ œrodków trwa³ych netto pokrywa kwotê kredytu?"
+   val oneof
+   {
+     "Tak",
+     "Nie"
+   };
+
+wskaŸnik_ogólnego_zad³u¿enia:
+   query "Jaki jest udzia³ zad³u¿enia w aktywach ?"
+   val oneof
+   {
+     "wysoki",
+     "niski"
+   };
+
+wskaŸnik_zyskownoœci_kapita³u_w³asnego:
+   query "Jak kszta³tuje siê wskaŸnik zyskownosci kapita³u w³asnego?"
+   val oneof
+   {
+     "roœnie",
+     "maleje"
+   };
+
+wskaŸnik_rentownoœci_maj¹tku:
+   query "Jak kszta³tuje siê wskaŸnik rentownoœci maj¹tku?"
+   val oneof
+   {
+     "roœnie",
+     "maleje"
+   };
+
+wskaŸnik_operacyjnoœci:
+   query "Jak kszta³tuje siê wskaŸnik operacyjnosci (WO)?"
+   val oneof
+   {
+     "WO < 50%",
+     "zakres 50% < WO < 90%",
+     "WO > 90%"
+   };
+
+wskaŸnik_rotacji_nale¿noœci:
+   query "Jak kszta³tuje siê wskaŸnik rotacji nale¿noœci?"
+   val oneof
+   {
+     "wysoki",
+     "niski"
+   };
+
+wskaŸnik_rotacji_zapasów:
+   query "Co mo¿na powiedzieæ o stosunku sprzeda¿y do zapasów?"
+   val oneof
+   {
+     "zawy¿ony",
+     "normalny",
+     "zani¿ony"
+   };
+
+wskaŸnik_zysku_na_jedn¹_akcjê:
+   query "Jak kszta³tuje siê wskaŸnik zysku na jedn¹ akcjê?"
+   val oneof
+   {
+     "wysoki",
+     "niski"
+   };
+
+wskaŸnik_wyp³at:
+   query "Jak kszta³tuje siê w czasie stosunek wyp³aconych dywidend do zysku?"
+   val oneof
+   {
+     "roœnie",
+     "maleje"
+   };
+
+end;
+
+control
+
+ int Odp;
+ char S1, S2, S3;
+
+ run;
+ S1 := "KONSULTANT";
+ S2 := "\nWERSJA DEMONSTRACYJNA\nPROTOTYPU SYSTEMU EKSPERTOWEGO\nDO WSPOMAGANIA\nOCENY FINANSOWEJ PRZEDSIÊBIORSTWA";
+ S3 := "Copyright(C)1990-2003 AITECH Artificial Intelligence Laboratory K-CE";
+
+ createAppWindow;
+ setAppWinTitle( "Konsultacja kredytowa" );
+ vignette( S1, S2, S3 );
+
+     menu "G³ówna &konsultacja"
+       1. "    Ocena &rynkowa akcji i kapita³u"
+       2. "    Ocena &sprawnoœci dzia³ania"
+       3. "    Ocena rentownoœci &finansowej"
+       4. "    Ocena &zad³u¿enia"
+       5. "    Ocena &p³ynnoœci finansowej"
+       6. "    &Kompleksowa ocena przedsiêbiorstwa"
+       7. "    &O aplikacji"
+       8. "    &Wyjœcie"
+
+      case 1:
+       solutionWin(yes);
+       solve( rynkow,"ocena_rynkowa_akcji_i_kapita³u=O_rynkowa_akcji_i_kapita³u");
+       delNewFacts;
+
+      case 2:
+       solutionWin(yes);
+       solve( sprawn,"ocena_sprawnoœci_dzia³ania=O_sprawnoœci_dzia³ania");
+       delNewFacts;
+
+      case 3:
+       solutionWin(yes);
+       solve( zyskow,"ocena_zyskownoœci=O_zyskownoœci");
+       delNewFacts;
+
+      case 4:
+       solutionWin(yes);
+       solve( zadluz,"ocena_zad³u¿enia=O_zad³u¿enia");
+       delNewFacts;
+
+      case 5:
+       solutionWin(yes);
+       solve( finans,"p³ynnoœæ_finansowa=P_finansowa");
+       delNewFacts;
+
+      case 6:
+       solutionWin(no);
+       solve( rynkow,"ocena_rynkowa_akcji_i_kapita³u=Ocena_rynkowa_akcji_i_kapita³u");
+       solve( sprawn,"ocena_sprawnoœci_dzia³ania=Ocena_sprawnoœci_dzia³ania");
+       solve( zyskow,"ocena_zyskownoœci=Ocena_zyskownoœci");
+       solve( zadluz,"ocena_zad³u¿enia=Ocena_zad³u¿enia");
+       solve( finans,"p³ynnoœæ_finansowa=Ocena_p³ynnoœci_finansowej");
+       solutionWin(yes);
+       solve( sugest,"sugestia=Sugestia");
+       delNewFacts;
+
+      case 7:
+       system("notepad.exe oaplik.txt");
+
+      case 8:
+       confirmBox( 0, 0, "Wyjœcie...", "\n\nKONIEC PRACY", Odp ); 
+       while( Odp == 1 )
+	begin 
+	 exit; 
+	end;
+
+   end;
+
+end;
+
+end;

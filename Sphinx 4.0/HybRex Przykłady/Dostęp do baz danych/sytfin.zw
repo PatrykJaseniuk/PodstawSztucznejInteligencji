@@ -1,0 +1,101 @@
+knowledge source sytuacja_finansowa
+
+// ród³o wiedzy oceniaj¹ce sytuacjê finansow¹ badanego podmiotu
+
+  facets
+
+    single yes;
+
+    sytuacja_finansowa :
+        val oneof { "dobra", "z³a" };
+
+    p³ynnoœæ_finansowa :
+       query "OKREŒL P£YNNOŒÆ FINANSOW¥ :"
+       val oneof { "dobra", "zachowana", "z³a" };
+
+    poziom_zad³u¿enia :
+       query "PODAJ POZIOM ZADLU¯ENIA:"
+       val oneof { "dopuszczalny", "niedopuszczalny" };
+
+    rentownoœæ_sprzeda¿y :
+       query "JAKA JEST RENTOWNOŒÆ SPRZEDA¯Y ?"
+       val oneof {  "niska", "wysoka", "bardzo wysoka" };
+  
+    zysk;
+    zad³u¿enie;
+    rentownoœæ_sprzeda¿y_wartoœæ; 
+
+  end;
+
+  rules
+
+    31: sytuacja_finansowa = "dobra"  if
+           p³ynnoœæ_finansowa = "dobra",
+           rentownoœæ_sprzeda¿y = "wysoka";
+
+    32: sytuacja_finansowa = "dobra"  if
+           p³ynnoœæ_finansowa = "dobra",
+           rentownoœæ_sprzeda¿y = "bardzo wysoka";
+
+    35: sytuacja_finansowa = "dobra"  if
+           p³ynnoœæ_finansowa = "zachowana",
+           rentownoœæ_sprzeda¿y = "bardzo wysoka";
+
+    36: sytuacja_finansowa = "z³a"  if
+           p³ynnoœæ_finansowa = "z³a";
+
+    37: sytuacja_finansowa = "z³a"  if
+           rentownoœæ_sprzeda¿y = "niska";
+
+    38: sytuacja_finansowa = "dobra" if
+          p³ynnoœæ_finansowa = "zachowana",
+          rentownoœæ_sprzeda¿y = "wysoka",
+          poziom_zad³u¿enia = "dopuszczalny";
+
+    39: sytuacja_finansowa = "z³a" if
+          p³ynnoœæ_finansowa = "zachowana",
+          rentownoœæ_sprzeda¿y = "wysoka",
+          poziom_zad³u¿enia = "niedopuszczalny";
+
+    40: p³ynnoœæ_finansowa = "dobra" if
+          zysk = Zysk,
+          zad³u¿enie = Zad³u¿enie,
+          Górna_Granica := Zad³u¿enie*3,
+          Zysk > Górna_Granica;          
+
+    41: p³ynnoœæ_finansowa = "zachowana" if
+          zysk = Zysk,
+          zad³u¿enie = Zad³u¿enie,
+          Górna_Granica := Zad³u¿enie*3,
+          Zysk > Zad³u¿enie,
+          Zysk <= Górna_Granica;          
+
+    42: p³ynnoœæ_finansowa = "z³a" if
+          zysk = Zysk,
+          zad³u¿enie = Zad³u¿enie,
+          Zysk <= Zad³u¿enie;
+
+    45: poziom_zad³u¿enia = "dopuszczalny" if
+          zysk = Zysk,
+          zad³u¿enie = Zad³u¿enie,
+          Zysk > Zad³u¿enie;
+
+    46: poziom_zad³u¿enia = "niedopuszczalny" if
+          zysk = Zysk,
+          zad³u¿enie = Zad³u¿enie,
+          Zysk <= Zad³u¿enie;
+
+
+    50: rentownoœæ_sprzeda¿y = "bardzo wysoka" if
+         rentownoœæ_sprzeda¿y_wartoœæ > 20;
+
+    51: rentownoœæ_sprzeda¿y = "wysoka" if
+         rentownoœæ_sprzeda¿y_wartoœæ > 5,
+         rentownoœæ_sprzeda¿y_wartoœæ <= 20;
+
+    52: rentownoœæ_sprzeda¿y = "niska" if
+         rentownoœæ_sprzeda¿y_wartoœæ <= 5;
+
+  end;
+
+end;

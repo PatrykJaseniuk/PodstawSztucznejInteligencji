@@ -1,0 +1,32 @@
+knowledge source gwarancje_kredytowe
+
+// èrÛd≥o oceny gwarancji kredytowych na podstawie rodzaju zabezpieczenia
+// oferowanego przez oceniany podmiot
+
+  facets
+
+    single yes;
+
+    gwarancje_kredytowe :
+        val oneof { "dostateczne", "niedostateczne" };
+
+    rodzaj_zabezpieczenia :
+       query "PODAJ RODZAJ ZABEZPIECZENIA:"
+       val oneof { "hipoteka", "papiery wartoúciowe", "trudno zbywalne", "brak" };
+
+  end;
+
+  rules
+
+    21: gwarancje_kredytowe = "dostateczne" if
+           rodzaj_zabezpieczenia = "hipoteka" |
+           rodzaj_zabezpieczenia = "papiery wartoúciowe";
+
+    23: gwarancje_kredytowe = "niedostateczne" if
+           rodzaj_zabezpieczenia = "trudno zbywalne";
+
+    24: gwarancje_kredytowe = "niedostateczne" if
+           rodzaj_zabezpieczenia = "brak";
+  end;
+
+end;

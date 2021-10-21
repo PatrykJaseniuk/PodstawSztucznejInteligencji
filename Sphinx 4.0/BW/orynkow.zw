@@ -1,0 +1,23 @@
+knowledge source ocena_rynkowa_akcji_i_kapita≥u
+
+rules
+
+ 51:  ocena_rynkowa_akcji_i_kapita≥u = "mocna pozycja firmy na rynku" if
+       wskaünik_zysku_na_jednπ_akcjÍ = "wysoki",
+       wskaünik_wyp≥at = "maleje";
+
+ 52:  ocena_rynkowa_akcji_i_kapita≥u = "niski zysk na jednπ akcjÍ" if
+       wskaünik_zysku_na_jednπ_akcjÍ = "niski",
+       wskaünik_wyp≥at = "maleje";
+
+ 53:  ocena_rynkowa_akcji_i_kapita≥u = "os≥abia siÍ pozycja firmy na rynku" if
+       wskaünik_zysku_na_jednπ_akcjÍ = "wysoki",
+       wskaünik_wyp≥at = "roúnie";
+
+ 54:  ocena_rynkowa_akcji_i_kapita≥u = "s≥aba pozycja firmy na rynku" if
+       wskaünik_zysku_na_jednπ_akcjÍ = "niski",
+       wskaünik_wyp≥at = "roúnie";
+
+ end;
+
+end;

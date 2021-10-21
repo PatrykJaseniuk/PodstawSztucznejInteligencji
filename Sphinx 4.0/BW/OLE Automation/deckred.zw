@@ -1,0 +1,62 @@
+knowledge source maindec
+
+// G³ówne Ÿród³o wiedzy oceniaj¹ce ostatecznie decyzjê kredytow¹
+// na podstawie oceny klienta, na podstawie gwarancji posiadanyc przez
+// badany podmiot i na podstawie jego sytuacji finansowej
+
+  facets
+
+    single yes;
+
+    decyzja_kredytowa :
+       val oneof { "przyznaæ kredyt", "skonsultuj z prze³o¿onym",
+                   "odmówiæ kredytu" }; 
+
+    profil_klienta :
+        val oneof { "ok", "z³y" };
+
+    gwarancje_kredytowe :
+        val oneof { "dostateczne", "niedostateczne" };
+
+    sytuacja_finansowa :
+        val oneof { "dobra", "z³a" };
+
+  end;
+
+  rules
+
+   1: decyzja_kredytowa = "przyznaæ kredyt" if
+          profil_klienta = "ok",
+          gwarancje_kredytowe="dostateczne",
+          sytuacja_finansowa="dobra";
+
+   2: decyzja_kredytowa = "skonsultuj z prze³o¿onym" if
+          profil_klienta="ok",
+          gwarancje_kredytowe="niedostateczne",
+          sytuacja_finansowa="dobra";
+
+   3: decyzja_kredytowa="skonsultuj z prze³o¿onym" if
+          profil_klienta="ok",
+          gwarancje_kredytowe="dostateczne",
+          sytuacja_finansowa="z³a";
+
+   4: decyzja_kredytowa="skonsultuj z prze³o¿onym" if
+          profil_klienta="z³y",
+          gwarancje_kredytowe="dostateczne",
+          sytuacja_finansowa="dobra";
+
+   5: decyzja_kredytowa="odmówiæ kredytu" if
+          gwarancje_kredytowe="niedostateczne",
+          sytuacja_finansowa="z³a";
+
+   6: decyzja_kredytowa="odmówiæ kredytu" if
+          profil_klienta="z³y",
+          gwarancje_kredytowe="niedostateczne";
+
+   7: decyzja_kredytowa="odmówiæ kredytu" if
+          profil_klienta="z³y",
+          sytuacja_finansowa="z³a";
+
+  end;
+
+end;

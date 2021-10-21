@@ -1,0 +1,150 @@
+//   Modelowanie kardiologicznej reakcji na stres
+//
+//   Uwaga! Modu³ zawiera uproszczenia w celu pokazania wy³¹cznie ogólnych
+//   w³aœciwoœci stosowania sieci neuronowej
+//
+//
+//   wersja 1.0
+//  
+
+
+knowledge base Model
+  sources
+    	netModel : 
+       	 type neural_net
+ 	       	file ".\\Stres.npr";
+
+       
+ 	
+end;
+
+ control
+    
+    	char Title;
+    	int TitleID;
+	
+ 
+    	record NeuralNet We[6];
+    	record NeuralNet Wy[4];
+ 
+
+//================================= BLOK FUNKCJI ====================================
+
+
+
+
+function oProgramie
+  begin
+     char  S1, S2, S3;
+     run;
+     S1 := "Aplikacja neuronowa";
+     S2 := "\n\nModel kardiologicznej reakcji na stres.\nWersja demonstracyjna 1.0";
+     S3 := "(C) AITECH Artificial Intelligence Laboratory, Katowice 1999";
+     vignette( S1, S2, S3);
+  end;
+
+
+function prepareDate
+	begin
+		openChart( "czestoœæ akcji serca", "stres1.vtc" );       
+		showChart( "czestoœæ akcji serca", 0);
+		setWindowPos( "czestoœæ akcji serca", 20, 450, 300, 250, 0);
+		showWindow( "czestoœæ akcji serca", 0 );
+       
+		//arkusz niewidoczny podczas pracy aplikacji
+		openSheet( "model", "Wprow.vts" );
+     		showSheet( "model", 0 );
+		setWindowPos("model", 20, 20, 900, 400, 0 );
+		showWindow("model", 0);
+
+
+		linkChart2Sheet( "czestoœæ akcji serca", "model", "I4:I4", 2 );	
+
+	end;		
+
+
+function sieæ
+	begin
+		
+
+		We[0].Name := "wiek pacjenta";
+    		getSheetValue( "model", "", 9, 2, We[0].DValue );
+    		We[1].Name := "#stan zdrowia";
+    		getSheetValue( "model", "", 50, 1, We[1].Symbol );
+		We[2].Name := "#leki uspokajaj¹ce";
+	    	getSheetValue( "model", "", 50, 2, We[2].Symbol );
+		We[3].Name := "wspó³czynnik wagowy";
+		getSheetValue( "model", "", 11, 2, We[3].DValue );
+    		We[4].Name := "#stopieñ stresu";
+		getSheetValue( "model", "", 50, 3, We[4].Symbol );
+		We[5].Name := "#kolejny poród";
+    		getSheetValue( "model", "", 50, 4, We[5].Symbol );
+
+
+		Wy[0].Name := "czêstoœæ akcji serca";
+    	    	Wy[1].Name := "RR skurczowe";
+    		Wy[2].Name := "RR rozkurczowe";
+    		Wy[3].Name := "obni¿enie odcinka";
+    	
+    
+
+    		initNetwork ( netModel );	
+    		runNetwork ( netModel, We, Wy );
+    		delNetwork ( netModel);
+     
+  
+		setSheetValue( "model", "", 4, 9, Wy[0].DValue );
+		setSheetValue( "model", "", 7, 10, Wy[1].DValue );
+		setSheetValue( "model", "", 10, 10, Wy[2].DValue );
+		setSheetValue( "model", "", 13, 9, Wy[3].DValue );
+
+
+
+	end;
+
+
+function zamknijAplikacjê
+  begin
+      mainMenu;
+  end;
+
+
+
+//============================= BLOK G£ÓWNEGO PROGRAMU =====================================
+
+       int ID, ID1;
+
+	run;
+
+	
+	
+	int MENUID, POPID1, POPID2, POPID3, POPID4;
+  	TitleID := 0;
+	int Tab[10];
+  	setAppWinTitle( "Model kardiologicznej reakcji na stres 1.0" );
+  	createAppWindow;
+	prepareDate;
+
+	createMenu(MENUID);
+	
+	createPopupMenu(POPID1, "Dane");
+	appendMenu(POPID1, "Przelicz model", sieæ );
+	appendMenu(POPID1, separator, _);
+  	appendMenu(POPID1, "Wyjœcie", zamknijAplikacjê );
+
+	
+
+	appendMenu(MENUID,menu,POPID1);
+	
+	appendMenu(MENUID,menu,window);
+  	createPopupMenu(POPID1, "Pomoc");
+  	appendMenu(POPID1, "O programie", oProgramie );
+  	appendMenu(MENUID,menu,POPID1);
+
+  
+	fullMenu(MENUID);
+   
+	
+ end;
+end;
+

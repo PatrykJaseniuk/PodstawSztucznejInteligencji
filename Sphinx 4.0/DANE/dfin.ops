@@ -1,0 +1,6 @@
+Aplikacja przeznaczona do oceny finansowej przedsiêbiorstwa na podstawie danych ekonomiczno-finansowych, w tym bilansu i rachunku wyników.
+£¹czna ocena warunków finansowych sprowadza siê do ocen cz¹stkowych:
+-p³ynnoœci finansowej
+-poziomu rentownoœci
+-zad³u¿enia oraz wykorzystania kapita³ów w³asnych
+Efektem dzia³ania procedury oceny warunków finansowych jest ocena o charakterze jakoœciowym kwalifikuj¹ca do jednej z szeœciu grup ryzyka finansowego.

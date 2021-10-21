@@ -1,0 +1,46 @@
+:Base DeTreex.hlp
+:Title Pomoc systemu DeTreex 4.0
+1 Informacje o firmie AITECH=ID_FIRMA
+1 Polecenia systemu DeTreex
+2 Menu g³ówne i pasek narzêdziowy
+3 Menu Plik
+4 Otwórz plik ucz¹cy...=ID_OPEN
+4 Import danych z bazy...=ID_IMPORT
+4 Otwórz graf drzewa...=ID_OPENTREE
+4 Zapisz graf drzewa...=ID_SAVETREE
+4 Zapisz drzewo tekstowo=ID_SAVETREETXT
+4 Zakoñcz=ID_EXIT
+3 Menu Drzewo decyzyjne
+4 Generuj drzewo=ID_TREEGEN
+4 Przerwij pracê=ID_TREESTOP
+4 Poka¿ dziedzinê...=ID_ATRWART
+4 Poka¿ drzewo graficzne...=ID_TREESHOW
+4 Poka¿ drzewo tekstowe...=ID_TREESHOWTXT
+4 Testuj drzewo=ID_TREETEST
+4 Zapisz regu³y do bazy wiedzy=ID_TREESAVEBW
+4 Zapisz regu³y do Ÿród³a wiedzy=ID_TREESAVEZW
+4 Uruchom bazê wiedzy w PC-Shellu=ID_TREEPCSHELL
+4 Otwórz bazê/Ÿród³o wiedzy w CAKE'u=ID_TREECAKE
+4 Opcje...=ID_OPTIONS
+3 Menu Pomoc
+4 Tematy pomocy=ID_HELP
+4 O programie...=ID_ABOUT
+2 Dodatkowe polecenia na pasku narzêdziowym
+3 Wizualizacja przyk³adów ucz¹cych=ID_VISUAL
+1 Podstawy obs³ugi systemu DeTreex
+2 Jak otworzyæ...?=IDJ_OPEN
+2 Jak zapisaæ...?=IDJ_SAVE
+2 Jak wygenerowaæ drzewo decyzyjne?=IDJ_TREEGEN
+2 Jak przedstawiæ drzewo decyzyjne...?=IDJ_TREESHOW
+2 Jak pokazaæ dziedzinê problemu?=IDJ_ATRWART
+2 Jak testowaæ drzewo decyzyjne?=IDJ_TREETEST
+2 Jak uruchomiæ system...?=IDJ_TREESYSTEM
+2 Jak zmieniæ opcje generowania drzewa decyzyjnego?=IDJ_OPTIONS
+2 Jak importowaæ dane z bazy?=IDJ_IMPORT
+2 Jak w³¹czyæ/wy³¹czyæ wizualizacjê przyk³adów ucz¹cych?=IDJ_VISUAL
+2 Jak przerwaæ pracê systemu DeTreex?=IDJ_TREESTOP
+1 Informacje o "uczeniu maszynowym" i indukcji drzew decyzyjnych
+2 Co to jest "uczenie maszynowe"?=IDD_WHATISML
+2 Co to jest pozyskiwanie wiedzy?=IDD_WHATISACQ
+2 Metody pozyskiwania wiedzy=IDD_METACQ
+2 Indukcja drzew decyzyjnych=IDD_TREEIND

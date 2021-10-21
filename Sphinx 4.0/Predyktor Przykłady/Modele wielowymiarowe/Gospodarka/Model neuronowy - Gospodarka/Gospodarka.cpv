@@ -1,0 +1,75 @@
+[Parametry sieci neuronowej]
+w. wejœciowa=2
+w. ukryta 1=1
+w. ukryta 2=0
+w. ukryta 3=0
+w. wyjœciowa =1
+f. aktywacji dla w.u.=logistyczna
+f. aktywacji dla w.wy.=logistyczna
+bias=tak
+rozmiar cyklu ucz¹cego=1
+metoda uczenia=spadek gradientu
+maksymalna wartoœæ wag=0,5
+mieszanie wzorców=nie
+warunek zakoñczenia=rms uczenia < 'epsilon'
+%wzorców ucz¹cych=100
+%wzorców testowych=100
+epoka uczenia=100000
+epsilon=0,01
+wspó³czynnik uczenia=0,9
+wspó³czynnik momentu=0,7
+tolerancja uczenia=0,1
+%próg zmiany tolerancji=100
+wspó³czynnik zmiany toleracji=0,99
+czêstoœæ testowania=0
+tolerancja testowania=0,25
+plik ucz¹cy=Gospodarka.lrn
+plik testowy=Gospodarka.tst
+plik wag=Gospodarka.wgt
+plik programu=
+
+[Parametry plików tekstowych]
+znak koñca linii=<lf>
+znak rozdzielaj¹cy=<tab>
+znak zastêpczy=-
+znak dziesiêtny=,
+oznaczenie wejœcia=we
+oznaczenie wyjœcia=wy
+wiersz typu=1
+wiersz nazwy=2
+
+[Parametry generacji plików]
+plik ucz¹cy=Gospodarka.lrn
+plik testowy=Gospodarka.tst
+roz³¹czne=tak
+rozmiar pliku ucz¹cego [%]=100
+rozmiar pliku testowego [%]=0
+losowa zawartoœæ plików=nie
+
+[Statystyka uczenia]
+Statystyki=1
+Wykresu RMS=0
+Autozapis=0
+Zapis najlepszej=0
+Praca krokowa=0
+
+[Praca krokowa]
+Warunek kroku=2
+
+[Zapis najlepszej]
+Plik najlepszych wag=
+RMS uczenia=0
+RMS testowania=0
+
+[Autozapis]
+Czas pomiêdzy zapisami=300
+
+[Katalogi systemowe]
+Katalog PC-SHELL=C:\SPHINX23\PCSHELL.EXE
+Edytor systemowy=C:\WINDOWS\NOTEPAD.EXE
+[Monitoring procesu uczenia]
+Statystyki=1
+Wykresu RMS=0
+Autozapis=0
+Zapis najlepszej=0
+Praca krokowa=0

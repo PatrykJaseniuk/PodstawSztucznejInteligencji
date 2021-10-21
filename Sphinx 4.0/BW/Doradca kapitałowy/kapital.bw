@@ -1,0 +1,605 @@
+//   Modu³ s³u¿¹cy podejmowaniu decyzji inwestycyjnych w oparciu o prognozy sieci
+//   neuronowej oraz ocenê rynku kapita³owego.
+//
+//   Uwaga! Modu³ zawiera uproszczenia w celu pokazania wy³¹cznie ogólnych
+//   w³aœciwoœci stosowania hybrydowego modelu podejmowania decyzji inwestycyjnych.
+//   Stosowanie wskazówek udzielonych przez system ekspertowy odbywa siê wy³¹cznie
+//   na odpowiedzialnoœæ u¿ytkownika.
+//
+//
+//   wersja testowa 1.6
+//  
+
+
+knowledge base Prediction
+
+  sources
+    	netAmericanAirlines : 
+       	 type neural_net
+ 	       file "AmericanAirlines\\amrd.npr";
+
+    	netMcDonalds : 
+	  	type neural_net
+        	file ".\\McDonalds\\mcdd.npr";
+
+
+      netComputerLand : 
+	  	type neural_net
+        	file ".\\ComputerLand\\compland.npr";
+
+      ocenaRynkuKapita³owego:
+		type kb
+		file ".\\bw\\stocks.zw";
+
+ end;
+
+ control
+    
+    	char Title;
+    	int TitleID;
+	
+ 
+    	record NeuralNet PredykcjaKrótkookresowaWe[40];
+    	record NeuralNet PredykcjaKrótkookresowaWy[6];
+ 
+	// zmienne steruj¹ce	
+	int MainIndex;
+	int Horyzont;
+	
+	// zmienne przechowuj¹ce obliczone wartoœci	
+	double Korelacja;
+	
+	double RyzykoD³ugookresowe;
+	double RyzykoKrótkookresowe;
+	
+	double ZyskD³ugookresowy;
+	double ZyskKrótkookresowy;
+	
+	double ZyskPrognozowany;
+	double PrognozaOczekiwanejStopyZwrotu;
+	double RyzykoPrognozowane;
+	
+	// lista spó³ek
+	char FIRMA[3]; 
+
+
+//================================= BLOK FUNKCJI ====================================
+
+// wyprzedzenie deklaracji
+function prognozaRynkuKapita³owego;
+
+function makeInputOutput
+   begin	
+       
+       int I, Index;      
+       char  INT_IN_STRING; 
+	
+	for I:=0 to 39 step 1
+		begin
+			Index:=I+1;
+			ntos(Index,INT_IN_STRING);
+			PredykcjaKrótkookresowaWe[I].Name := INT_IN_STRING ;
+		end;
+
+	for I:=0 to 5 step 1
+		begin
+			Index:=I+41;
+			ntos(Index,INT_IN_STRING);		
+			PredykcjaKrótkookresowaWy[I].Name := INT_IN_STRING ;
+		end;
+	
+
+   end;
+ 
+
+function oProgramie
+  begin
+	char  S1, S2, S3;
+     	S1 := "Aplikacja hybrydowa";
+     	S2 := "\nProgram wspomagaj¹cy inwestycje na rynku kapita³owym.\nWersja demonstracyjna 1.6";
+     	S3 := "(C) AITECH Artificial Intelligence Laboratory, Katowice 2003";
+     	vignette( S1, S2, S3);
+  end;
+
+function getRange
+	begin		
+		int Delay;
+		getProfile( "Ustawienia", "zakres danych dla prognozy", Delay, 0, "dk.ini" );
+		neditBox(0,0,0,200, "Podaj przesuniêcie okna danych historycznych od 0..200.", Delay);
+		Horyzont:=Delay;
+		prognozaRynkuKapita³owego;
+		writeProfile( "Ustawienia", "zakres danych dla prognozy", Delay, "dk.ini" );
+	end;
+
+
+function prepareDate
+	begin
+		openChart( "Neuronowy model wyceny", ".\\wykresy\\nmw.vtc" );       
+		openChart( "Statystyczny model wyceny", ".\\wykresy\\smw.vtc" );       
+		openChart( "Porównanie modeli wyceny", ".\\wykresy\\pmw.vtc" );       
+
+		openChart( "Wykres Min-Max", "");
+		openChart( "B³¹d", ".\\wykresy\\blad.vtc" );
+		openChart( "Ryzyko-Zysk", ".\\wykresy\\rz.vtc" );
+	       
+		//arkusz niewidoczny podczas pracy aplikacji
+		openSheet( "Arkusz obliczeniowy", "" );
+     		showSheet( "Arkusz obliczeniowy", 0 );
+		showWindow("Arkusz obliczeniowy", 4);
+
+		int Delay;
+		getProfile( "Ustawienia", "zakres danych dla prognozy", Delay, 0, "dk.ini" );
+		Horyzont:=Delay;
+	end;		
+
+
+function selStock( char &FileName)
+	begin
+		int RET;
+		//zabezpiecza przed opcj¹ Anuluj
+		RET := 100; 
+
+		FIRMA[0] := "American Airlines"; 
+      		FIRMA[1] := "Mc Donalds";
+   		FIRMA[2] := "ComputerLand"; 
+
+   		slistBox(0,0,"Dane do analizy","Wybierz dane",FIRMA,3, RET );
+		
+		if ( RET == 0 ) 
+			begin
+				FileName := ".\\AmericanAirlines\\amrd.xls";
+			end;
+
+		if ( RET == 1 ) 
+			begin
+				FileName := ".\\McDonalds\\mcdd.xls";
+			end;
+		
+		if ( RET == 2 ) 
+			begin
+				FileName := ".\\ComputerLand\\compland.xls";
+			end;
+		MainIndex:=RET;
+	
+	end;
+
+function poka¿Korelacjê
+	begin
+		char Text, Rxy;
+		strcat( Text,"Wspó³czynnik korelacji pomiêdzy prognoz¹ d³ugokresow¹ i wartoœciami rzeczywistymi wynosi Rxy = ");
+		ntos( Korelacja , Rxy );
+		strcat( Text, Rxy );
+		messageBox(0,0, "Korelacja", Text);
+	end;
+
+function poka¿Ryzyko
+	begin
+		char Text1, Text2, Rxy;
+		strcat( Text1,"Ryzyko d³ugookresowe wynosi R = ");
+		ntos( RyzykoD³ugookresowe , Rxy );
+		strcat( Text1, Rxy );
+		messageBox(0,0, "D³ugookresowe ryzyko inwestycji", Text1);
+		strcat( Text2,"Ryzyko krótkookresowe wynosi R = ");
+		ntos( RyzykoKrótkookresowe , Rxy );
+		strcat( Text2, Rxy );
+		messageBox(0,0, "Krótkookresowe ryzyko inwestycji", Text2);
+	end;
+
+
+function poka¿Zysk
+	begin
+		char Text1, Text2, Rxy;
+		strcat( Text1, "Zysk d³ugookresowy wynosi Z = ");
+		ntos( ZyskD³ugookresowy , Rxy );
+		strcat( Text1, Rxy );
+		messageBox(0,0, "D³ugookresowy zysk z inwestycji", Text1);
+		strcat( Text2,"Zysk krótkookresowy wynosi Z = ");
+		ntos( ZyskKrótkookresowy , Rxy );
+		strcat( Text2, Rxy );
+		messageBox(0,0, "Krótkookresowy zysk z inwestycji", Text2);
+	end;
+
+
+
+function korelacja( double DanePrognozuj¹ce[], double WynikPrognozyD³ugookresowej[], int Max) 
+	begin
+		//obliczamy korelacje
+		//estymator obci¹¿ony
+		double X, Y, SX, SY, CXY, RXY, Pomocnicza;
+		int I,Index;
+		
+		X:=0;
+		Y:=0;
+		SX:=0;
+		SY:=0;
+		CXY:=0;
+		Max:=Max-1;
+		//int Index;
+		//obliczanie œredniej
+		for I:=0 to Max step 1
+			begin
+				Index := I + 40;
+				X:= X + DanePrognozuj¹ce[Index]; 
+				Y:= Y + WynikPrognozyD³ugookresowej[I];
+ 		      
+			end;
+		X := X/6;
+		Y := Y/6;	
+	
+		
+		//odchylenie
+		for I:=0 to Max step 1
+			begin
+				Index := I + 40;
+				SX:= SX + ( ( DanePrognozuj¹ce[Index] * DanePrognozuj¹ce[Index] ) - X*X ); 
+				SY:= SY + ( ( WynikPrognozyD³ugookresowej[I] * WynikPrognozyD³ugookresowej[I] ) - Y*Y ); 
+				CXY:= CXY + ( (  DanePrognozuj¹ce[Index] * WynikPrognozyD³ugookresowej[I]) - X*Y );
+			end;
+
+		SX := SX/6;
+		SY := SY/6;
+		CXY := CXY /6;
+		Pomocnicza := SX*SY;
+		RXY := CXY/(sqrt(Pomocnicza));
+		Korelacja := RXY;
+		
+
+	end;
+
+
+function obliczRyzyko(double In[],double LocalReturnRate[], int Start, int End, double &RiskOut, double &ReturnRate)
+	begin
+		// estymator nieobci¹¿ony
+
+		// X  - œrednia arytmetyczna stóp zwrotu
+		// SX - wariancja
+		// RiskOut - odchylenie œredniokwadratowe
+		// Risk
+
+		//dane testuj¹ce
+		//In[0]:=2;
+		//In[1]:=3;
+		//In[2]:=4.5;
+		//In[3]:=9;
+
+		//Start:=1;
+		//End:=4;
+			
+
+		int I, Index, EndStep;
+		double X,Sum,SX,Yop;
+		
+		// obliczam roczn¹ stopê zwrotu dla 360 dni
+		// np. od 1 do 40
+		End:=End-1;
+		EndStep:=End-1;
+		Start:=Start-1;
+		Index:=0;
+		for I:=Start to EndStep step 1 
+			begin
+				Index:=I+1;
+				LocalReturnRate[Index]:=((In[Index]-In[I])/In[I])*360;
+			end;
+		
+		X:=0;
+		Index:=0;
+		for I:=Start to End step 1
+			begin
+				Index:=I+1;
+				X:=  X + LocalReturnRate[Index];      
+			end;
+		
+		
+		X := X/((End-Start+1)-1);
+		
+		Sum:=0;
+		Index:=0;
+		for I:=Start to EndStep step 1
+			begin
+ 				Index:= I+1;
+				Sum:= Sum + (LocalReturnRate[Index]- X)*(LocalReturnRate[Index]- X); 				      
+			end;
+
+		// poniewa¿ n<30 to n=n-1
+		SX:=(1/(End-Start-1))*Sum;
+		RiskOut:= sqrt(SX);
+		ReturnRate := sqrt(SX);
+		
+	end;
+
+
+function obliczZysk( double In[], int Start, int End, double &ProfitOut, double &ReturnRate )
+	begin
+		int First, Last,I,Index;
+		double Suma;
+		Last:=End-1;
+		First:=Start-1;
+		ProfitOut := In[Last] - In[First];
+		ReturnRate:=(ProfitOut/In[First])*360;
+
+	end;
+
+function showChartOfRiskProfit
+	begin
+		double Dane[3,1];
+		
+		Dane[0,0]:=RyzykoPrognozowane;
+		Dane[1,0]:=PrognozaOczekiwanejStopyZwrotu;
+		Dane[2,0]:=2;      
+		
+		showChart( "Ryzyko-Zysk", 0 );
+		setChartArray( "Ryzyko-Zysk", Dane );
+		if (MainIndex<>-1)
+		begin
+			setChartData( "Ryzyko-Zysk", "R1" , FIRMA[MainIndex] );
+		end;
+		showWindow("Ryzyko-Zysk", 3); 
+		setWindowPos("Ryzyko-Zysk", 5,5, 300, 300, 0);
+	end;
+
+
+function showChartHiLo
+	begin
+		showChart( "Wykres Min-Max", 0);
+		setWindowPos("Wykres Min-Max", 5, 220, 400, 250, 0);
+		showWindow("Wykres Min-Max", 0);
+	end;
+
+function showChartOfNeuroPredict
+	begin
+		showChart( "Neuronowy model wyceny", 0 );
+		setWindowPos( "Neuronowy model wyceny", 220, 100, 600, 600, 0);
+		showWindow("Neuronowy model wyceny", 0);
+	end;
+ 
+
+function showChartOfStatPredict
+	begin
+		showChart( "Statystyczny model wyceny", 0 );
+		setWindowPos( "Statystyczny model wyceny", 220, 100, 600, 600, 0);
+		showWindow( "Statystyczny model wyceny", 0);
+	end;
+
+function showChartOfCompareModels
+	begin
+		showChart( "Porównanie modeli wyceny", 0 );
+		setWindowPos( "Porównanie modeli wyceny", 220, 100, 600, 600, 0);
+		showWindow( "Porównanie modeli wyceny", 0);
+	end;
+
+
+
+function showChartOfError
+	begin
+		showChart( "B³¹d", 0);
+		setWindowPos( "B³¹d", 5, 400, 300, 200, 0);
+		showWindow( "B³¹d", 0 );
+	end;
+ 
+function showRaportSheet
+	begin
+		openSheet("Raport", ".\\arkusze\\raport.vts");
+		showSheet("Raport", 0);
+		setWindowPos("Raport",500, 350, 500, 350, 0);
+		if (MainIndex<>-1)
+		begin
+			setSheetValue( "Raport", "", 3, 2, FIRMA[MainIndex] );
+		end;
+		setSheetValue( "Raport", "", 5, 2, ZyskPrognozowany );
+		setSheetValue( "Raport", "", 6, 2, PrognozaOczekiwanejStopyZwrotu);
+		setSheetValue( "Raport", "", 7, 2, RyzykoPrognozowane );
+		setSheetValue( "Raport", "", 8, 2, "" );
+		setSheetValue( "Raport", "", 10, 2, Korelacja );
+		setSheetValue( "Raport", "", 15, 2, ZyskD³ugookresowy );
+		setSheetValue( "Raport", "", 16, 2, RyzykoD³ugookresowe );
+	end;
+
+function prognozaRynkuKapita³owego
+	begin
+     		
+		char FileName;
+		
+		//konstruktor danych
+		makeInputOutput;	
+					
+		
+		if( MainIndex == -1 )
+		begin		
+			selStock( FileName );
+			closeSheet( "Arkusz wprowadzania danych");
+			openSheet( "Arkusz wprowadzania danych", FileName );
+			showSheet( "Arkusz wprowadzania danych", 1);
+			showWindow( "Arkusz wprowadzania danych", 4);
+		end;
+				
+		//zmienne
+		double DanePrognozuj¹ce[46];
+		double ReturnRate[46];
+		double WynikPrognozyKrótkookresowej[6];
+		double B³¹dPredykcjiKrótkookresowej[6];
+
+		int MaxZakres, MinZakres;
+		MaxZakres:=257-Horyzont;
+		MinZakres:=211-Horyzont;
+				
+		//pobieramy dane rzeczywiste (dane do prognozy + wartoœæ rzeczywista)
+		getSheetRange( "Arkusz wprowadzania danych", "", MinZakres, 5, MaxZakres, 5, DanePrognozuj¹ce );
+				
+		int I, Index;
+		//wczytanie danych do sieci dla prognozy krótkookresowej
+		for I:=0 to 39 step 1
+			begin
+				PredykcjaKrótkookresowaWe[I].DValue := DanePrognozuj¹ce[I];
+			end;	
+			
+		//wywo³anie w zaleznoœci od wyboru Ÿród³a wiedzy (sieci neuronowej)
+		if ( MainIndex == 0 )
+		begin
+		initNetwork ( netAmericanAirlines );	
+		runNetwork ( netAmericanAirlines, PredykcjaKrótkookresowaWe, PredykcjaKrótkookresowaWy );
+		delNetwork ( netAmericanAirlines );
+		end;
+
+		if ( MainIndex == 1 )
+		begin
+		initNetwork ( netMcDonalds );	
+		runNetwork ( netMcDonalds, PredykcjaKrótkookresowaWe, PredykcjaKrótkookresowaWy );
+		delNetwork ( netMcDonalds);
+		end;
+
+		if ( MainIndex == 2 )
+		begin
+		initNetwork ( netComputerLand );	
+		runNetwork ( netComputerLand, PredykcjaKrótkookresowaWe, PredykcjaKrótkookresowaWy );
+		delNetwork ( netComputerLand );
+		end;
+
+		char Text;	
+		for I:=0 to 5 step 1
+			begin
+				Index := I + 40;
+				WynikPrognozyKrótkookresowej[I] := PredykcjaKrótkookresowaWy[I].DValue;
+				B³¹dPredykcjiKrótkookresowej[I] := DanePrognozuj¹ce[Index] - WynikPrognozyKrótkookresowej[I];
+				
+				//ponizszy fragment testuje poprawnoœæ 
+				//ntos(PredykcjaKrótkookresowaWy[I].DValue, Text);
+				//messageBox(0,0,"",Text);	
+			end;
+
+		
+		showWindow( "Arkusz obliczeniowy", 4 );
+		
+            //wartoœæ parametrów finansowych dla historii prognozy
+		// T - zmienna pomocnicza, obecnie niewykorzystywana
+		double T;
+		korelacja( DanePrognozuj¹ce, WynikPrognozyKrótkookresowej,6); 
+		obliczRyzyko( DanePrognozuj¹ce, ReturnRate, 1, 40,T, RyzykoD³ugookresowe );
+		obliczZysk( DanePrognozuj¹ce, 1,40,T, ZyskD³ugookresowy );
+		obliczRyzyko( DanePrognozuj¹ce, ReturnRate, 30, 40,T, RyzykoKrótkookresowe );
+		obliczZysk( DanePrognozuj¹ce, 30, 40,T, ZyskKrótkookresowy );
+		
+		//wartoœæ parametrów finansowych dla wyprzedzenia prognozy
+		obliczRyzyko( WynikPrognozyKrótkookresowej, ReturnRate, 1, 6, RyzykoPrognozowane, T);
+		obliczZysk( WynikPrognozyKrótkookresowej, 1, 6, ZyskPrognozowany, PrognozaOczekiwanejStopyZwrotu);
+
+
+		//Co jest w arkuszu pomocniczym ?
+		// dane rzeczywiste w kolumnie A
+		// dane z prognozy w kolumnie B
+		// b³¹d prognozy w kolumnie C
+ 		setSheetRange( "Arkusz obliczeniowy", "", 1, 1, 46, 1, DanePrognozuj¹ce );
+ 		setSheetRange( "Arkusz obliczeniowy", "", 1, 2, 40, 2, DanePrognozuj¹ce );
+		setSheetRange( "Arkusz obliczeniowy", "", 41, 2, 46, 2, WynikPrognozyKrótkookresowej);
+		setSheetRange( "Arkusz obliczeniowy", "", 41, 3, 46, 3, B³¹dPredykcjiKrótkookresowej);
+
+
+		linkChart2Sheet( "Neuronowy model wyceny", "Arkusz obliczeniowy", "A1:B46", 2 );
+		linkChart2Sheet( "Statystyczny model wyceny", "Arkusz obliczeniowy", "A1:A46", 2 );
+		linkChart2Sheet( "Porównanie modeli wyceny", "Arkusz obliczeniowy", "A1:B46", 2 );
+	
+		linkChart2Sheet( "B³¹d", "Arkusz obliczeniowy", "C41:C46", 2 );			
+		
+		linkChart2Sheet( "Wykres Min-Max", "Arkusz wprowadzania danych", "E200:H257", 2 );			
+		setChartData( "Wykres Min-Max", "Chart Type" , "2d HiLo" );
+
+		//sterowanie oknami
+		if ( MainIndex <> 100 ) 
+		begin
+			showWindow( "Prognoza kursu akcji", 3 );
+		end;
+
+		//wyswietlamy potrzebne arkusze
+		//showChartHiLo;
+		showChartOfError;
+		showRaportSheet;
+		showChartOfRiskProfit;
+
+	end;
+
+function openFile
+	begin
+		MainIndex:=-1;
+		prepareDate;
+		prognozaRynkuKapita³owego;
+	end;
+
+function stockExpert
+	begin
+      	setSysText( problem, "[BOcena sytuacji na rynku kapita³owym[b" );
+		
+		//dodanie faktów
+		addFact(_,"long_profit",ZyskD³ugookresowy);
+		addFact(_,"short_profit",ZyskKrótkookresowy);
+		addFact(_,"long_risk",RyzykoD³ugookresowe);
+		addFact(_,"short_risk",RyzykoKrótkookresowe);
+       	
+            solutionWin( yes );
+		solve( ocenaRynkuKapita³owego, "ocena_rynku_kapita³owego=Ocena_rynku_kapita³owego" );
+		delNewFacts;
+	end;
+
+
+function zamknijAplikacjê
+  begin
+      mainMenu;
+  end;
+
+
+//============================= BLOK G£ÓWNEGO PROGRAMU =====================================
+
+       int ID, ID1;
+
+	run;
+
+	int MENUID, POPID1, POPID2, POPID3, POPID4, POPID5;
+	MainIndex:=-1;
+	  
+	int Tab[10];
+  	setAppWinTitle( "Doradca kapita³owy 1.6" );
+  	createAppWindow;
+	prepareDate;
+
+	createMenu(MENUID);
+	
+	createPopupMenu(POPID1, "Dane");
+	appendMenu(POPID1, "&Otwórz...", openFile );
+	appendMenu(POPID1, separator, _);
+  	appendMenu(POPID1, "Wyjœcie", zamknijAplikacjê );
+
+	createPopupMenu(POPID2, "Porady eksperta");
+	appendMenu(POPID2, "Konsultacja z ekspertem rynku kapita³owgo", stockExpert );
+	appendMenu(POPID2, "Raport", showRaportSheet);
+		
+ 	createPopupMenu(POPID3, "Ocena inwestycji");
+	appendMenu(POPID3, "Wspó³czynnik korelacji dla wybranego Ÿród³a", poka¿Korelacjê );
+	appendMenu(POPID3, separator, _);
+	appendMenu(POPID3, "Ryzyko dla wybranego Ÿród³a", poka¿Ryzyko);
+	appendMenu(POPID3, "Zysk dla wybranego Ÿród³a", poka¿Zysk);
+	appendMenu(POPID3, separator, _);
+	appendMenu(POPID3, "OpóŸnienie prognozy", getRange);
+	
+	createPopupMenu(POPID4, "Wykresy");
+	appendMenu(POPID4, "Wykres zale¿noœci ryzyko-zysk", showChartOfRiskProfit);
+	appendMenu(POPID4, "Wykres notowañ", showChartHiLo);
+	appendMenu(POPID4, "Wykres b³êdu prognozy", showChartOfError);
+
+	createPopupMenu(POPID5, "Model prognostyczny");
+	appendMenu(POPID5, "Model neuronowy", showChartOfNeuroPredict );
+	appendMenu(POPID5, "Model statystyczny", showChartOfStatPredict );
+	appendMenu(POPID5, "Porównanie modeli prognostycznych", showChartOfCompareModels );
+
+	appendMenu(MENUID,menu,POPID1);
+	appendMenu(MENUID,menu,POPID2);	
+	appendMenu(MENUID,menu,POPID3);		
+	appendMenu(MENUID,menu,POPID4);		
+	appendMenu(MENUID,menu,POPID5);		
+
+	appendMenu(MENUID,menu,window);
+  	createPopupMenu(POPID1, "Pomoc");
+  	appendMenu(POPID1, "O programie", oProgramie );
+  	appendMenu(MENUID,menu,POPID1);
+
+ 	fullMenu(MENUID);
+   	
+ end;
+end;

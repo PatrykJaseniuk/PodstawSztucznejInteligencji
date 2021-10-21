@@ -1,0 +1,53 @@
+header: Okno aplikacji, winieta, menu steruj¹ce
+
+// *********************************************
+// * Aplikacja uruchamiana w oknie, wyposa¿ona *
+// * w menu steruj¹ce i winietê informacyjn¹.  *
+// *********************************************
+
+// deklaracja zmiennych
+
+char Text1;
+char Text2;
+char Text3;
+
+// automatyczne uruchomienie aplikacji
+
+	run;
+
+	Text1 := "Tekst 1 aplikacji";
+	Text2 := "Informacje dodatkowe\nTekst 2 bazy wiedzy\nWydawca";
+	Text3 := "© 1999, Tekst 3/Firma";
+
+// utworzenie okna g³ównego aplikacji
+
+	createAppWindow;
+	setAppWinTitle( Text1 );
+
+// winieta - informacja o programie
+
+	vignette( Text1, Text2, Text3 );
+
+// menu steruj¹ce programu
+
+	menu "Menu"
+
+		1. "Pierwsza opcja"
+		2. "Druga opcja"
+		3. "Koniec sesji"
+
+	case 1:
+
+		// <- pierwsza opcja programu
+
+	case 2:
+
+		// <- druga opcja programu
+
+	case 3:
+
+		exit;  // zamkniêcie aplikacji
+
+	end;
+
+end

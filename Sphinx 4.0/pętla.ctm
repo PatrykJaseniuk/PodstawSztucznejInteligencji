@@ -1,0 +1,32 @@
+header: Okno aplikacji, winieta, pêtla g³ówna
+
+// *********************************************
+// * Aplikacja uruchamiana w oknie, wyposa¿ona *
+// * w winietê informacyjn¹, sterowana z pêtli *
+// * g³ównej programu.                         *
+// *********************************************
+
+int Odp;
+char Text1, Text2, Text3;
+
+	run;
+
+	createAppWindow;
+
+	Text1 := "Nazwa aplikacji";
+	Text2 := "Informacje dodatkowe\nAutor programu\nWydawca";
+	Text3 := "© 1999, Autor/Firma";
+
+	vignette( Text1, Text2, Text3 );
+
+	Odp := 1;
+	while( Odp == 1 )
+		begin
+
+			// <- blok instrukcji
+
+			confirmBox( 0, 0, "", "Kontynuowaæ konsultacje?", Odp );
+
+		end;
+
+end

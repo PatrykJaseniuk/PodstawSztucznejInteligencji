@@ -1,0 +1,398 @@
+//------------------------------------------------------------------------------
+
+knowledge base grzyby_z_raportowaniem
+
+facets
+
+  ask     yes;
+  single  yes;
+
+  rz¹d :
+     ask     yes
+     single  yes;
+
+  kszta³t_owocnika :
+     ask     yes
+     single  yes;
+
+  rodzaj :
+     ask     yes
+     single  yes;
+
+  kapelusz_pokryty_lepkim_œluzem :
+     ask     yes
+     single  yes;
+
+  wielkoœæ :
+     ask     yes
+     single  yes;
+
+  kapelusz_suchy_lub_pokryty_œluzem :
+     ask     yes
+     single  yes;
+
+  rozwój_owocnika :
+     ask     yes
+     single  yes;
+
+  drzewa_na_których_wystêpuje :
+     ask     yes
+     single  yes;
+
+  blaszki :
+     ask     yes
+     single  yes;
+
+  wielkoœæ_owocnika :
+     ask     yes
+     single  yes;
+
+  hymenofor_ :
+     ask     no
+     single  yes;
+
+  hymenofor :
+     ask     yes
+     single  yes
+     query   "WYBIERZ WIELKOŒÆ CHARAKTERYZUJ¥CA HYMENOFOR:"
+     val oneof
+     {
+        "blaszkowaty",
+        "rurkowaty",
+        "kolczasty",
+        "pokryty_drobnymi_w³oskami",
+        "brak"
+     };
+
+  owocnik :
+     ask     yes
+     single  yes
+     query   "PODAJ RODZAJ OWOCNIKA:"
+     val oneof
+     {
+        "miêsisty",
+        "galaretowaty",
+        "zdrewnia³y",
+        "miêsisty_póŸniej_drewniej¹cy"
+     };
+
+  budowa_owocnika :
+     ask     yes
+     single  yes
+     query   "OKREŒL BUDOWÊ OWOCNIKA:"
+     val oneof  
+     {
+        "z³o¿ony_z_kapelusza_i_trzona",
+        "z³o¿ony_z_kapelusza",
+        "z³o¿ony_tylko_z_kapelusza"
+     };
+
+  wystêpowanie :
+     ask     yes
+     single  yes
+     query   "PODAJ WYSTÊPOWANIE GRZYBA:"
+     val oneof  
+     { 
+        "naziemny",
+        "nadrzewny",
+        "podziemny"
+     };
+
+  kolor_mi¹¿szu :
+     ask     yes
+     single  yes
+     query   "OKREŒL KOLOR MI¥¯SZU:"
+     val oneof
+     {
+        "szarobia³awy_póŸniej_czerwonobr¹zowy",
+        "br¹zowy"
+     };
+
+  prawid³owa_budowa_owocnika :
+     ask     no
+     single  yes;
+
+  prawid³owy_kszta³t_owocnika :
+     ask     no
+     single  yes;
+
+  wielkoœæ_trzona :
+     ask     yes
+     single  yes
+     query   "OKREŒL WIELKOŒÆ TRZONA:"
+     val oneof
+     { 
+        "krótki",
+        "bardzo_d³ugi"
+     };
+
+end; // facets
+
+rules
+
+   0008: hymenofor_ = "r_k_b " if
+             hymenofor = "rurkowaty";
+
+   0009: hymenofor_ = "r_k_b " if
+             hymenofor = "blaszkowaty";
+
+   0010: hymenofor_ = "r_k_b " if
+             hymenofor = "kolczasty";
+
+   0015: hymenofor_ = "k_bh " if
+             hymenofor = "kolczasty";
+
+   0016: hymenofor_ = "k_bh " if
+             hymenofor = "brak";
+
+   0006: prawid³owa_budowa_owocnika if
+             budowa_owocnika = "z³o¿ony_z_kapelusza";
+
+   0007: prawid³owa_budowa_owocnika if
+             budowa_owocnika = "z³o¿ony_z_kapelusza_i_trzona";
+
+   0012: prawid³owy_kszta³t_owocnika if
+             kszta³t_owocnika = "miseczkowaty";
+
+   0013: prawid³owy_kszta³t_owocnika if
+             kszta³t_owocnika = "kieliszkowaty";
+
+   0014: prawid³owy_kszta³t_owocnika if
+             kszta³t_owocnika = "listkowatop³atowaty";
+
+   0017: rodzaj =  "maœlak" if
+             rz¹d =  "borowikowce"
+             & kapelusz_pokryty_lepkim_œluzem
+             & wielkoœæ = "ma³a_lub_œrednia";
+
+   0018: rodzaj = "borowik" if
+             rz¹d = "borowikowce"
+             & wielkoœæ = "du¿a"
+             & kapelusz_suchy_lub_pokryty_œluzem;
+
+   0019: rodzaj = "¿agiew" if
+             rz¹d = "¿agwiowce"
+             & hymenofor = "rurkowaty"
+             & rozwój_owocnika = "miêsisty_póŸniej_drewniej¹cy"
+             & drzewa_na_których_wystêpuje = "drzewa_liœciaste_oprócz_dêbów"
+             & budowa_owocnika = "z³o¿ony_z_kapelusza_i_trzona";
+
+   0020: rodzaj = "gmatwek" if
+             rz¹d = "¿agwiowce"
+             & hymenofor = "blaszkowaty"
+             & owocnik = "zdrewnia³y"
+             & drzewa_na_których_wystêpuje = "tylko_na_dêbach"
+             & budowa_owocnika = "z³o¿ony_tylko_z_kapelusza";
+
+   0021: rodzaj = "w³óknouszek" if
+             rz¹d = "¿agwiowce"
+             & hymenofor = "rurkowaty"
+             & owocnik = "miêsisty_póŸniej_drewniej¹cy"
+             & budowa_owocnika = "z³o¿ony_tylko_z_kapelusza";
+
+   0022: rodzaj = "pieczarka" if
+             rz¹d = "pieczarkowce"
+             & blaszki = "ró¿owe_póŸniej_czerniej¹ce"
+             & wielkoœæ_trzona = "krótki";
+
+   0023: rodzaj = "kania" if
+             rz¹d = "pieczarkowce"
+             & blaszki = "ró¿owe_póŸniej_czerniej¹ce"
+             & wielkoœæ_trzona = "bardzo_d³ugi";
+
+   0024: rodzaj = "galaretek" if
+             rz¹d = "trzêsakowce"
+             & hymenofor = "kolczasty"
+             & drzewa_na_których_wystêpuje = "na_drzewie_iglastym";
+
+   0025: rodzaj = "ucho" if
+             rz¹d = "trzêsakowce"
+             & hymenofor = "pokryty_drobnymi_w³oskami"
+             & drzewa_na_których_wystêpuje = "na_drzewie_bzu_szarego";
+
+   0026: rodzaj = "trufla_prawdziwa" if
+             rz¹d = "trufle"
+             & kolor_mi¹¿szu = "br¹zowy"
+             & wielkoœæ_owocnika = WO
+             & WO >= 2
+             & WO <= 4;
+
+   0027: rodzaj = "truflica_kasztanowata" if
+             rz¹d = "trufle"
+             & kolor_mi¹¿szu = "szarobia³awy_póŸniej_czerwonobr¹zowy"
+             & wielkoœæ_owocnika = WO
+             & WO >= 2
+             & WO <= 4;
+
+   0001: rz¹d = "borowikowce" if
+             hymenofor = "rurkowaty"
+             & owocnik = "miêsisty"
+             & wystêpowanie = "naziemny"
+             & budowa_owocnika = "z³o¿ony_z_kapelusza_i_trzona";
+
+   0002: rz¹d = "pieczarkowce" if
+             hymenofor = "blaszkowaty"
+             & owocnik = "miêsisty"
+             & wystêpowanie = "naziemny"
+             & budowa_owocnika = "z³o¿ony_z_kapelusza_i_trzona";
+
+   0003: rz¹d = "wnêtrzniaki" if
+             hymenofor = "brak"
+             & owocnik = "miêsisty"
+             & wystêpowanie = "naziemny"
+             & kszta³t_owocnika = "kulisty";
+
+   0004: rz¹d = "trufle" if
+             hymenofor = "brak"
+             & owocnik = "miêsisty"
+             & wystêpowanie = "podziemny"
+             & kszta³t_owocnika = "kulisty";
+
+   0005: rz¹d = "¿agwiowce" if
+             hymenofor_ = "r_k_b"
+             & owocnik = "zdrewnia³y"
+             & wystêpowanie = "nadrzewny"
+             & prawid³owa_budowa_owocnika;
+
+   0011: rz¹d = "trzêsakowce" if
+             hymenofor_ = "k_bh"
+             & owocnik = "galaretowaty"
+             & wystêpowanie = "nadrzewny"
+             & prawid³owy_kszta³t_owocnika;
+
+
+end; // rules
+
+control
+     int  Answer;
+     int  Ret;
+     int  ID;
+     char SOLUTIONS[10];
+     int  NB, I;
+     char O, A, V;
+     char STR, STR1;
+
+     run;
+     vignette( "KLASYFIKACJA GRZYBÓW",
+               "\nDemonstracyjna baza wiedzy\nwraz z raportowaniem w programie Microsoft Word za pomoc¹ mechanizmu DDE\n\nAutor: Maciej Z. Szczepka",
+               "Copyright (C)1990-2003  AITECH, Artificial Intelligence Laboratory");
+     setAppWinTitle("KLASYFIKACJA GRZYBÓW");
+     addSolution( yes );
+
+     menu "problem"
+     1. "rodzaj grzybów"
+     2. "rz¹d grzybów"
+     3. "wyjœcie"
+     case 1:
+        setSysText( problem, "[BKlasyfikacja grzybów" );
+        goal("rodzaj=RODZAJ");
+        confirmBox( 0, 0, "Raport", "Czy wydrukowaæ raport ?", Answer );
+        if ( Answer == 1 )
+        begin
+            // SprawdŸ czy
+            isAppRunning( "Microsoft Word", Ret );
+            if ( Ret == 0 )
+	    begin
+                system ( "C:\\Program Files\\Microsoft Office\\Office\\Winword.exe" ); // USTAWIÆ ŒCIE¯KÊ !!!!
+                if ( RETURN == 1 )
+                begin
+                    Ret := 1;
+                end;
+            end;
+            if ( Ret == 1 )
+            begin
+                // nawi¹¿ konwersacjê z Word'em
+                ddeConnect( ID, "WinWord", "System" );
+
+                // otwórz nowy dokument ....
+                ddeExecute( ID, "[FileNew]" );
+               // ustaw dwie kolumny
+               ddeExecute( ID, "[TableInsertTable .ConvertFrom = \"\", .NumColumns = \"2\", .NumRows = \"1\", .InitialColWidth = \"Auto\", .Format = \"0\", .Apply = \"167\" ]" );
+               ddeExecute( ID, "[FormatFont .Points = \"18\" ][FormatFont .Font = \"Braggadocio\" ]" );
+               ddeExecute( ID, "[FormatFont .Color = 2 ]" );
+               ddeExecute( ID, "[CenterPara][Insert \"AI\"]" );
+               ddeExecute( ID, "[FormatFont .Color = 6 ][Insert \"TECH\"]" );
+               ddeExecute( ID, "[InsertPara]" );
+               ddeExecute( ID, "[FormatFont .Points = \"12\" ]" );
+               ddeExecute( ID, "[FormatFont .Font = \"Times New Roman CE\" ]" );
+               ddeExecute( ID, "[FormatFont .Color = 0 ]" );
+               ddeExecute( ID, "[Insert \"\nArtificial Intelligence Laboratory\"]" );
+               ddeExecute( ID, "[InsertPara]" );
+               ddeExecute( ID, "[Insert \"KATOWICE\" ]" );
+               ddeExecute( ID, "[CharRight 1]" );
+
+               // druga kolumna ...
+               ddeExecute( ID, "[RightPara]");
+               ddeExecute( ID, "[Insert \"KATOWICE, \" ]" );
+               ddeExecute( ID, "[InsertDateTime .DateTimePic = \"d MMMM yyyy\" ]" );
+
+               ddeExecute( ID, "[CharRight 1][CharRight 1]" );
+               ddeExecute( ID, "[InsertPara][InsertPara][CenterPara]" );
+               ddeExecute( ID, "[FormatFont .Bold = 1 ]" );
+
+               ddeExecute( ID, "[Insert \"Raport systemu PC-Shell 4.0\" ]" );
+               ddeExecute( ID, "[FormatFont .Bold = 0 ]" );
+               ddeExecute( ID, "[InsertPara]" );
+               ddeExecute( ID, "[LeftPara]");
+               ddeExecute( ID, "[InsertPara]" );
+
+               saveSolution( SOLUTIONS, NB );
+               if ( NB <= 0 )
+               begin
+                   ddeExecute( ID, "[Insert \"Brak rozwi¹zania\"]" );
+               end else
+               begin
+                   I := 0;
+                   while ( I < NB )
+                   begin
+                       int II;
+                       II := I + 1;
+                       sprintf( STR, "[Insert \"Rozwi¹zanie nr %d : \"]", II );
+                       ddeExecute( ID, STR );
+                       ddeExecute( ID, "[InsertPara][InsertPara]" );
+                       ddeExecute( ID, "[FormatFont .Bold = 1 ]" );
+                       STR1 := SOLUTIONS[I];
+                       strChange( STR1, "\"", "\"\"" ); // podwajamy cudzys³owy
+                       sprintf( STR, "[Insert \"%s\"]", STR1 );
+                       ddeExecute( ID, STR );
+                       ddeExecute( ID, "[FormatFont .Bold = 0 ]" );
+                       ddeExecute( ID, "[InsertPara][InsertPara]" );
+                       ddeExecute( ID, "[Insert \"Jak powsta³o rozwi¹zanie ? : \"]" );
+                       ddeExecute( ID, "[InsertPara]" );
+                       splitOAV( SOLUTIONS[I], O, A, V );
+                       STR := "";
+                       saveExplan( STR, O, A, V, -1  );
+                       if ( STR <> "" )
+                       begin
+                           toClipboard( STR );
+                           ddeExecute( ID, "[EditPaste]" );
+                       end else
+                       begin
+                           ddeExecute( ID, "[Insert \"Brak wyjaœnieñ\"]" );
+                       end;
+                       ddeExecute( ID, "[InsertPara][InsertPara]" );
+                       STR := ""; // zwalnia pamiêæ
+                       I := I + 1;
+                   end;
+               end;
+               ddeExecute( ID, "[FilePrint]" );
+               ddeDisconnect( ID );
+
+            end
+            else
+            begin
+                messageBox( 0,0, "B³¹d", "Nie potrafiê uruchomiæ programu Microsoft Word. Proszê ewentualnie zmieniæ œcie¿kê dostêpu w pliku grzyby1.bw" );
+            end;
+        end;
+        delNewFacts;
+     case 2:
+        setSysText( problem, "[BKlasyfikacja rzêdu grzybów" );
+        goal("rz¹d=RZ¥D");
+        delNewFacts;
+     case 3:
+        exit;
+    end;
+   end
+;
+
+end; // knowledge base

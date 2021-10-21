@@ -1,0 +1,1631 @@
+knowledge base icd10
+
+sources
+
+
+  depresja_r:
+    type kb
+    file "demo.zwc";
+
+
+  co_to:
+    type what_is
+    file "depresj.dbw";
+
+end; 
+
+facets
+       
+  zaburzenie;
+
+
+  epizod_depresji_ciezki_z_objawami_psychotycznymi:
+    ask no;
+
+  epizod_depresji_ciezki_bez_objawow_psychotycznych:
+    ask no;
+
+
+
+epizod_depresji_umiarkowany_z_zespolem_somatycznym:
+ask no;
+
+epizod_depresji_umiarkowany_bez_zespolu_somatycznego:
+ask no;
+
+
+
+epizod_depresji_lagodny_z_zespolem_somatycznym:
+ask no;
+
+epizod_depresji_lagodny_bez_zespolu_somatycznego:
+ask no;
+
+
+
+
+
+
+zaburzenie_depresyjne_nawracajace_obecnie_epizod_ciezki_z_objawami_psychotycznymi:
+ask no;
+zaburzenie_depresyjne_nawracajace_obecnie_epizod_ciezki_bez_objawow_psychotycznych:
+ask no;
+
+
+
+zaburzenie_depresyjne_nawracajace_obecnie_epizod_umiarkowany_z_zespolem_somatycznym:
+ask no;
+
+zaburzenie_depresyjne_nawracajace_obecnie_epizod_umiarkowany_bez_zespolu_somatycznego:
+ask no;
+
+
+
+zaburzenie_depresyjne_nawracajace_obecnie_epizod_lagodny_z_zespolem_somatycznym:
+ask no;
+
+zaburzenie_depresyjne_nawracajace_obecnie_epizod_lagodny_bez_zespolu_somatycznego:
+ask no;
+
+
+
+
+
+
+
+zaburzenie_afektywne_dwubiegunowe_obecnie_epizod_depresji_ciezki_z_objawami_psychotycznymi:
+ask no;
+
+zaburzenie_afektywne_dwubiegunowe_obecnie_epizod_depresji_ciezki_bez_objawow_psychotycznych:
+ask no;
+
+
+
+zaburzenie_afektywne_dwubiegunowe_obecnie_epizod_depresji_umiarkowany_z_zespolem_somatycznym:
+ask no;
+
+zaburzenie_afektywne_dwubiegunowe_obecnie_epizod_depresji_umiarkowany_bez_zespolu_somatycznego:
+ask no;
+
+
+
+zaburzenie_afektywne_dwubiegunowe_obecnie_epizod_depresji_lagodny_z_zespolem_somatycznym:
+ask no;
+
+zaburzenie_afektywne_dwubiegunowe_obecnie_epizod_depresji_lagodny_bez_zespolu_somatycznego:
+ask no;
+
+
+
+
+
+
+podstawowe_kryteria_epizodu_depresyjnego:
+ask no;
+
+
+
+kryterium_b2_epizod_depresji :
+ask no;
+
+f1f3:
+ask no;
+
+
+
+
+dodatkowe_kryteria_epizodu_depresyjnego_umiarkowanego:
+ask no;
+
+e1b:
+ask no;
+
+f1f:
+ask no;
+
+e1b2:
+ask no;
+
+f1f2:
+ask no;
+
+
+
+
+zespol_somatyczny:
+ask no;
+
+
+
+
+
+
+dodatkowe_kryteria_epizodu_depresyjnego_lagodnego:
+ask no;
+
+kryterium_b_epizod_depresji_lagodny:
+ask no;
+
+kryterium_c_epizod_depresji_lagodny:
+ask no;
+
+kryterium_b2_epizod_depresji_lagodny:
+ask no;
+
+
+kryterium_c2_epizod_depresji_lagodny:
+ask no;
+
+
+
+
+
+
+kryteria_zaburzenia_depresyjne_nawracajace:
+ask no;
+
+
+
+
+
+ogolne_1_kryterium_epizodu_depresyjnego:
+val oneof { "Tak", "Nie" }
+single yes
+query "Epizod depresyjny powinien byæ ostatnim i trwaæ przez najmniej 2 tygodnie";
+
+ogolne_2_kryterium_epizodu_depresyjnego:
+val oneof { "Tak", "Nie" }
+single yes
+query "Nie wystêpuj¹ ¿adne hipomaniakalne lub maniakalne objawy wystarczaj¹ce dla spe³nienia kryteriów epizodu hipomaniakalnego lub maniakalnego"; 
+
+kryterium_wylaczajace_d:
+val oneof { "Tak", "Nie" }
+single yes
+query "Epizod nie jest wynikiem nadu¿ycia substancji psychoaktywnych lub wynikiem zaburzeñ organicznych.";
+
+
+
+
+
+kryterium_d1_epizod_depresji_ciezki_z_objawami_psychotycznymi:
+val oneof { "Tak", "Nie" }
+single yes
+query "Urojenia lub omamy inne ni¿ typowe dla schizofrenii np. depresyjne, winy, hipochondryczne, nihilistyczne, kary, o treœci przeœladowczej lub [B[2depresyjne os³upienie";
+
+depresyjny_nastroj_w_stopniu_ktory_jest_zdecydowanie_nieprawidlowy:
+query "Depresyjny nastrój w stopniu, który jest zdecydowanie nieprawid³owy obecny przez wiêkszoœæ dnia  prawie codziennie.  "
+val oneof {0,0.2,0.4,0.6,0.8};
+
+utrata_zainteresowan:
+query "Utrata zainteresowañ lub przyjemnoœci w czynnoœciach, które zwykle sprawiaj¹ przyjemnoœæ."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+obnizenie_energii_zyciowej:
+query "Obni¿enie energii ¿yciowej lub wzrost mêczliwoœci."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+
+
+utrata_poczucia_wlasnej_wartosci:
+query "Utrata pewnoœci siebie lub w³asnej wartoœci."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+samooskarzanie_bez_przyczyny:
+query "Samooskar¿anie bez przyczyny lub nadmierne samoobwinianie."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+nawracajace_mysli_o_smierci:
+query "Nawracaj¹ce myœli o œmierci lub samobójstwie albo próby samobójcze."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+uskarzanie_sie:
+query "Uskar¿anie siê lub wyraŸnie zmniejszona zdolnoœæ myœlenia lub koncentracji , wyraŸne niezdecydowanie i wahanie.  "
+val oneof {0,0.2,0.4,0.6,0.8};
+
+zmiana_w_napedzie_psychomotorycznym:
+query "Zmiana w napêdzie psychomotorycznym: podniecenie lub zahamowanie 
+ ( stwierdzone subiektywnie lub obiektywnie ).  "
+val oneof {0,0.2,0.4,0.6,0.8};
+
+bezsennosc_kazdego_typu:
+query "Bezsennoœæ ka¿dego typu."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+zmiana_apetytu_laknienia:
+query "Zmiana apetytu lub ³aknienia (wzrost lub spadek) ze zmian¹ wagi cia³a."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+
+
+
+wyrazna_utrata_zainteresowan:
+query "WyraŸna utrata zainteresowañ lub przyjemnoœci w czynnoœciach, którym zwykle towarzyszy uczucie przyjemnoœci."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+utrata_reakcji_emocjonalnych_lub_spadek_aktywnosci:
+query "Utrata reakcji emocjonalnych lub spadek aktywnoœci  w wydarzeniach, którym zwykle towarzyszy odpowiedŸ emocjonalna.  "
+val oneof {0,0.2,0.4,0.6,0.8};
+
+przedwczesne_budzenie:
+query "Ranne wczesne budzenie siê 2 godziny i wiêcej przed zwyk³ym czasem wstawania."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+depresyjny_nastroj_gorszy_rano:
+query "Depresyjny nastrój gorszy rano."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+psychomotoryczne_spowolnienie_lub_agitacja:
+query "Obiektywnie wyraŸne psychomotoryczne spowolnienie lub agitacja ( oceniane lub relacjonowane przez innych ludzi ) "
+val oneof {0,0.2,0.4,0.6,0.8};
+
+wyrazna_utrata_apetytu:
+query "WyraŸna utrata apetytu."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+utrata_wagi_ciala:
+query "Znaczna utrata wagi cia³a ( 5% lub wiêcej wagi cia³a w minionym miesi¹cu)"
+val oneof {0,0.2,0.4,0.6,0.8};
+
+znaczna_utrata_popedu_plciowego:
+query "Znaczna utrata popêdu p³ciowego."
+val oneof {0,0.2,0.4,0.6,0.8};
+
+
+
+kryterium_ogolne_g1_zaburzenia_depresyjne_nawracajace:
+val oneof { "Tak", "Nie" }
+single yes
+query "Powinien wyst¹piæ najmniej 1 poprzedni epizod depresyjny: ³agodny, umiarkowany lub ciê¿ki trwaj¹cy przez minimum 2 tygodnie, oddzielony od bie¿¹cego epizodu najmniej 2 miesiêcznym okresem wolnym od objawów afektywnych.";
+
+
+kryterium_ogolne_g2_zaburzenia_depresyjne_nawracajace:
+val oneof { "Tak", "Nie" }
+single yes
+query "W przesz³oœci nie wystêpowa³y objawy spe³niajace kryteria hipomanii lub epizodu maniakalnego ";
+
+
+
+kryterium_b_zaburzenie_dwubiegunowe:
+val oneof { "Tak", "Nie" }
+single yes
+query "W przesz³oœci najmniej jeden inny epizod zaburzeñ afektywnych spe³niaj¹cy kryteria dla epizodu : hipomanii, manii lub epizodu afektywnego mieszanego.";
+
+
+
+
+end;
+
+
+ control
+
+// uchwyty arkuszy ....
+    char PACJENT_SHEET, LEKARZ_SHEET, NOWA_KONSULTACJA;
+    int BylaKonsultacja;
+
+    char PACJENT_SHEET_NAME, LEKARZ_SHEET_NAME, TERAPIA_SHEET_NAME;
+
+    char Pacjent, Lekarz;
+    int LekarzID;
+
+     function zapiszWszystkieFakty( char FileName, char Intro )
+     begin   
+         int I;
+         char Dest;
+
+         delFacts( _, zaburzenie, _ ); // usuñ konkluzje przed zapisaniem faktów ...
+
+         open( FileName, "w" );
+         fput( Intro );
+         fput( "\n" );
+         I := 0;
+         while ( 1 == 1 )
+         begin
+              catchFact( Dest, _, "_", _, I );
+              if ( Dest == "" )
+              begin
+                  break; // zakoñcz pêtlê
+              end
+             else begin
+                 fput( Dest );
+                 fput( ";\n" );
+                 I := I + 1;
+             end;
+         end;
+         fput( "end;\n" );
+         close(FileName);
+     end;
+
+
+    function koniecProgramu
+    begin
+       int Odp;
+       confirmBox( 0, 0, "Koniec pracy z programem ?", 
+	"Czy na pewno chcesz zakoñczyæ pracê\nz Salomonem ?", Odp );
+       if ( Odp == 1 )
+       begin
+           sqlDone;
+           mainMenu;
+       end;
+    end;
+
+    function pokazWybranegoPacjenta;
+    function wybierzPacjenta
+    begin
+       int IsValue, I, Sel;
+       char PAC_ID;
+       char Pacjenci[100];
+
+       // pobieramy listê pacjentów
+       sqlInitBinding;
+       sqlBind( PAC_ID );
+       sqlQuery( "SELECT identyf FROM pacjenci" );
+       I := 0;
+       IsValue := 1;
+       while ( IsValue == 1 )
+       begin
+          sqlFetch( IsValue );
+          if ( IsValue == 1 )
+          begin 
+            Pacjenci[I] := PAC_ID;
+            I := I + 1;
+          end;
+       end;
+
+       if ( I == 0 )
+       begin
+          messageBox( 0,0,"Uwaga !", "W kartotece brak pacjentów.\n Proszê wybraæ opcjê 'Nowy pacjent' z menu 'Pacjent' " );
+          return 0;
+       end;
+
+       // wybierz pacjenta do badania :
+       slistBox( 0, 0, "Kartoteka pacjentów", "Wybierz pacjenta :",
+              Pacjenci, I, Sel );
+
+       if ( RETURN == 1 )
+       begin
+         Pacjent := Pacjenci[Sel];
+         char Type;
+         getWindowType( PACJENT_SHEET, Type );
+         if ( Type == "sheet" )
+         begin
+           pokazWybranegoPacjenta;
+         end;
+         BylaKonsultacja := 0;
+      end;
+      return 1;
+   end;
+
+    function pokazLekarza; // zapowiedŸ
+    function lekarz
+    begin
+       int IsValue, I, Sel;
+       char Nazw, Imie, Nauk;
+       char Lekarze[40];
+
+       // pobieramy listê lekarzy
+       sqlInitBinding;
+       sqlBind( Nazw );
+       sqlBind( Imie );
+       sqlBind( Nauk );
+       sqlQuery( "SELECT nazwisko, imie,nauk FROM lekarz" );
+       I := 0;
+       IsValue := 1;
+       while ( IsValue == 1 )
+       begin
+          sqlFetch( IsValue );
+          if ( IsValue == 1 )
+          begin 
+            sprintf( Lekarze[I], "%s %s %s", Nauk, Nazw, Imie );
+            I := I + 1;
+          end;
+       end;
+
+       if ( I == 0 )
+       begin
+          messageBox( 0,0,"Uwaga !", "W kartotece brak lekarzy.\n Proszê wybraæ opcjê 'Nowy lekarz' z menu 'Lekarz' " );
+          return 0;
+       end;
+
+       // wybierz lekarza :
+       slistBox( 0, 0, "Lista zarejestrowanych lekarzy", "Wybierz lekarza :",
+              Lekarze, I, Sel );
+       if ( RETURN == 1 )
+       begin
+          Lekarz := Lekarze[Sel];
+          LekarzID := Sel + 1;
+          BylaKonsultacja := 0;
+       end 
+       else
+       begin
+           return 0; // Anuluj
+       end;
+
+       char Type;
+       getWindowType( LEKARZ_SHEET, Type );
+       if ( Type == "sheet" )
+       begin
+          pokazLekarza;
+       end;
+       return 1;
+    end;
+
+    function pokazWybranegoPacjenta
+    begin
+       if ( Pacjent == "" )
+       begin
+          messageBox( 0,0, "Uwaga !", "Brak wybranego pacjenta." );
+          return 1;
+       end;
+       // messageBox( 0,0, "Wybrany pacjent :", Pacjent );
+       int IsValue;
+       char IDENTYF, PLEC, P1, P2, P3, P4, QUERY;
+       IsValue := 1;
+       sqlInitBinding;
+       sqlBind( PLEC ); sqlBind( P1 ); 
+       sqlBind( P2 ); sqlBind( P3 ); sqlBind( P4 ); 
+       sprintf( QUERY, "SELECT plec, leki, zdarzenia , 
+                 chor_som,inne_zab FROM pacjenci WHERE identyf = '%s'", Pacjent );
+       sqlQuery( QUERY );
+       sqlFetch( IsValue );
+       if ( IsValue == 0 )
+       begin
+         messageBox( 0,0, "Uwaga !", "B³¹d dostêpu do bazy danych !" );
+         return 0;
+       end;
+
+       showSheet( PACJENT_SHEET, 0 );
+       setSheetValue( PACJENT_SHEET, "", 2, 2, Pacjent );
+       setSheetValue( PACJENT_SHEET, "", 3, 2, PLEC );
+       setSheetValue( PACJENT_SHEET, "", 5, 2, P1 );
+       setSheetValue( PACJENT_SHEET, "", 6, 2, P2 );
+       setSheetValue( PACJENT_SHEET, "", 7, 2, P3 );
+       setSheetValue( PACJENT_SHEET, "", 8, 2, P4 );
+    end;
+
+    function nowyLekarz
+    begin
+
+      showSheet( LEKARZ_SHEET, 0 );
+      setSheetValue( LEKARZ_SHEET, "", 2, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 3, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 4, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 5, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 6, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 7, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 9, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 10, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 11, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 12, 2, "" );
+      setSheetValue( LEKARZ_SHEET, "", 13, 2, "" );
+      LekarzID := -1;
+      Lekarz := "";
+      BylaKonsultacja := 0;
+    end;
+
+    function zapiszLekarza
+    begin
+
+      showSheet( LEKARZ_SHEET, 0 );
+
+      // teraz przystêpujemy do pobrania danych lekarza i ich zapamiêtania w bazie wiedzy
+      char STOPIEN_NAUKOWY, IMIE, NAZWISKO, SPECJALIZACJA,
+           UL, MIASTO, KOD, TEL, E_MAIL;
+      char STOPIEN_NAUKOWY1, IMIE1, NAZWISKO1; // w celu zachowania pierwotnego tekstu...
+      int STAZ, IL_PAC, LEN, IsValue, I;
+
+      getSheetValue( LEKARZ_SHEET, "", 2, 2, STOPIEN_NAUKOWY );
+      STOPIEN_NAUKOWY1 := STOPIEN_NAUKOWY;
+      strChange( STOPIEN_NAUKOWY, "'", "''" );
+      if ( STOPIEN_NAUKOWY == "" )
+      begin 
+          messageBox(0,0,"Uwaga !", "Brak podanego tytu³u naukowego" );
+          return 0;
+      end;
+      strLen( STOPIEN_NAUKOWY, LEN );
+      if ( LEN > 20 )
+      begin 
+          messageBox(0,0,"Uwaga !", "Za d³ugie okreœlenie stopnia naukowego. Maksymalnie 20 znaków" );
+          return 0;
+      end;
+
+      getSheetValue( LEKARZ_SHEET, "", 3, 2, IMIE );
+      IMIE1 := IMIE;
+      strChange( IMIE, "'", "''" );
+      if ( IMIE == "" )
+      begin 
+        messageBox(0,0,"Uwaga !", "Brak podanego imienia" );
+        return 0;
+      end;
+      strLen( IMIE, LEN );
+      if ( LEN > 20 )
+      begin 
+        messageBox(0,0,"Uwaga !", "Za d³ugie imiê. Maksymalnie 20 znaków" );
+        return 0;
+      end;
+
+      getSheetValue( LEKARZ_SHEET, "", 4, 2, NAZWISKO );
+      NAZWISKO1 := NAZWISKO;
+      strChange( NAZWISKO, "'", "''" );
+      if ( NAZWISKO == "" )
+      begin 
+        messageBox(0,0,"Uwaga !", "Brak podanego nazwiska" );
+        return 0;
+      end;
+      strLen( NAZWISKO, LEN );
+      if ( LEN > 40 )
+      begin 
+        messageBox(0,0,"Uwaga !", "Za d³ugie nazwisko. Maksymalnie 40 znaków" );
+        return 0;
+      end;
+
+      getSheetValue( LEKARZ_SHEET, "", 5, 2, SPECJALIZACJA );
+      strChange( SPECJALIZACJA, "'", "''" );
+      strLen( SPECJALIZACJA, LEN );
+      if ( LEN > 30 )
+      begin 
+        messageBox(0,0,"Uwaga !", "Za d³ugie okreœlenie specjalizacji. Maksymalnie 30 znaków" );
+        return 0;
+      end;
+      if ( LEN == 0 ) begin SPECJALIZACJA := " "; end;
+
+      getSheetValue( LEKARZ_SHEET, "", 6, 2, STAZ );
+      if ( (STAZ <= 0) | (STAZ > 100) )
+      begin 
+        messageBox(0,0,"Uwaga !", "Brak lub nieprawid³owy sta¿ pracy" );
+        return 1;
+      end;
+
+      getSheetValue( LEKARZ_SHEET, "", 7, 2, IL_PAC );
+      if ( (IL_PAC <= 0) | (IL_PAC > 100) )
+      begin 
+        messageBox(0,0,"Uwaga !", "Brak lub nieprawid³owa iloœæ pacjentów" );
+        return 0;
+      end;
+
+      getSheetValue( LEKARZ_SHEET, "", 9, 2, UL );
+      strChange( UL, "'", "''" );
+      strLen( UL, LEN );
+      if ( LEN == 0 ) begin UL := " "; end;
+      if ( LEN > 30 )
+      begin 
+        messageBox(0,0,"Uwaga !", "Za d³ugie pole ulica. Maksymalnie 30 znaków" );
+        return 0;
+      end;      
+
+      getSheetValue( LEKARZ_SHEET, "", 10, 2, MIASTO );
+      strChange( MIASTO, "'", "''" );
+      strLen( MIASTO, LEN );
+      if ( LEN == 0 ) begin MIASTO := " "; end;
+      if ( LEN > 20 )
+      begin 
+        messageBox(0,0,"Uwaga !", "Za d³uga nazwa miasta. Maksymalnie 20 znaków" );
+        return 0;
+      end;
+
+      getSheetValue( LEKARZ_SHEET, "", 11, 2, KOD );
+      strChange( KOD, "'", "''" );
+      strLen( KOD, LEN );
+      if ( LEN == 0 ) begin KOD := " "; end;
+      if ( LEN > 6 )
+      begin 
+        messageBox(0,0,"Uwaga !", "Za d³ugi kod pocztowy. Maksymalnie 6 znaków" );
+        return 0;
+      end;
+
+      getSheetValue( LEKARZ_SHEET, "", 12, 2, TEL );
+      strChange( TEL, "'", "''" );
+      strLen( TEL, LEN );
+      if ( LEN == 0 ) begin TEL := " "; end;
+      if ( LEN > 16 )
+      begin 
+        messageBox(0,0,"Uwaga !", "W polu 'Telefon' dopuszczalne jest maksymalnie 16 znaków." );
+        return 0;
+      end;
+
+      getSheetValue( LEKARZ_SHEET, "", 13, 2, E_MAIL );
+      strChange( E_MAIL, "'", "''" );
+      strLen( E_MAIL, LEN );
+      if ( LEN == 0 ) begin E_MAIL := " "; end;
+      if ( LEN > 40 )
+      begin 
+        messageBox(0,0,"Uwaga !", "Za d³ugi e-mail. Maksymalnie 40 znaków" );
+        return 0;
+      end;
+              
+      // Doszed³ tutaj a to oznacza ¿e wszystkie dane s¹ poprawne
+
+      // Teraz musimy sprawdziæ czy takiego lekarza nie ma ju¿ w kartotece
+      // sprawdzamy imiê i nazwisko
+      char QUERY;
+      int NR_LEK, Odp, Change;
+      Change := 0;
+      sqlInitBinding;
+      sprintf( QUERY, "SELECT Nr FROM lekarz WHERE nazwisko = '%s' AND imie = '%s'", 
+              NAZWISKO, IMIE );
+      char SSS;
+      sqlBind( SSS );
+//      sqlBind( NR_LEK );
+      sqlQuery( QUERY );
+      sqlFetch( IsValue );
+      if ( IsValue == 1 )
+      begin
+        confirmBox( 0,0, "Uwaga !", "Lekarz o podanym imieniu i nazwisku istnieje w bazie wiedzy. Czy zgadzasz siê aby zmieniæ istniej¹ce dane ? ", Odp );
+        if ( Odp == 0 )
+        begin 
+           return 0;
+        end;
+        Change := 1;
+        ston( SSS, NR_LEK ); 
+      end;
+      if ( Change ==  1 )
+      begin
+        // podmiana danych lekarza
+        sprintf( QUERY, "UPDATE lekarz SET nauk ='%s', spec = '%s', 
+                  staz_pracy = %d, ulica = '%s', miasto = '%s', 
+                  kod_pocz = '%s', telefon = '%s', e_mail = '%s', il_pac = %d  
+              WHERE nazwisko = '%s' AND imie = '%s'", STOPIEN_NAUKOWY, SPECJALIZACJA,
+               STAZ, UL, MIASTO, KOD, TEL, E_MAIL, IL_PAC, NAZWISKO, IMIE );
+        sqlQuery( QUERY );
+      end
+      else
+      begin
+        // dodanie ca³kowicie nowego lekarza
+        // teraz musimy jeszcze policzyæ ilu mamy lekarz i nadaæ nowy numer naszemu...
+        sqlInitBinding;
+        NR_LEK := 0;
+        sqlQuery( "SELECT Nr FROM lekarz" );
+        IsValue := 1;
+        I := 0;
+        while ( IsValue == 1 )
+        begin
+           sqlFetch( IsValue );
+           if ( IsValue == 1 ) begin I := I + 1; end;
+        end;
+        I := I + 1;
+        NR_LEK := I;
+        // je¿eli tutaj jesteœmy to oznacza ¿e mamy wszystkie potrzebne dane
+        // mo¿emy dodaæ nowego lekarza
+        sprintf( QUERY, "INSERT INTO lekarz (nr,nazwisko,imie,nauk,spec,staz_pracy,ulica,
+                 miasto, kod_pocz, telefon,e_mail, il_pac) 
+          VALUES ('%d','%s','%s','%s', '%s', %d, '%s','%s',
+                '%s','%s', '%s', %d )", I,NAZWISKO, IMIE, STOPIEN_NAUKOWY, SPECJALIZACJA,
+                 STAZ, UL, MIASTO, KOD, TEL, E_MAIL, IL_PAC );
+        sqlQuery( QUERY );
+      end;
+      sprintf( Lekarz, "%s %s %s", STOPIEN_NAUKOWY1, NAZWISKO1, IMIE1 );
+      LekarzID := NR_LEK;
+    end;
+
+
+    function pokazLekarza
+    begin
+       char STOPIEN_NAUKOWY, IMIE, NAZWISKO, SPECJALIZACJA,
+           UL, MIASTO, KOD, TEL, E_MAIL, QUERY;
+       int STAZ, IL_PAC, I;
+       int IsValue;
+       if ( Lekarz == "" )
+       begin
+          messageBox( 0,0, "Uwaga !", "Brak wybranego lekarza." );
+          return 0;
+       end;
+       IsValue := 1;
+       sqlInitBinding;
+       sqlBind( NAZWISKO ); sqlBind( IMIE ); sqlBind( STOPIEN_NAUKOWY ); 
+       sqlBind( SPECJALIZACJA ); sqlBind(STAZ);sqlBind( UL ); sqlBind( MIASTO ); sqlBind( KOD ); 
+       sqlBind( TEL ); sqlBind( E_MAIL ); sqlBind( IL_PAC );
+       sprintf( QUERY, "SELECT nazwisko,imie,nauk,spec,staz_pracy,ulica,miasto,kod_pocz,
+                        telefon,e_mail, il_pac FROM lekarz WHERE nr = '%d'", LekarzID );
+       sqlQuery( QUERY );
+       sqlFetch( IsValue );
+       if ( IsValue == 0 )
+       begin
+         messageBox( 0,0, "Uwaga !", "B³¹d dostêpu do bazy danych !" );
+         return 0;
+       end;
+
+
+       showSheet( LEKARZ_SHEET, 0 );
+       setSheetValue( LEKARZ_SHEET, "", 2, 2, STOPIEN_NAUKOWY );
+       setSheetValue( LEKARZ_SHEET, "", 3, 2, IMIE );
+       setSheetValue( LEKARZ_SHEET, "", 4, 2, NAZWISKO );
+       setSheetValue( LEKARZ_SHEET, "", 5, 2, SPECJALIZACJA );
+       setSheetValue( LEKARZ_SHEET, "", 6, 2, STAZ );
+       setSheetValue( LEKARZ_SHEET, "", 7, 2, IL_PAC );
+       setSheetValue( LEKARZ_SHEET, "", 9, 2, UL );
+       setSheetValue( LEKARZ_SHEET, "", 10, 2, MIASTO );
+       setSheetValue( LEKARZ_SHEET, "", 11, 2, KOD );
+       setSheetValue( LEKARZ_SHEET, "", 12, 2, TEL );
+       setSheetValue( LEKARZ_SHEET, "", 13, 2, E_MAIL );
+
+    end;
+
+
+    function nowyPacjent
+    begin
+
+      showSheet( PACJENT_SHEET, 0 );
+      setSheetValue( PACJENT_SHEET, "", 2, 2, "" );
+      setSheetValue( PACJENT_SHEET, "", 3, 2, "" );
+      setSheetValue( PACJENT_SHEET, "", 5, 2, "" );
+      setSheetValue( PACJENT_SHEET, "", 6, 2, "" );
+      setSheetValue( PACJENT_SHEET, "", 7, 2, "" );
+      setSheetValue( PACJENT_SHEET, "", 8, 2, "" );
+      Pacjent := "";
+      BylaKonsultacja := 0;
+    end;
+
+    function zapiszPacjenta 
+    begin
+      showSheet( PACJENT_SHEET, 0 );
+
+      char P³eæ;
+      char WYWIAD_LEKI, WYWIAD_STRES, WYWIAD_CH_SOM, WYWIAD_CH_INNE;
+      int K, M, LEN;
+      char PACJENT;
+
+      getSheetValue( PACJENT_SHEET, "", 2, 2, PACJENT );
+      strChange( PACJENT, "'", "''" );
+      if ( PACJENT == "" )
+      begin
+        messageBox(0,0,"Uwaga !", "Brak identyfikatora pacjenta" );
+        return 0;
+      end;
+      strLen( PACJENT, LEN );
+      if ( LEN <> 5 )
+      begin
+        messageBox(0,0,"Uwaga !", "Identyfikator pacjenta musi byæ d³ugoœci 5 znaków.\nNa przyk³ad inicja³y pacjenta i 3 znakowy numer: JK001" );
+        return 0;
+      end;
+
+      getSheetValue( PACJENT_SHEET, "", 3, 2, P³eæ );
+      if ( (P³eæ <> "K") and (P³eæ <> "M") )
+      begin
+        messageBox(0,0,"Uwaga !", "Proszê prawid³owo okreœliæ p³eæ pacjenta (K lub M)" );
+        return 0;
+      end;
+
+      getSheetValue( PACJENT_SHEET, "", 5, 2, WYWIAD_LEKI );
+      strChange( WYWIAD_LEKI, "'", "''" );
+      strLen( WYWIAD_LEKI, LEN );
+      if ( LEN > 200 )
+      begin
+        messageBox(0,0,"Uwaga !", "Pole nr 1 okreœlaj¹ce leki w ci¹gu ostatniego miesi¹ca nie mo¿e byæ wiêksze ni¿ 200 znaków" );
+        return 0;
+      end;
+      if ( LEN == 0 ) begin  WYWIAD_LEKI := " "; end;
+
+      getSheetValue( PACJENT_SHEET, "", 6, 2, WYWIAD_STRES );
+      strChange( WYWIAD_STRES, "'", "''" );
+      strLen( WYWIAD_STRES, LEN );
+      if ( LEN > 200 )
+      begin
+        messageBox(0,0,"Uwaga !", "Pole nr 2 zawieraj¹ce opis sytuacji stresowych nie mo¿e byæ wiêksze ni¿ 200 znaków" );
+        return 0;
+      end;
+      if ( LEN == 0 ) begin  WYWIAD_STRES := " "; end;
+
+      getSheetValue( PACJENT_SHEET, "", 7, 2, WYWIAD_CH_SOM );
+      strChange( WYWIAD_CH_SOM, "'", "''" );
+      strLen( WYWIAD_CH_SOM, LEN );
+      if ( LEN > 60 )
+      begin
+        messageBox(0,0,"Uwaga !", "Pole nr 3 opisuj¹ce stwierdzone choroby somatyczne nie mo¿e byæ wiêksze ni¿ 60 znaków" );
+        return 0;
+      end;
+      if ( LEN == 0 ) begin  WYWIAD_CH_SOM := " "; end;
+
+      getSheetValue( PACJENT_SHEET, "", 8, 2, WYWIAD_CH_INNE );
+      strChange( WYWIAD_CH_INNE, "'", "''" );
+      strLen( WYWIAD_CH_INNE, LEN );
+      if ( LEN > 60 )
+      begin
+        messageBox(0,0,"Uwaga !", "Pole nr 4 opisuj¹ce stwierdzone inne choroby nie mo¿e byæ wiêksze ni¿ 60 znaków" );
+        return 0;
+      end;
+      if ( LEN == 0 ) begin  WYWIAD_CH_INNE := " "; end;
+
+      // teraz sprawdzimy czy pacjent o tym identyfikatorze nie istnieje w kartotece
+
+      // pobieramy listê pacjentów
+      int ID, IsValue, Odp;
+      char QUERY;
+      sqlInitBinding;
+      sqlBind( ID );
+      sprintf( QUERY, "SELECT identyf FROM pacjenci WHERE identyf='%s'", PACJENT );
+      sqlQuery(QUERY );
+      IsValue := 1;
+      sqlFetch( IsValue );
+      if ( IsValue == 1 )
+      begin
+          sprintf( QUERY, "Pacjent o identyfikatorze %s istnieje w kartotece\n Czy zmieniæ jego dane ?", PACJENT );
+          confirmBox(0,0,"Uwaga !", QUERY, Odp );
+          if ( Odp == 0 ) begin return 0; end;
+          // podmiana danych pacjenta
+          sprintf( QUERY, "UPDATE pacjenci SET plec ='%s', leki = '%s', zdarzenia = '%s',
+               chor_som = '%s', inne_zab = '%s' WHERE identyf='%s'", 
+               P³eæ, WYWIAD_LEKI, WYWIAD_STRES, WYWIAD_CH_SOM, WYWIAD_CH_INNE, PACJENT );
+          sqlQuery( QUERY );
+      end
+      else
+      begin
+        sprintf( QUERY, "INSERT INTO pacjenci (identyf, plec, leki, zdarzenia , 
+                 chor_som,inne_zab)  VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", 
+                 PACJENT, P³eæ, WYWIAD_LEKI, WYWIAD_STRES, WYWIAD_CH_SOM, WYWIAD_CH_INNE );
+        sqlQuery( QUERY );
+      end;
+      Pacjent := PACJENT;
+    end;
+
+    function poka¿Now¹Konsultacjê
+    begin
+         
+      showSheet( NOWA_KONSULTACJA, 0 );
+
+      char L1, L2, L3, L4, L5, DATA_TEXT, LekarzNumber, EW, PSYCHOTERAPIA, IL_SESJI;
+      char D1, D2, D3, D4, D5, DA1, DA2, DA3, DA4, DA5, DAA1, DAA2, DAA3, DAA4, DAA5;
+      char NrKons, QUERY;
+      int P, Nb, IsValue;
+
+      // wpierw policzymy która to konsultacja
+      sqlInitBinding;
+      sqlBind( P );
+      sprintf( QUERY, "SELECT nr FROM konsult WHERE pacjent ='%s'", Pacjent );
+      sqlQuery( QUERY );
+      Nb := 0;
+      IsValue := 1;
+      while ( IsValue == 1 )
+      begin
+        sqlFetch( IsValue );
+        if ( IsValue == 1 )
+        begin 
+          Nb := Nb + 1;
+        end;
+      end;
+      Nb := Nb + 1; // numer konsultacji
+      // teraz nale¿y zebraæ dane potrzebne do zapisania w bazie danych
+      sprintf( NrKons, "%02d", Nb );
+      int D,M,Y;
+      getDate( D,M, Y );
+      sprintf( DATA_TEXT, "%04d-%02d-%02d", Y,M,D );         
+
+      setSheetValue( NOWA_KONSULTACJA, "", 2, 2, Pacjent );
+      setSheetValue( NOWA_KONSULTACJA, "", 3, 2, NrKons );
+      setSheetValue( NOWA_KONSULTACJA, "", 4, 2, DATA_TEXT );
+      setSheetValue( NOWA_KONSULTACJA, "", 5, 2, Lekarz );
+
+      setSheetValue( NOWA_KONSULTACJA, "", 8, 2, L1 );
+      setSheetValue( NOWA_KONSULTACJA, "", 8, 3, DA1 );
+      setSheetValue( NOWA_KONSULTACJA, "", 8, 4, DAA1 );
+      setSheetValue( NOWA_KONSULTACJA, "", 8, 5, D1 );
+
+      setSheetValue( NOWA_KONSULTACJA, "", 9, 2, L2 );
+      setSheetValue( NOWA_KONSULTACJA, "", 9, 3, DA2 );
+      setSheetValue( NOWA_KONSULTACJA, "", 9, 4, DAA2 );
+      setSheetValue( NOWA_KONSULTACJA, "", 9, 5, D2 );
+
+      setSheetValue( NOWA_KONSULTACJA, "", 10, 2, L3 );
+      setSheetValue( NOWA_KONSULTACJA, "", 10, 3, DA3 );
+      setSheetValue( NOWA_KONSULTACJA, "", 10, 4, DAA3 );
+      setSheetValue( NOWA_KONSULTACJA, "", 10, 5, D3 );
+
+      setSheetValue( NOWA_KONSULTACJA, "", 11, 2, L4 );
+      setSheetValue( NOWA_KONSULTACJA, "", 11, 3, DA4 );
+      setSheetValue( NOWA_KONSULTACJA, "", 11, 4, DAA4 );
+      setSheetValue( NOWA_KONSULTACJA, "", 11, 5, D4 );
+
+      setSheetValue( NOWA_KONSULTACJA, "", 12, 2, L5 );
+      setSheetValue( NOWA_KONSULTACJA, "", 12, 3, DA5 );
+      setSheetValue( NOWA_KONSULTACJA, "", 12, 4, DAA5 );
+      setSheetValue( NOWA_KONSULTACJA, "", 12, 5, D5 );
+
+      setSheetValue( NOWA_KONSULTACJA, "", 14, 2, EW );
+      setSheetValue( NOWA_KONSULTACJA, "", 15, 2, PSYCHOTERAPIA );
+      setSheetValue( NOWA_KONSULTACJA, "", 16, 2, IL_SESJI );
+    end;
+
+    function zapamiêtajKonsultacjê
+    begin
+      if ( BylaKonsultacja == 0 )
+      begin
+        messageBox( 0,0, "Uwaga !", "Brak danych do zapamiêtania konsultacji. Proszê ponownie uruchomiæ konsultacjê" );
+        return 0;
+      end;
+     
+      showSheet( NOWA_KONSULTACJA, 0 );
+
+      // tutaj zapis do bazy wiedzy ......
+      char L1, L2, L3, L4, L5, DATA_TEXT, LekarzNumber, PSYCHOTERAPIA;
+      char D1, D2, D3, D4, D5, DA1, DA2, DA3, DA4, DA5, DAA1, DAA2, DAA3, DAA4, DAA5;
+      int NrKons, EW, IL_SESJI, IsValue, Odp;
+      int LEN;
+
+      getSheetValue( NOWA_KONSULTACJA, "", 3, 2, NrKons );
+      getSheetValue( NOWA_KONSULTACJA, "", 4, 2, DATA_TEXT );
+
+
+      getSheetValue( NOWA_KONSULTACJA, "", 8, 2, L1 ); if ( L1 == "" ) begin L1 := " "; end;
+      strChange( L1, "'", "''");
+      strLen( L1, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Nazwa i postaæ pierwszego leku przeciwdepresyjnego za d³uga (max 30 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 8, 3, DA1 );if ( DA1 == "" ) begin DA1 := " "; end;
+      strChange( DA1, "'", "''");
+      strLen( DA1, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki maksymalnej pierwszego leku przeciwdepresyjnego za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 8, 4, DAA1 );if ( DAA1 == "" ) begin DAA1 := " "; end;
+      strChange( DAA1, "'", "''");
+      strLen( DAA1, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki aktualnej pierwszego leku przeciwdepresyjnego za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 8, 5, D1 ); if ( D1 == "" ) begin D1 := " "; end;
+      strChange( D1, "'", "''");
+      strLen( D1, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis pola 'Od kiedy pobiera' pierwszego leku przeciwdepresyjnego za d³ugi (max 30 znaków)" ); 
+          return 0;
+      end;
+
+
+      getSheetValue( NOWA_KONSULTACJA, "", 9, 2, L2 );if ( L2 == "" ) begin L2 := " "; end;
+      strChange( L2, "'", "''");
+      strLen( L2, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Nazwa i postaæ drugiego leku przeciwdepresyjnego za d³uga (max 30 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 9, 3, DA2 );if ( DA2 == "" ) begin DA2 := " "; end;
+      strChange( DA2, "'", "''");
+      strLen( DA2, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki maksymalnej drugiego leku przeciwdepresyjnego za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 9, 4, DAA2 );if ( DAA2 == "" ) begin DAA2 := " "; end;
+      strChange( DAA2, "'", "''");
+      strLen( DAA2, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki aktualnej drugiego leku przeciwdepresyjnego za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 9, 5, D2 );if ( D2 == "" ) begin D2 := " "; end;
+      strChange( D2, "'", "''");
+      strLen( D2, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis pola 'Od kiedy pobiera' drugiego leku przeciwdepresyjnego za d³ugi (max 30 znaków)" ); 
+          return 0;
+      end;
+
+
+      getSheetValue( NOWA_KONSULTACJA, "", 10, 2, L3 );if ( L3 == "" ) begin L3 := " "; end;
+      strChange( L3, "'", "''");
+      strLen( L3, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Nazwa i postaæ leku normotymicznego za d³uga (max 30 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 10, 3, DA3 ); if ( DA3 == "" ) begin DA3 := " "; end;
+      strChange( DA3, "'", "''");
+      strLen( DA3, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki maksymalnej leku normotymicznego za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 10, 4, DAA3 );if ( DAA3 == "" ) begin DAA3 := " "; end;
+      strChange( DAA3, "'", "''");
+      strLen( DAA3, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki aktualnej leku normotymicznego za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 10, 5, D3 );if ( D3 == "" ) begin D3 := " "; end;
+      strChange( D3, "'", "''");
+      strLen( D3, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis pola 'Od kiedy pobiera' leku normotymicznego za d³ugi (max 30 znaków)" ); 
+          return 0;
+      end;
+
+
+      // NEUROLEPTYK ..........................
+
+      getSheetValue( NOWA_KONSULTACJA, "", 11, 2, L4 );if ( L4 == "" ) begin L4 := " "; end;
+      strChange( L4, "'", "''");
+      strLen( L4, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Nazwa i postaæ neuroleptyku za d³uga (max 30 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 11, 3, DA4 );if ( DA4 == "" ) begin DA4 := " "; end;
+      strChange( DA4, "'", "''");
+      strLen( DA4, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki maksymalnej neuroleptyku za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 11, 4, DAA4 );if ( DAA4 == "" ) begin DAA4 := " "; end;
+      strChange( DAA4, "'", "''");
+      strLen( DAA4, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki aktualnej neuroleptyku za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 11, 5, D4 );if ( D4 == "" ) begin D4 := " "; end;
+      strChange( D4, "'", "''");
+      strLen( D4, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis pola 'Od kiedy pobiera' neuroleptyku za d³ugi (max 30 znaków)" ); 
+          return 0;
+      end;
+
+
+      getSheetValue( NOWA_KONSULTACJA, "", 12, 2, L5 );if ( L5 == "" ) begin L5 := " "; end;
+      strChange( L5, "'", "''");
+      strLen( L5, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Nazwa i postaæ leku anksjolitycznego za d³uga (max 30 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 12, 3, DA5 );if ( DA5 == "" ) begin DA5 := " "; end;
+      strChange( DA5, "'", "''");
+      strLen( DA5, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki maksymalnej leku anksjolitycznego za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 12, 4, DAA5 );if ( DAA5 == "" ) begin DAA5 := " "; end;
+      strChange( DAA5, "'", "''");
+      strLen( DAA5, LEN ); 
+      if ( LEN > 10 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis dawki aktualnej leku anksjolitycznego za d³ugi (max 10 znaków)" ); 
+          return 0;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 12, 5, D5 );if ( D5 == "" ) begin D5 := " "; end;
+      strChange( D5, "'", "''");
+      strLen( D5, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis pola 'Od kiedy pobiera' leku anksjolitycznego za d³ugi (max 30 znaków)" ); 
+          return 0;
+      end;
+
+
+      char TMP_TEXT;
+      EW := 0;
+      getSheetValue( NOWA_KONSULTACJA, "", 14, 2, TMP_TEXT ); //EW );
+      strLen( TMP_TEXT, LEN );
+      if ( LEN > 0  )
+      begin
+         ston( TMP_TEXT, EW );
+         if ( (EW <= 0) | (EW >= 1000) )
+         begin
+           messageBox (0,0, "Uwaga !", "Nieprawid³owa iloœæ elektrowstrz¹sów" ); 
+           return 0;
+         end;
+      end;
+      getSheetValue( NOWA_KONSULTACJA, "", 15, 2, PSYCHOTERAPIA );
+      strChange( PSYCHOTERAPIA, "'", "''");
+      if ( PSYCHOTERAPIA == "" ) begin PSYCHOTERAPIA := " "; end;
+      strLen( PSYCHOTERAPIA, LEN ); 
+      if ( LEN > 30 ) 
+      begin 
+          messageBox (0,0, "Uwaga !", "Opis rodzaju psychoterapii za d³ugi (max 30 znaków)" ); 
+          return 0;
+      end;
+      IL_SESJI := 0;
+      getSheetValue( NOWA_KONSULTACJA, "", 16, 2, TMP_TEXT ); // IL_SESJI );
+      strLen( TMP_TEXT, LEN );
+      if ( LEN > 0  )
+      begin
+         ston( TMP_TEXT, IL_SESJI );
+         if ( (IL_SESJI <= 0) | (IL_SESJI >=1000) )
+         begin
+           messageBox (0,0, "Uwaga !", "Nieprawid³owa iloœæ sesji psychoterapii" ); 
+           return 0;
+         end;
+      end;
+
+
+      char NB;
+      sprintf( NB, "%02d", NrKons );
+
+      // teraz przyst¹pimy do zapamiêtania faktów w pliku
+      char File1, File2;
+      // generujemy nazwê pliku typu XXXXXYYa.fct gdzie XXXXX - id pacjenta, YY - nr konsultacji     
+      sprintf( File1, "%s%02da.fct", Pacjent, NrKons );
+
+  
+      // sprawdzimy wpierw czy nie ma ju¿ zapisanej tej konsultacji i ewentualnie
+      // dokonamy aktualizacji pól
+      sqlInitBinding;
+      char S, QUERY;
+      sqlBind( S );
+      sprintf( QUERY, "SELECT pacjent FROM konsult WHERE nr = '%s' AND pacjent = '%s'", NB, Pacjent );
+      sqlQuery( QUERY );
+      IsValue := 1;
+      sqlFetch( IsValue );
+      if ( IsValue == 1 )
+      begin
+          sprintf( QUERY, "Konsultacja nr %d istnieje w kartotece.\n Czy zaktualizowaæ dane ?", NrKons );
+          confirmBox(0,0,"Uwaga !", QUERY, Odp );
+          if ( Odp == 0 ) begin return 0; end;
+          // podmiana opisu konsultacji
+          zapiszWszystkieFakty( File1, "// Zbiór faktów z konsultacji" );
+          sprintf( QUERY, "UPDATE konsult SET data = '%s', lekarz = '%d',
+               f_icd10 = '%s', f_hamil = '%s',
+               lek1 = '%s', data1 = '%s', dawka1 = '%s', dawkaa1 = '%s',
+               lek2 = '%s', data2 = '%s', dawka2 = '%s', dawkaa2 = '%s',
+               lek3 = '%s', data3 = '%s', dawka3 = '%s', dawkaa3 = '%s',
+               lek4 = '%s', data4 = '%s', dawka4 = '%s', dawkaa4 = '%s',
+               lek5 = '%s', data5 = '%s', dawka5 = '%s', dawkaa5 = '%s',
+               ilosc_ew = '%d', r_psych = '%s', il_sesji = '%d'
+                WHERE nr='%s' AND pacjent = '%s'", 
+                   DATA_TEXT, LekarzID, File1, File2,
+                        L1, D1, DA1, DAA1,
+                        L2, D2, DA2, DAA2,
+                        L3, D3, DA3, DAA3,
+                        L4, D4, DA4, DAA4,
+                        L5, D5, DA5, DAA5,
+                        EW, PSYCHOTERAPIA, IL_SESJI, NB, Pacjent );
+          sqlQuery( QUERY );
+      end
+      else
+      begin
+  
+        zapiszWszystkieFakty( File1, "// Zbiór faktów z konsultacji" );
+        // A teraz przyszed³ czas na dodanie rekordu do bazy konsult.dbf
+        sprintf( QUERY, "INSERT INTO konsult (nr,pacjent,data,lekarz,f_icd10,f_hamil,
+                           lek1, data1, dawka1, dawkaa1,
+                           lek2, data2, dawka2, dawkaa2,
+                           lek3, data3, dawka3, dawkaa3,
+                           lek4, data4, dawka4, dawkaa4,
+                           lek5, data5, dawka5, dawkaa5,
+                           ilosc_ew,r_psych, il_sesji) 
+         VALUES ('%s', '%s', '%s','%d', '%s','%s',
+                   '%s', '%s', '%s', '%s',
+                   '%s', '%s', '%s', '%s',
+                   '%s', '%s', '%s', '%s',
+                   '%s', '%s', '%s', '%s',
+                   '%s', '%s', '%s', '%s',
+                   '%d', '%s', '%d' )", NB, Pacjent, DATA_TEXT, LekarzID, File1, File2,
+                        L1, D1, DA1, DAA1,
+                        L2, D2, DA2, DAA2,
+                        L3, D3, DA3, DAA3,
+                        L4, D4, DA4, DAA4,
+                        L5, D5, DA5, DAA5,
+                        EW, PSYCHOTERAPIA, IL_SESJI );       
+         sqlQuery( QUERY );
+      end;
+    end;
+
+    function nowa_klasyfikacja
+    begin
+       if ( Lekarz == "" )
+       begin
+          messageBox( 0,0, "Uwaga !", "Brak wybranego lekarza.\nProszê wybraæ lekarza prowadz¹cego" );
+          lekarz;
+          if ( RETURN == 0 ) begin return 0; end;
+       end;
+       if ( Pacjent == "" )
+       begin
+          messageBox( 0,0, "Uwaga !", "Brak wybranego pacjenta.\nProszê wybraæ pacjenta z kartoteki" );
+          wybierzPacjenta;
+          if ( RETURN == 0 ) begin return 0; end;
+       end;
+       BylaKonsultacja := 0;
+       delNewFacts;
+
+       setSysText( problem, "[1[BOkreœlenie zaburzenia[0" );
+       setWindowPos( ask, 10, 40, 480, 305, 0 );
+       setWindowPos( picture_ask, 500, 40, 290, 290, 0 );
+       setWindowPos( what_is, 10, 330, 780, 100, 0 );
+       setWindowPos( solution, 10, 130, 780, 100, 0 );
+       setSysText( notConfirmed, "[I[BObjawy nie spe³niaj¹ kryteriów dla epizodu depresyjnego" ); 
+       solve(depresja_r, "zaburzenie=Zaburzenie" );
+       if ( RETURN == 27 ) begin return 0; end; // przerwij to powrót do menu
+       BylaKonsultacja := 1;
+
+       // teraz nale¿a³oby zapisaæ dane do bazy danych
+       int YES_NO;
+       confirmBox( 0,0, "Uwaga !","Czy chcesz zapamiêtaæ przeprowadzon¹ konsultacjê w bazie danych?", YES_NO );
+       if ( YES_NO == 1 )
+       begin
+         poka¿Now¹Konsultacjê;
+         messageBox( 0, 0, "Uwaga !", "Proszê teraz uzupe³niæ okno nowej konsultacji, wpisuj¹c przepisan¹ terapiê i nastêpnie wybraæ z menu Konsultacje|Zapamiêtaj konsultacjê" );
+       end
+       else
+       begin
+         BylaKonsultacja := 0; // zapobiega póŸniejszemu zapisaniu (daliœmy Anuluj)
+       end;
+    end;
+
+    // odtworzenie terapii
+    function historiaChoroby
+    begin
+       char QUERY, NrKons;
+       char Nbs[100]; // max 100 konsultacji
+       
+       int I, Sel, IsValue;
+       if ( Pacjent == "" )
+       begin
+          messageBox( 0,0, "Uwaga !", "Brak wybranego pacjenta.\nProszê wybraæ pacjenta z kartoteki" );
+          wybierzPacjenta;
+          if ( RETURN == 0 ) begin return 0; end;
+          if ( Pacjent == "" ) begin return 0; end;
+       end;
+
+       // teraz pobieramy numery konsultacji ....
+       sqlInitBinding;
+       sqlBind( NrKons );
+       sprintf( QUERY, "SELECT nr FROM konsult WHERE pacjent = '%s'", Pacjent );
+       sqlQuery( QUERY );
+       I := 0;
+       IsValue := 1;
+       while ( IsValue == 1 )
+       begin
+          sqlFetch( IsValue );
+          if ( IsValue == 1 )
+          begin 
+            Nbs[I] := NrKons;
+            I := I + 1;
+          end;
+       end;       
+          // wybierz konsultacjê :
+          sprintf( QUERY, "Historia terapii pacjenta %s", Pacjent );
+          slistBox( 0, 0, QUERY, "Wybierz numer konsultacji :",
+                 Nbs, I, Sel );
+          if ( RETURN == 0 ) begin return 0; end;
+          NrKons := Nbs[Sel];
+
+          // teraz odtworzymy terapiê
+          char L1, L2, L3, L4, L5, DATA_TEXT, LekarzNumber, EW, PSYCHOTERAPIA, IL_SESJI;
+          char D1, D2, D3, D4, D5, DA1, DA2, DA3, DA4, DA5, DAA1, DAA2, DAA3, DAA4, DAA5;
+          sqlInitBinding;
+          sqlBind( DATA_TEXT );
+          sqlBind( LekarzNumber );
+          sqlBind( L1 ); sqlBind( D1 ); sqlBind( DA1 ); sqlBind( DAA1 );
+          sqlBind( L2 ); sqlBind( D2 ); sqlBind( DA2 ); sqlBind( DAA2 );
+          sqlBind( L3 ); sqlBind( D3 ); sqlBind( DA3 ); sqlBind( DAA3 );
+          sqlBind( L4 ); sqlBind( D4 ); sqlBind( DA4 ); sqlBind( DAA4 );
+          sqlBind( L5 ); sqlBind( D5 ); sqlBind( DA5 ); sqlBind( DAA5 );
+          sqlBind( EW );
+          sqlBind( PSYCHOTERAPIA );
+          sqlBind( IL_SESJI );
+          sprintf( QUERY, "SELECT data,lekarz, lek1, data1, dawka1, dawkaa1, lek2, data2, dawka2, dawkaa2, lek3, data3, dawka3, dawkaa3, lek4, data4, dawka4, dawkaa4, lek5, data5, dawka5, dawkaa5, ilosc_ew, r_psych, il_sesji FROM konsult WHERE pacjent = '%s' AND Nr = '%s'", Pacjent, NrKons );
+          sqlQuery( QUERY );
+
+          IsValue := 1;         
+          sqlFetch( IsValue );
+          if ( IsValue == 0 )
+          begin 
+            messageBox(0,0,"B³¹d", "Wybierz jeszcze raz nr konsultacji" );
+            return 0;
+          end;
+
+          // nale¿y jeszcze pobraæ dane lekarza ....
+          char LekarzT, N, Tyt, Imie;
+          sqlInitBinding;
+          sqlBind( N ); sqlBind( Imie ); sqlBind( Tyt );
+          sprintf( QUERY,"SELECT nazwisko,imie,nauk FROM lekarz WHERE nr = '%s'", LekarzNumber );
+          sqlQuery( QUERY );
+          IsValue := 1;         
+          sqlFetch( IsValue );
+          if ( IsValue == 0 )
+          begin 
+             messageBox(0,0,"B³¹d", "Wybierz jeszcze raz nr konsultacji" );
+             return 0;
+          end;
+          sprintf( LekarzT, "%s %s %s", Tyt, N, Imie );
+
+          char TITLE;
+          sprintf( TITLE, "%s - Konsultacja nr: %s",  Pacjent, NrKons );
+
+          openSheet( TITLE, TERAPIA_SHEET_NAME );
+          showSheet( TITLE, 0 );
+
+          setSheetValue( TITLE, "", 2, 2, Pacjent );
+          setSheetValue( TITLE, "", 3, 2, NrKons );
+          setSheetValue( TITLE, "", 4, 2, DATA_TEXT );
+          setSheetValue( TITLE, "", 5, 2, LekarzT );
+
+          setSheetValue( TITLE, "", 8, 2, L1 );
+          setSheetValue( TITLE, "", 8, 3, DA1 );
+          setSheetValue( TITLE, "", 8, 4, DAA1 );
+          setSheetValue( TITLE, "", 8, 5, D1 );
+
+          setSheetValue( TITLE, "", 9, 2, L2 );
+          setSheetValue( TITLE, "", 9, 3, DA2 );
+          setSheetValue( TITLE, "", 9, 4, DAA2 );
+          setSheetValue( TITLE, "", 9, 5, D2 );
+
+          setSheetValue( TITLE, "", 10, 2, L3 );
+          setSheetValue( TITLE, "", 10, 3, DA3 );
+          setSheetValue( TITLE, "", 10, 4, DAA3 );
+          setSheetValue( TITLE, "", 10, 5, D3 );
+
+          setSheetValue( TITLE, "", 11, 2, L4 );
+          setSheetValue( TITLE, "", 11, 3, DA4 );
+          setSheetValue( TITLE, "", 11, 4, DAA4 );
+          setSheetValue( TITLE, "", 11, 5, D4 );
+
+          setSheetValue( TITLE, "", 12, 2, L5 );
+          setSheetValue( TITLE, "", 12, 3, DA5 );
+          setSheetValue( TITLE, "", 12, 4, DAA5 );
+          setSheetValue( TITLE, "", 12, 5, D5 );
+
+          setSheetValue( TITLE, "", 14, 2, EW );
+          setSheetValue( TITLE, "", 15, 2, PSYCHOTERAPIA );
+          setSheetValue( TITLE, "", 16, 2, IL_SESJI );
+    end;
+  
+    // odtworzenie wnioskowania
+    function historiaWnioskowania
+    begin
+       char QUERY, NrKons;
+       char Nbs[100]; // max 100 konsultacji
+       
+       int I, Sel, IsValue;
+       if ( BylaKonsultacja == 1 )
+       begin
+          int Odp;
+          confirmBox( 0,0, "Uwaga !", "W wyniku wykonaniu tej opcji nast¹pi utrata danych z przeprowadzonej konsultacji. Czy przerwaæ odtwarzanie konsultacji ?", Odp );
+          if ( Odp == 1 )
+          begin
+              return 0; 
+          end;
+       end;
+
+       if ( Pacjent == "" )
+       begin
+          messageBox( 0,0, "Uwaga !", "Brak wybranego pacjenta.\nProszê wybraæ pacjenta z kartoteki" );
+          wybierzPacjenta;
+          if ( RETURN == 0 ) begin return 0; end;
+          if ( Pacjent == "" ) begin return 0; end;
+       end;       
+
+       setSysText( problem, "[1[BOkreœlenie zaburzenia[0" );
+       setWindowPos( ask, 10, 40, 480, 305, 0 );
+       setWindowPos( picture_ask, 500, 40, 290, 290, 0 );
+       setWindowPos( what_is, 10, 330, 780, 100, 0 );
+       setWindowPos( solution, 10, 130, 780, 100, 0 ); 
+       setSysText( notConfirmed, "[I[BObjawy nie spe³niaja kryteriow dla epizodu depresyjnego" );
+ 
+
+       // teraz pobieramy numery konsultacji ....
+       sqlInitBinding;
+       sqlBind( NrKons );
+       sprintf( QUERY, "SELECT nr FROM konsult WHERE pacjent = '%s'", Pacjent );
+       sqlQuery( QUERY );
+       I := 0;
+       IsValue := 1;
+       while ( IsValue == 1 )
+       begin
+          sqlFetch( IsValue );
+          if ( IsValue == 1 )
+          begin 
+            Nbs[I] := NrKons;
+            I := I + 1;
+          end;
+       end;
+       while ( 1 == 1)
+       begin
+          // wybierz konsultacjê :
+          sprintf( QUERY, "Historia konsultacji pacjenta %s", Pacjent );
+          slistBox( 0, 0, QUERY, "Wybierz numer konsultacji :",
+                 Nbs, I, Sel );
+          if ( RETURN == 0 ) begin return 0; end;
+          BylaKonsultacja := 0;
+          NrKons := Nbs[Sel];
+          // teraz pobierzemy plik z faktami
+          sqlInitBinding;
+          char Plik;
+          sqlBind( Plik );
+          sprintf( QUERY, "SELECT f_icd10 FROM konsult WHERE pacjent = '%s' AND Nr = '%s'", Pacjent, NrKons );
+          sqlQuery( QUERY );
+
+          IsValue := 1;         
+          sqlFetch( IsValue );
+          if ( IsValue == 0 )
+          begin 
+            messageBox(0,0,"B³¹d", "Wybierz jeszcze raz nr konsultacji" );
+            continue;
+          end;
+          delNewFacts;
+          char Pe³naNazwaPliku;
+          sprintf( Pe³naNazwaPliku, "%s.fct", Plik );
+          freadFacts( Pe³naNazwaPliku );
+          if ( RETURN == 1 )
+          begin
+              solve(depresja_r, "zaburzenie=Zaburzenie" );
+          end;
+          delNewFacts;
+       end;
+    end;
+
+
+    function runShow( char FileName )
+    begin
+       messageBox( 0,0, "Wersja demonstracyjna Salomona 3.0", "Wersja demonstracyjna nie posiada do³¹czonych prezentacji firm farmaceutycznych." );
+//       char EXE, PPVIEWER;
+//       getProfile( "PPTVIEW", "Program", PPVIEWER, "", "shell220.ini" );
+//       sprintf( EXE, "%s %s", PPVIEWER, FileName );
+//       system( EXE );
+//       if ( RETURN <> 1 )
+//       begin
+//          messageBox( 0,0, "B³¹d", "Próba uruchomienia prezentacji zakoñczona b³êdem. Proszê sprawdziæ czy w stacji CD-ROM jest dysk z prezentacjami oraz czy jest prawid³owo ustawiona œcie¿ka do przegl¹darki" );
+//       end;
+    end;
+
+    function servier1
+    begin
+       char FILE;
+       getProfile( "PPTVIEW", "Servier1", FILE, "", "shell40.ini" );
+       runShow( FILE );
+    end;
+
+    function servier2
+    begin
+       char FILE;
+       getProfile( "PPTVIEW", "Servier2", FILE, "", "shell40.ini" );
+       runShow( FILE );
+    end;
+
+    function lilly
+    begin
+       char FILE;
+       getProfile( "PPTVIEW", "Lilly", FILE, "", "shell40.ini" );
+       runShow( FILE );
+    end;
+    function orion1
+    begin
+       char FILE;
+       getProfile( "PPTVIEW", "Orion1", FILE, "", "shell40.ini" );
+       runShow( FILE );
+    end;
+
+    function orion2
+    begin
+       char FILE;
+       getProfile( "PPTVIEW", "Orion2", FILE, "", "shell40.ini" );
+       runShow( FILE );
+    end;
+    function koniguracja
+    begin
+        char PPVIEWER;
+        getProfile( "PPTVIEW", "Program", PPVIEWER, "", "shell40.ini" );
+        fileBox( 0,0, "Proszê wskazaæ œcie¿kê do program PowerPoint Viewer", 
+                     "Programy (*.exe)|*.exe|Wszystkie pliki (*.*)|*.*", PPVIEWER );
+        if ( RETURN == 1 )
+        begin
+            writeProfile( "PPTVIEW", "Program", PPVIEWER, "shell40.ini" );
+        end;
+    end;
+
+    function spisTreœci
+    begin
+       winHelp( "salomon.hlp", index, 0 );
+    end;
+
+    function pomoc
+    begin
+      vignette( "SALOMON  3.0 demo", "
+     KNOWLEDGE BANK - DEPRESJA 
+     \nAutor projektu: dr Krzysztof Kielan 
+     I Klinika Psychiatrii Œl¹skiej Akademii Medycznej
+     42-700 Lubliniec , Grunwaldzka 48
+     tel./fax.:  034 3531768  
+     WWW: www.aitech.com.pl/salomon.htm", 
+     "Copyright (C)1990-2003  AITECH  i  Krzysztof Kielan");
+    end;
+
+
+    PACJENT_SHEET := "Kartoteka pacjenta";
+    LEKARZ_SHEET  := "Kartoteka lekarza";
+    NOWA_KONSULTACJA := "Nowa konsultacja";
+
+    createAppWindow;
+    precision( 1, 1 );
+    setAppWinTitle("Bank zaburzeñ depresyjnych - wersja demo");
+    run;
+ 
+    pomoc;
+
+    getProfile( "Salomon", "Pacjent", PACJENT_SHEET_NAME, "pacjent.vts", "shell40.ini" );
+    getProfile( "Salomon", "Lekarz", LEKARZ_SHEET_NAME, "lekarz.vts", "shell40.ini" );
+    getProfile( "Salomon", "Terapia", TERAPIA_SHEET_NAME, "terapia.vts", "shell40.ini" );
+
+    openSheet( PACJENT_SHEET, PACJENT_SHEET_NAME );  
+    openSheet( LEKARZ_SHEET, LEKARZ_SHEET_NAME );  
+    openSheet( NOWA_KONSULTACJA, TERAPIA_SHEET_NAME );
+
+    Pacjent := "";
+    Lekarz  := "";
+    LekarzID := -1;
+    BylaKonsultacja := 0;
+
+
+    // Inicjuj dostêp do baz danych typu dBase :
+    sqlInit( "DSN=Pliki dBase", 1 );
+
+    int MENUID,POPID1,POPID11, POPID2, POPID3, POPID4;
+    createMenu(MENUID);
+    createPopupMenu(POPID2, "&Konsultacje");
+    appendMenu(POPID2, "&Konsultacja przy pomocy logiki rozmytej i ICD-10", nowa_klasyfikacja );
+    appendMenu(POPID2, "&Zapamiêtaj konsultacjê", zapamiêtajKonsultacjê );
+
+    appendMenu(POPID2, "&Odtwórz wnioskowanie", historiaWnioskowania );
+    appendMenu(POPID2, "&Historia terapii", historiaChoroby );
+    appendMenu(POPID2, separator, _ );
+    appendMenu(POPID2, "&Wyjœcie", koniecProgramu );
+    appendMenu(MENUID, menu, POPID2);
+
+    createPopupMenu(POPID1, "&Lekarz");
+    appendMenu(POPID1, "&Wybierz lekarza", lekarz );
+    appendMenu(POPID1, separator, _ );
+    appendMenu(POPID1, "&Nowy lekarz", nowyLekarz );
+    appendMenu(POPID1, "&Zapamiêtaj dane lekarza", zapiszLekarza );
+    appendMenu(POPID1, "&Poka¿ dane wybranego lekarza", pokazLekarza );
+    appendMenu(MENUID, menu, POPID1);
+
+    createPopupMenu(POPID2, "&Pacjent");
+    appendMenu(POPID2, "&Wybierz pacjenta", wybierzPacjenta );
+    appendMenu(POPID2, separator, _ );
+    appendMenu(POPID2, "&Nowy pacjent", nowyPacjent );
+    appendMenu(POPID2, "&Zapamiêtaj dane pacjenta", zapiszPacjenta );
+    appendMenu(POPID2, "&Poka¿ dane wybranego pacjenta", pokazWybranegoPacjenta );
+    appendMenu(MENUID, menu, POPID2); 
+
+    createPopupMenu(POPID3, "Sponsorzy");
+     appendMenu(POPID3, "Eli Lilly - Prozac fluoksetyna", lilly );
+      createPopupMenu(POPID2, "Les Laboratoires Servier - Coaxil tianeptyna" );
+      appendMenu(POPID2, "Bez dŸwiêku", servier1 );
+      appendMenu(POPID2, "Z dŸwiêkiem", servier2 );
+     appendMenu(POPID3, menu, POPID2);
+      createPopupMenu(POPID2, "Orion Pharma International - Seronil fluoksetyna" );
+      appendMenu(POPID2, "Bez dŸwiêku", orion1 );
+      appendMenu(POPID2, "Z dŸwiêkiem", orion2 );
+     appendMenu(POPID3, menu, POPID2);
+     appendMenu(POPID3, separator, _ );
+     appendMenu(POPID3, "Konfiguracja prezentacji", koniguracja );
+    appendMenu(MENUID, menu, POPID3);
+
+    appendMenu( MENUID, menu, window );
+
+    createPopupMenu(POPID4, "P&omoc");
+    appendMenu(POPID4, "&Spis treœci", spisTreœci );
+    appendMenu(POPID4, separator, _ );
+    appendMenu(POPID4, "&O programie", pomoc );
+    appendMenu(MENUID, menu, POPID4);
+
+    fullMenu(MENUID);
+    sqlDone;
+
+
+end;
+end;
+

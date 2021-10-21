@@ -1,0 +1,29 @@
+knowledge base silnia
+
+  control
+    long K, S, N;
+    int Odp;
+    char STR, Tekst;
+
+    run;
+    createAppWindow;
+    setAppWinTitle( "Program obliczania silni - demo" );
+    vignette( "Program obliczania silni", "Autor: Krzysztof Michalik", "AITECH" );
+    precision( 1, 0 );
+    Odp := 1;
+    while( Odp == 1 )
+       begin
+           neditBox( 0, 0, 0, 12, "Podaj liczbê n dla n!", N );
+           S := 1;
+           for K := 1 to N step 1
+               begin
+                 S := S * K;
+               end;
+           ntos( S, STR ); 
+           Tekst := "Wartoœæ n! = ";
+           strcat( Tekst, STR );
+           messageBox( 0, 0, "Komunikat", Tekst );
+           confirmBox( 0, 0, "KONTYNUOWAÆ OBLICZENIA ?", "Naciœnij 'OK' jeœli tak, 'ANULUJ' jeœli nie", Odp );  
+       end;
+  end;
+end;

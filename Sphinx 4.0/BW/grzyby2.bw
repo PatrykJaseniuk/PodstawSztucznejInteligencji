@@ -1,0 +1,123 @@
+knowledge base nazwa
+ sources
+    coto:
+	type what_is_file
+	file "grzyby2.dbw";
+ end;
+ facets
+
+   grzyb:
+	single yes
+	val oneof { "lakownica sp³aszczona (Ganoderma applanatum)",
+		    "lakownica europejska (Ganoderma adspersum)",
+		    "lakownica czarnobr¹zowa (Ganoderma carnosum)",
+		    "lakownica lœni¹ca (Ganoderma lucidum)",
+		    "lakownica Pfeiffera (Ganoderma pfeifferi)",                    
+		    "lakownica ¿ywicowata (Ganoderma resinaceum)",
+		    "lakownica walezyjska (Ganoderma valesianum)",
+		    "lakownica palmowa (Ganoderma chalceum)" }
+        picture "grzyb22.bmp";
+
+   obecnoœæ_trzona:
+	query "[BScharakteryzuj obecnoœæ trzona:"
+	val oneof { "obecny", 
+		    "zawsze nieobecny (nawet szcz¹tkowego)",
+		    "prawie zawsze obecny",
+		    "zwykle obecny" };
+
+   siedlisko:
+	query "[BOkreœl siedlisko grzyba:"
+	val oneof { "gatunek górski, rzadki w terenach ni¿ej po³o¿onych",
+		    "gatunek nizinny, rzadki w terenach górskich",
+		    "wystêpuje w górach i na ni¿u" };
+	
+   charakter_wystêpowania:
+	query "[BOpisz miejsce wystêpowania:"
+	val oneof { "siedliska synantropijne",
+		    "w lasach i siedliskach synantropijnych",
+		    "tylko w lasach górskich" };        
+		    
+   rozmiar_zarodników:
+	query "[BOkreœl rozmiar zarodników:"
+	val oneof { "d³ugoœæ do 8,5",
+		    "d³ugoœæ powy¿ej 8,5" };
+
+
+   br¹zowy_kolor_mi¹¿szu:
+	query "[BCzy kolor mi¹¿szu jest br¹zowy?"
+	picture "grzyb23.bmp";
+   wra¿enie_polakierowanej_powierzchni_kapelusza:
+	query "[BCzy powierzchnia kapelusza sprawia wra¿enie polakierowanej?"
+	picture "grzyb11.bmp";
+   matowa_powierzchnia_kapelusza:
+	query "[BCzy powierzchnia skórki kapelusza jest matowa?"
+	picture "grzyb22.bmp";
+   owocnik_wielowarstwowy:
+	query "[BCzy owocnik jest wielowarstwowy, z warstwami kontekstu miêdzy warstwami rurek?"
+	picture "grzyb23.bmp";
+   brzeg_owocnika_¿o³ty:
+	query "[BCzy brzeg rosn¹cego owocnika jest ¿o³ty, gruby, niekiedy bia³y?"
+	picture "grzyb21.bmp";
+ 
+ // czarnobr¹zowa lak.
+   jasnobr¹zowy_kolor_mi¹¿szu:
+	query "[BCzy kolor mi¹¿szu jest jasnobr¹zowy?"
+	picture "grzyb13.bmp";
+  brzeg_owocnika_bia³y:
+	query "[BCzy brzeg rosn¹cego owocnika jest bia³y, w¹ski, cienki?"
+	picture "grzyb14.bmp";
+  owocnik_jednowarstwowy:
+	query "[BCzy owocnik jednowarstwowy?"
+	picture "grzyb12.bmp";         
+		    
+ end;
+
+ rules
+
+   grzyb = "lakownica sp³aszczona (Ganoderma applanatum)" if
+	br¹zowy_kolor_mi¹¿szu,
+	owocnik_wielowarstwowy,
+	matowa_powierzchnia_kapelusza,
+	brzeg_owocnika_¿o³ty,
+	obecnoœæ_trzona = "prawie zawsze obecny",
+	rozmiar_zarodników = "d³ugoœæ do 8,5",
+	siedlisko = "wystêpuje w górach i na ni¿u",
+	charakter_wystêpowania = "w lasach i siedliskach synantropijnych";
+
+   grzyb = "lakownica czarnobr¹zowa (Ganoderma carnosum)" if
+	jasnobr¹zowy_kolor_mi¹¿szu,
+	owocnik_jednowarstwowy,
+	wra¿enie_polakierowanej_powierzchni_kapelusza,
+	brzeg_owocnika_bia³y,
+	siedlisko = "gatunek górski, rzadki w terenach ni¿ej po³o¿onych",
+	charakter_wystêpowania = "w lasach i siedliskach synantropijnych";
+	
+
+ end;
+
+ control
+   setSysText( problem, "[2Klasyfikacja grzybów" );
+   setWindowPos( ask, 10, 40, 400, 300, 0 );
+   setWindowPos( picture_ask, 420, 40, 350, 300, 0 );
+
+   setWindowPos( solution, 10, 40, 400, 300, 0 );
+   setWindowPos( picture_solution, 420, 40, 350, 300, 0 );
+   setWindowPos( what_is, 10, 440, 780, 200, 0 );
+   run;
+   setAppWinTitle("KLASYFIKACJA GRZYBÓW");
+   createAppWindow;
+   vignette("Klasyfikacja grzybów","Autor: S³awomir Sokó³\nDemonstracyjna baza wiedzy\ndo klasyfikacji grzybów z gatunku lakownica",
+               "Copyright © 1990-2003 Aitech, Artificial Intelligence Laboratory, Katowice");
+   menu "problem"
+   1. "rodzaj grzybów"
+   2. "wyjœcie"
+   case 1:
+     goal( "grzyb = X" );
+     delNewFacts;
+   case 2:
+     exit;
+   end;
+ end;
+end;
+
+

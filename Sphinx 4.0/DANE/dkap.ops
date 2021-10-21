@@ -1,0 +1,2 @@
+Stanowi wczesny prototyp systemu hybrydowego, wspomagaj¹cego u¿ytkownika w ocenie sytuacji na rynku kapita³owym.
+Podstawowe funkcje realizowane przez system to prognoza w oparciu o model statystyczny i neuronowy oraz interpretacja otrzymanych wyników. Dodatkowo istniej mo¿liwoœæ obserwacji zale¿noœci ryzyko-zysk oraz b³êdu prognozy.

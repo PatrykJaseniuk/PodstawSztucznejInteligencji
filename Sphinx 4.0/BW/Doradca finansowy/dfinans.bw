@@ -1,0 +1,2982 @@
+knowledge base nazwa
+//
+//      Doradca finansowy wersja 
+//
+//   Zmienne globalne:
+//    NAZWA_FIRMY - zmienne w ktÛrej jest zapamiÍtana nazwa firmy do analizy,
+//                  gdy ≥aÒcuch jest pusty to znaczy, øe nowa analiza
+//    PLIK_INI -    nazwa pliku ini gdzie sπ zapamiÍtane dane dotyczπce analizowanej
+//                  firmy, oraz gdzie sπ dane ogÛlne.
+//    PLIK_USR -	plik z danymi o uøytkownikach (niby passwd =;-> )
+//
+//    PROGRAM  -    nazwa programu
+//
+//  Co jest w PLIK_INI:
+//    [Doradca finansowy] - kategoria g≥Ûwna w ktÛrej sπ zapamiÍtane analizowane firmy.
+//       åcieøka          - úcieøka do katalogu, w ktÛrym zapisywane sπ arkusze
+//       IloúÊFirm        -
+//       FirmaX           = Nazwa firmy X
+//
+//  Dalej sπ kategorie typu [Nazwa firmy X] a w nich:
+//
+//    Plik                - unikatowa (7) znakowa nazwa (przedrostek) plikÛw z danymi,
+//    MiesiπcPoczπtkowy   - poczπtkowy miesiπc np. 2 (luty),
+//    RokPoczπtkowy       - np. 1998,
+//    IloúÊMiesiÍcy       - ile jest miesiÍcy w arkuszu.
+//	  RentownoúÊ		  - wspÛ≥czynnik rentownoúci w % dla branøy firmy, np. 21
+//
+//  Co jest w PLIK_USR:
+//    [Doradca finansowy] - kategoria g≥Ûwna
+//       IloúÊUøytkownikÛw - liczba uøytkownikÛw systemu
+//       UsrX           - Nazwa uøytkownika X
+//
+//  Dalej sπ kategorie typu [Nazwa uøytkownika] a w nich:
+//    Has≥o               - wiadomo co
+//
+// Arkusz legendy.vts wykorzystywany jest do przechowywania definicji wykresÛw
+// uøytkownika: w komÛrce [39,1] jest liczba definicji. Potem kolejne wiersze
+// zawierajπ: tytu≥ wykresu, liczbÍ ürÛde≥ danych, okreúlenie czy grupowanie
+// miesiπcami czy kategoriami, typ wykresu, nastÍpnie lecπ arkusze ürÛd≥owe
+// (max. 10 pozycji) a po nich nr wiersza w danym arkuszu (oczywiúcie teø 10)
+
+   sources
+      zrPlyn:
+         type kb
+         file "22PFZR.ZWC";
+      zrRent :
+         type kb
+         file "22RENTZR.ZWC";
+      zrFin :
+         type kb
+         file "22FINZR.ZWC";
+      zrWarFin :
+         type kb
+         file "22WARFZR.ZWC";
+    	netFirma :
+       	 type neural_net
+ 	       file ".\\firma\\bank.npr";
+   end;
+
+   facets
+      single yes;
+
+      p≥ynnoúÊ_finansowa;
+      cykl_operacyjny;
+      snp;
+      wskaünik_p≥ynnoúci_bieøπcej;
+      wskaünik_p≥ynnoúci_szybki;
+      wskaünik_p≥ynnoúci_aktywÛw;
+      kapita≥_obrotowyD;
+      poziom_rentownoúci;
+      wsk_rentownoúci_sprzedaøy;
+      wahania_marginesu_swobody;
+      margines_swobody;
+      max_odchylenie;
+      min_odchylenie;
+      úrednia_rentownoúÊ_sprzedaøy_w_branøy;
+      finansowanie;
+      rzeczowy_majπtek_trwa≥y;
+      finansowy_majπtek_trwa≥y;
+      zobowiπzania_d≥ugoterminowe;
+      wsk_zad≥uøenia_kapita≥u;
+      udzia≥_efektu_düwigni_finansowej; 
+      wsk_poziomu_zad≥uzenia;  
+   end;
+
+ control
+
+   char NAZWA_FIRMY;
+   char NAZWA_UNIKATOWA_PLIK”W;
+   char PLIK_INI, PLIK_USR;
+
+   char PROGRAM;
+   int  TrybArk;		//tryb wyswietlania arkuszy (0 lub 1)
+   int  TrybWykresÛw;
+   int  TrybWykresÛwDefiniowanych;
+   char Uøytkownik;
+
+   int JestOtwarty;			//otwarto plik z danymi
+   int MiesiπcPoczπtkowy;	//pierwszy miesiπc z danymi w bazie
+   int RokPoczπtkowy;
+   int IloúÊMiesiÍcy;
+   int CzyDaneBy≥yZmieniane; // tzn. czy dodawano lub usuwano miesiπce
+   int PoczMiesiπc;			// poczπtek zakresu analizy - numer kolumny
+   int AktywnyMiesiπc;		// koniec zakresu analizy - numer kolumny
+							//1-wszy miesiπc -> kolumna 2.
+
+   int IleAnalizowane;		//liczba miesiÍcy analizowanych
+   int Zera[10];			//tablica zer do wype≥niania kolumn
+   float åredniaRentownoúÊ, 	//úrednia rentownoúÊ w branøy
+		MaxOdchylenie, MinOdchylenie;
+   int PokazWskazniki;		//flaga sterujπca pokazywaniem wskaünikÛw przed analizπ
+   char PLIKI_WZORC”W[8];
+   char ARKUSZ_AKTYWA, ARKUSZ_PASYWA, ARKUSZ_KOSZTY_I_STRATY,
+        ARKUSZ_PRZYCHODY_I_ZYSKI, ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE,
+        ARKUSZ_P£YNNOå∆_FINANSOWA, ARKUSZ_RENTOWNOå∆_OPERACYJNA,
+        ARKUSZ_FINANSOWANIE, 
+		LEGENDY;		//arkusz z legendami do wykresÛw
+   char ARKUSZE[8];
+   ////////////////////////////////////////////////
+   //obs≥uga wykresÛw:
+   //inicjujNazwaWykresu - otwarcie wykresu, itd.
+   //daneNazwaWykresu - wype≥nia ArkWykres danymi
+   //aktualizujNazwaWykresu - aktualizuje wykres
+   //wykNazwaWykresu - wywo≥ywane z menu
+ 
+   //arkusze pomocnicze dla wykresÛw
+   char ArkWykresW;		//wykresy z miesiπcami wierszami
+   char ArkWykresK;		//wykresy z miesiπcami kolumnami
+   //wykresy
+   int CzytajDefy;		//flaga w≥πczajπca czytanie definicji na starcie
+   char WykresFin1, WykresFin2, WykresFin3, WykresAkt, WykresPas;
+   char WykresDef[10];		//wykresy definiowane przez uøytkownika
+   int Zdefiniowane;	//liczba zdefiniowanych wykresÛw
+   int Zapisane;		//liczba zapisanych definicji
+   char Tytu≥Wykresu[10];
+   int IleèrÛde≥[10];			//liczba ürÛde≥ dla poszczegÛlnych wykresÛw definiow.
+   int KierunekWyk[10];			//miesiπce kolumnami 0 czy wierszami 1 dla wyk. def.
+   char TypDef[10];				//typ wykresu definiowanego
+   char ArkuszèrÛd≥o[10,10];	//tablica arkuszy ürÛd≥owych dla wykresÛw definiowanych
+   int DaneWykresu[10,10];		//numery wierszy dla wykresÛw def.
+   char TypWykresÛw;	//2d czy 3d
+   //poczatek danych dla poszczegÛlnych wykresÛw
+   int StartFin1, StartFin2, StartFin3, StartAkt, StartPas;
+   int StartDef[10];
+//------------------------------------------------------------------
+function dodajUøytkownika;
+//------------------------------------------------------------------
+   function info( int& IlePrÛb )
+   begin
+      IlePrÛb := IlePrÛb - 1;
+	  if( IlePrÛb > 0)
+	  begin
+	     messageBox(0,0, "Uwaga!", "B≥Ídne dane. SprÛbuj jeszcze raz.");
+	  end
+	  else
+	  begin
+	     messageBox(0,0, "Uwaga!", "PrÛba nieuprawnionego wejúcia do systemu.\n\nSystem zakoÒczy pracÍ.");
+	  end;
+   end;
+//------------------------------------------------------------------
+   function kontrolaUøytkownika(int IlePrÛb)
+   begin
+      int DLG, Odp;
+	  char Has≥o, WzÛr;
+	  while(IlePrÛb > 0)
+	  begin
+	     Uøytkownik := "";
+		 Has≥o := "";
+		 dlgCreate( DLG, "haslo.dll", "HasloDlg" );
+		 dlgBindEdit(DLG, 1000, Uøytkownik);
+		 dlgBindEdit(DLG, 1001, Has≥o);
+		 setDialogPos( DLG,0,0,0,0 );
+		 dlgExecute(DLG, Odp);
+		 if(Odp == 1) 
+		 begin 
+		    if(Uøytkownik == "")
+			begin 
+			   info( IlePrÛb );
+			   continue;
+			end;
+			getProfile(Uøytkownik, "Has≥o", WzÛr, "", PLIK_USR);
+		    if(WzÛr == "")	//takiego goúcia nie ma w bazie
+			begin 
+			   info( IlePrÛb );
+			   continue;
+			end;
+			if(Has≥o == WzÛr) begin return 1; end;
+			info( IlePrÛb );
+		 end
+		 else begin return 0; end;
+	  end;
+	  return 0;
+   end;
+//------------------------------------------------------------------
+   function czytajPoczπtkoweDane
+   begin
+       // Ustaw sta≥e globalne dla programu ...
+       PLIKI_WZORC”W[0] := "AKTYWA.VTS";
+       PLIKI_WZORC”W[1] := "PASYWA.VTS";
+       PLIKI_WZORC”W[2] := "KOSZSTR.VTS";
+       PLIKI_WZORC”W[3] := "PRZZYSKI.VTS";
+       PLIKI_WZORC”W[4] := "ZOBOWWAR.VTS";
+       PLIKI_WZORC”W[5] := "PLYNNOSC.VTS";
+       PLIKI_WZORC”W[6] := "RENTOWN.VTS";
+       PLIKI_WZORC”W[7] := "FINANS.VTS";
+
+       ARKUSZ_AKTYWA 				:= "AKTYWA";
+       ARKUSZ_PASYWA 				:= "PASYWA";
+       ARKUSZ_KOSZTY_I_STRATY 		:= "KOSZTY I STRATY";
+       ARKUSZ_PRZYCHODY_I_ZYSKI 	:= "PRZYCHODY I ZYSKI";
+       ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE := "ZOBOWI•ZANIA WARUNKOWE";
+       ARKUSZ_P£YNNOå∆_FINANSOWA := "P£YNNOå∆ FINANSOWA";
+       ARKUSZ_RENTOWNOå∆_OPERACYJNA := "RENTOWNOå∆ OPERACYJNA";
+       ARKUSZ_FINANSOWANIE := "FINANSOWANIE";
+	   ARKUSZE[0] := ARKUSZ_AKTYWA;
+	   ARKUSZE[1] := ARKUSZ_PASYWA;
+	   ARKUSZE[2] := ARKUSZ_KOSZTY_I_STRATY;
+	   ARKUSZE[3] := ARKUSZ_PRZYCHODY_I_ZYSKI;
+	   ARKUSZE[4] := ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE;
+	   ARKUSZE[5] := ARKUSZ_P£YNNOå∆_FINANSOWA;
+	   ARKUSZE[6] := ARKUSZ_RENTOWNOå∆_OPERACYJNA;
+	   ARKUSZE[7] := ARKUSZ_FINANSOWANIE;
+	   LEGENDY := "LEGENDY";
+
+       PLIK_INI := ".\\dfinans.ini";
+       PLIK_USR := ".\\usr.ini";
+	   getProfile( "Doradca finansowy", "PokazWskazniki", PokazWskazniki, 1, PLIK_INI );
+	   getProfile( "Doradca finansowy", "CzytajDefy", CzytajDefy, 1, PLIK_INI );
+	   int IleUøytkÛw;
+	   getProfile( "Doradca finansowy", "IloúÊUøytkownikÛw", IleUøytkÛw, 0, PLIK_USR );
+//  ProszÍ odkomentowaÊ dwie poniøsze linie w celu uzyskania dostÍpu do kontroli dostÍpu      
+//	   if(IleUøytkÛw == 0) begin dodajUøytkownika; end
+//	   else begin kontrolaUøytkownika(3); end;
+	   if(RETURN == 0) begin return 0; end;
+       JestOtwarty := 0;
+	   Zdefiniowane := 0;
+       NAZWA_FIRMY := "";
+       NAZWA_UNIKATOWA_PLIK”W := "";
+	   int I;
+	   for I := 0 to 9 step 1
+	   begin
+	      Zera[I] := 0;
+	   end;
+	   return 1;
+   end;
+//------------------------------------------------------------------
+   function zamknijStaleArkusze
+   begin
+	  closeSheet(ARKUSZ_AKTYWA);
+	  closeSheet(ARKUSZ_PASYWA);
+	  closeSheet(ARKUSZ_KOSZTY_I_STRATY);
+	  closeSheet(ARKUSZ_PRZYCHODY_I_ZYSKI);
+	  closeSheet(ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE);
+	  closeSheet(ARKUSZ_P£YNNOå∆_FINANSOWA);
+	  closeSheet(ARKUSZ_RENTOWNOå∆_OPERACYJNA);
+	  closeSheet(ARKUSZ_FINANSOWANIE);
+   end;
+//------------------------------------------------------------------
+   function otworzStaleArkusze
+   begin
+      openSheet( ARKUSZ_AKTYWA, PLIKI_WZORC”W[0] );
+      openSheet( ARKUSZ_PASYWA, PLIKI_WZORC”W[1] );
+      openSheet( ARKUSZ_KOSZTY_I_STRATY, PLIKI_WZORC”W[2] );
+      openSheet( ARKUSZ_PRZYCHODY_I_ZYSKI, PLIKI_WZORC”W[3] );
+      openSheet( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, PLIKI_WZORC”W[4] );
+      openSheet( ARKUSZ_P£YNNOå∆_FINANSOWA, PLIKI_WZORC”W[5] );
+      openSheet( ARKUSZ_RENTOWNOå∆_OPERACYJNA, PLIKI_WZORC”W[6] );
+      openSheet( ARKUSZ_FINANSOWANIE, PLIKI_WZORC”W[7] );
+	  openSheet(LEGENDY, "legendy.vts");
+   end;
+//------------------------------------------------------------------
+	function inicjujFin1
+	begin
+	   WykresFin1 := "Wykres Finansowanie 1";
+	   openChart(WykresFin1, "");
+	   StartFin1 := 1;
+	   char Buf;
+	   Buf := "A1:C255";
+	   linkChart2Sheet(WykresFin1, ArkWykresW, Buf, 1);
+	   setChartData(WykresFin1, "Title", "Wskaünik zad≥uøenia oraz udzia≥ efektu düwigni fin.");
+	   setChartData(WykresFin1, "Show Legend", 1);
+	   int X;
+	   X := StartFin1 + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Zad≥. ogÛlne");
+	   X := X + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Düwignia");
+	end;
+//------------------------------------------------------------------
+	function inicjujFin2
+	begin
+	   WykresFin2 := "Wykres Finansowanie 2";
+	   openChart(WykresFin2, "");
+	   StartFin2 := 4;
+	   char Buf;
+	   Buf := "D1:E255";
+	   linkChart2Sheet(WykresFin2, ArkWykresW, Buf, 1);
+	   setChartData(WykresFin2, "Title", "Wskaüniki zad≥uøenia kapita≥u");
+	   setChartData(WykresFin2, "Show Legend", 1);
+	   int X;
+	   X := StartFin2 + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Zad≥. kapita≥u");
+	end;
+//------------------------------------------------------------------
+	function inicjujFin3
+	begin
+	   WykresFin3 := "Wykres Finansowanie 3";
+	   openChart(WykresFin3, "");
+	   StartFin3 := 1;
+	   char Buf;
+	   Buf := "A1:IV4";
+	   linkChart2Sheet(WykresFin3, ArkWykresK, Buf, 1);
+	   setChartData(WykresFin3, "Title", "Majπtek trwa≥y oraz zobowiπzania d≥ugoterminowe");
+	   setChartData(WykresFin3, "Show Legend", 1);
+	   int X;
+	   X := StartFin3 + 1;
+	   setSheetValue(ArkWykresK, "", X, 1, "Rzeczowy m.t.");
+	   X := X + 1;
+	   setSheetValue(ArkWykresK, "", X, 1, "Finansowy m.t.");
+	   X := X + 1;
+	   setSheetValue(ArkWykresK, "", X, 1, "Zobowiπz.");
+	end;
+//------------------------------------------------------------------
+	function inicjujAkt
+	begin
+	   WykresAkt := "Wykres Aktywa";
+	   openChart(WykresAkt, "");
+	   StartAkt := 6;
+	   char Buf;
+	   Buf := "F1:I255";
+	   linkChart2Sheet(WykresAkt, ArkWykresW, Buf, 1);
+	   setChartData(WykresAkt, "Title", "Aktywa");
+	   setChartData(WykresAkt, "Show Legend", 1);
+	   int X;
+	   X := StartAkt + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Majπtek trwa≥y");
+	   X := X + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Majπtek obrotowy");
+	   X := X + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "R.M.C");
+ 	end;
+//------------------------------------------------------------------
+	function inicjujPas
+	begin
+	   WykresPas := "Wykres Pasywa";
+	   openChart(WykresPas, "");
+	   StartPas := 10;
+	   char Buf;
+	   Buf := "J1:O255";
+	   linkChart2Sheet(WykresPas, ArkWykresW, Buf, 1);
+	   setChartData(WykresPas, "Title", "Pasywa");
+	   setChartData(WykresPas, "Show Legend", 1);
+	   int X;
+	   X := StartPas + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Kapita≥ w≥asny");
+	   X := X + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Rezerwy");
+	   X := X + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Zobow. d≥ugoterm.");
+	   X := X + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "Zobow. krÛtkoterm.");
+	   X := X + 1;
+	   setSheetValue(ArkWykresW, "", 1, X, "R.M.B.");	 
+	end;
+//------------------------------------------------------------------
+   function dekoduj( int Kolumna, char &L )
+   begin
+      char KOD;
+      KOD := "";
+      if ( Kolumna < 0 )
+      begin
+          return 0;
+      end;
+      while ( Kolumna > 26 )
+      begin
+         int K;
+         K := Kolumna / 26;
+         Kolumna := Kolumna - K * 26;
+         char S, S1;
+         dekoduj( K, S1 );
+         strcat( KOD, S1 );
+      end;
+      char L1;
+	  L1 := "";
+      if ( Kolumna == 1 ) begin L1 := "A"; end;
+      if ( Kolumna == 2 ) begin L1 := "B"; end;
+      if ( Kolumna == 3 ) begin L1 := "C"; end;
+      if ( Kolumna == 4 ) begin L1 := "D"; end;
+      if ( Kolumna == 5 ) begin L1 := "E"; end;
+      if ( Kolumna == 6 ) begin L1 := "F"; end;
+      if ( Kolumna == 7 ) begin L1 := "G"; end;
+      if ( Kolumna == 8 ) begin L1 := "H"; end;
+      if ( Kolumna == 9 ) begin L1 := "I"; end;
+      if ( Kolumna == 10 ) begin L1 := "J"; end;
+      if ( Kolumna == 11 ) begin L1 := "K"; end;
+      if ( Kolumna == 12 ) begin L1 := "L"; end;
+      if ( Kolumna == 13 ) begin L1 := "M"; end;
+      if ( Kolumna == 14 ) begin L1 := "N"; end;
+      if ( Kolumna == 15 ) begin L1 := "O"; end;
+      if ( Kolumna == 16 ) begin L1 := "P"; end;
+      if ( Kolumna == 17 ) begin L1 := "Q"; end;
+      if ( Kolumna == 18 ) begin L1 := "R"; end;
+      if ( Kolumna == 19 ) begin L1 := "S"; end;
+      if ( Kolumna == 21 ) begin L1 := "T"; end;
+      if ( Kolumna == 22 ) begin L1 := "U"; end;
+      if ( Kolumna == 23 ) begin L1 := "W"; end;
+      if ( Kolumna == 24 ) begin L1 := "X"; end;
+      if ( Kolumna == 25 ) begin L1 := "Y"; end;
+      if ( Kolumna == 26 ) begin L1 := "Z"; end;
+      strcat( KOD, L1 );
+      L := KOD;
+      return 1;
+   end;
+//------------------------------------------------------------------
+   function zakresWiπzaniaW(int Arkusz, char& Zakres)
+   begin
+      char S1, S2;
+	  int N;
+	  N := 10 * Arkusz + 50;
+	  dekoduj(N, S1);
+	  N := N + 9;
+	  dekoduj(N, S2);
+	  sprintf(Zakres, "%s1:%s255", S1, S2);
+   end;
+//------------------------------------------------------------------
+   function zakresWiπzaniaK(int Arkusz, char& Zakres)
+   begin
+	  int N, M;
+	  N := Arkusz * 10 + 50;
+	  M := N + 9;
+	  sprintf(Zakres, "A%d:IV%d", N, M);
+   end;
+//------------------------------------------------------------------
+   function typWykresu(char Wykres, char Rodzaj)
+   begin
+     char Typ;
+	 Typ := TypWykresÛw;
+        strcat(Typ, " "); 
+	 strcat(Typ, Rodzaj);
+	 setChartData(Wykres, "Chart Type", Typ); 
+   end;
+//------------------------------------------------------------------
+   function tekstLegendy(char ArkèrÛd≥o, int NrWiersza, char& T)
+   begin
+	 int I, J, X;
+	 J := NrWiersza - 1;
+	 for I := 0 to 7 step 1
+	 begin
+	    if(ArkèrÛd≥o == ARKUSZE[I]) 
+		begin 
+		  X := I + 1;
+		  getSheetValue(LEGENDY, "", J, X, T); 
+		end;
+	 end;
+   end;
+//------------------------------------------------------------------
+   function okreúlLegendÍ(int Wykres)
+   begin
+   	  char T;
+	  int I, X, J;
+	  X := IleèrÛde≥[Wykres] - 1;
+	  if(KierunekWyk[Wykres] == 1)
+	  begin
+	    for I := 0 to X step 1
+		begin 
+		  J := I + StartDef[Wykres] + 1;
+		  tekstLegendy(ArkuszèrÛd≥o[Wykres,I], DaneWykresu[Wykres,I], T);
+		  setSheetValue(ArkWykresW, "", 1, J, T);
+		end;
+	  end
+	  else 
+	  begin 
+	    for I := 0 to X step 1
+		begin 
+		  J := I + StartDef[Wykres] + 1;
+		  tekstLegendy(ArkuszèrÛd≥o[Wykres,I], DaneWykresu[Wykres,I], T);
+		  setSheetValue(ArkWykresK, "", J, 1, T);
+		end;
+	  end;
+   end;
+//------------------------------------------------------------------
+   function parametryWykresu(int Wykres)
+   begin
+	  StartDef[Wykres] := Wykres * 10 + 50;
+ 	  char Buf;
+	  if(KierunekWyk[Wykres] == 0) begin
+	     zakresWiπzaniaK(Wykres, Buf);
+		 linkChart2Sheet(WykresDef[Wykres], ArkWykresK, Buf, 1);
+	  end
+	  else  begin
+	     zakresWiπzaniaW(Wykres, Buf);
+		 linkChart2Sheet(WykresDef[Wykres], ArkWykresW, Buf, 1);
+	  end;
+	  setChartData(WykresDef[Wykres], "Title", Tytu≥Wykresu[Wykres]);
+	  typWykresu(WykresDef[Wykres], TypDef[Wykres]);
+	  okreúlLegendÍ(Wykres);
+  end;
+//------------------------------------------------------------------
+	function sprawdüNazwÍ(char Nazwa);
+//------------------------------------------------------------------
+	function czytajDefinicje
+	begin
+	   readSheet(LEGENDY, "legendy.vts");
+	   getSheetValue(LEGENDY, "", 39, 1, Zapisane);
+	   int I, J, X, Y, W, K;
+	   Y := Zdefiniowane + Zapisane;
+	   if(Y > 10) begin X := 9 - Zdefiniowane; end		//tu wstawiÊ wybieranie wykresu
+	   else begin X := Zapisane - 1; end;
+	   Y := Zdefiniowane;
+	   char Nazwa;
+	   for J := 0 to X step 1
+	   begin
+	      W := 40 + J;
+		  getSheetValue(LEGENDY, "", W, 1, Nazwa);
+		  sprawdüNazwÍ(Nazwa);
+		  if(RETURN == 1) 
+		  begin 
+		     Tytu≥Wykresu[Y] := Nazwa;
+			 getSheetValue(LEGENDY, "", W, 2, IleèrÛde≥[Y]);
+			 getSheetValue(LEGENDY, "", W, 3, KierunekWyk[Y]);
+			 getSheetValue(LEGENDY, "", W, 4, TypDef[Y]);
+			 for I := 0 to IleèrÛde≥[Y] step 1
+			 begin
+			    K := 5 + I;
+				getSheetValue(LEGENDY, "", W, K, ArkuszèrÛd≥o[Y, I]);
+				K := 15 + I;
+				getSheetValue(LEGENDY, "", W, K, DaneWykresu[Y, I]);
+			 end;
+			 parametryWykresu(Y);
+			 Y := Y + 1;
+			 Zdefiniowane := Zdefiniowane + 1;
+		  end;
+	   end;
+	end;
+//------------------------------------------------------------------
+	function inicjujDefy
+	begin
+	   int I;
+	   for I := 0 to 9 step 1
+	   begin
+		 sprintf(WykresDef[I], "Wykres Definiowany %d", I);
+	   end;
+	   for I := 0 to 9 step 1
+	   begin
+		 openChart(WykresDef[I], "");
+		 setChartData(WykresDef[I], "Show Legend", 1);
+	   end;
+	   getSheetValue(LEGENDY, "", 39, 1, Zapisane);
+	   if(CzytajDefy == 1) begin czytajDefinicje; end;
+	end;
+//------------------------------------------------------------------
+	function inicjujWykresy
+	begin
+	   //TypWykresÛw := "2d ";
+          getProfile("Doradca finansowy", "TypWykresÛw", TypWykresÛw, "2d", PLIK_INI );
+	   ArkWykresW := "Arkusz WykresÛw Wierszami";
+	   openSheet(ArkWykresW,"");
+	   ArkWykresK := "Arkusz WykresÛw Kolumnami";
+	   openSheet(ArkWykresK,"");
+	   inicjujFin1;
+	   inicjujFin2;
+	   inicjujFin3;
+	   inicjujAkt;
+	   inicjujPas;
+	   inicjujDefy;
+	end;
+//------------------------------------------------------------------
+// sprawdzenie czy moøna przeprowadziÊ analizÍ
+// zwracane kody:
+//  0 - OK
+// -1 - dostÍpny tylko 1 okres
+// -2 - prÛba analizy okresu pierwszego 
+   function moznaAnalizowac
+   begin
+      if(JestOtwarty == 0)
+	  begin
+	     messageBox(0, 0, "Uwaga!", "Nie otwarto øadnego pliku z danymi");
+		 return -1;
+	  end;
+	  if(IleAnalizowane < 2 )
+      begin
+         messageBox(0,0, "Uwaga!", "Analiza musi dotyczyÊ co najmniej dwÛch okresÛw");
+         return -2;
+      end;
+      if ( AktywnyMiesiπc == 2 )
+      begin
+         messageBox( 0,0, "Uwaga!", "Analiza nie moøe dotyczyÊ okresu pierwszego" );
+         return -3;
+	  end;
+	  return 0;
+   end;
+//------------------------------------------------------------------
+   function plynnosc
+   begin
+      moznaAnalizowac;
+	  if ( RETURN < 0 ) begin return 0; end;
+	  
+      int KOLUMNA, POPRZEDNIA;
+      KOLUMNA := AktywnyMiesiπc;
+      POPRZEDNIA := KOLUMNA - 1;
+      float WSKAZNIKI[6];
+      getSheetRange( ARKUSZ_P£YNNOå∆_FINANSOWA, "", 2, KOLUMNA, 7, KOLUMNA, WSKAZNIKI );
+	  addFact( _, wskaünik_p≥ynnoúci_bieøπcej, WSKAZNIKI[0] );      
+	  addFact( _, wskaünik_p≥ynnoúci_szybki, WSKAZNIKI[1] );
+      addFact( _, wskaünik_p≥ynnoúci_aktywÛw, WSKAZNIKI[2] );
+	  addFact( _, cykl_operacyjny, WSKAZNIKI[4] );
+	  addFact( _, snp, WSKAZNIKI[5] );
+	  float Kap;
+	  getSheetValue(ARKUSZ_P£YNNOå∆_FINANSOWA, "", 5, POPRZEDNIA, Kap );
+	  Kap := WSKAZNIKI[3] - Kap;
+	  addFact( _, kapita≥_obrotowyD, Kap );
+	  
+	  if(PokazWskazniki == 1)
+	  begin 
+	    char Tytu≥[3], NazwaPoz[6];
+		Tytu≥[0] := "Wskaüniki do analizy p≥ynnoúci";
+		Tytu≥[1] := "Wskaüniki";
+		Tytu≥[2] := " ";
+		getSheetValue(ARKUSZ_P£YNNOå∆_FINANSOWA, "", 1, KOLUMNA, Tytu≥[2]);
+		getSheetRange(ARKUSZ_P£YNNOå∆_FINANSOWA, "", 2, 1, 7, 1, NazwaPoz);
+		nsheetBox(0, 0, 6, 0, Tytu≥, NazwaPoz, WSKAZNIKI);
+		if(RETURN == 0)  begin return 0;  end;
+	  end;
+	  
+      setSysText( problem, "[B[1Ocena p≥ynnoúci finansowej" );	
+      solve( zrPlyn, "p≥ynnoúÊ_finansowa = P≥ynnoúÊ_finansowa" );
+   end;
+//------------------------------------------------------------------
+   function plynn
+   begin
+       delNewFacts;
+       solutionWin( yes );
+       plynnosc;
+   end;
+//------------------------------------------------------------------
+   function rentownosc
+   begin
+      moznaAnalizowac;
+	  if ( RETURN < 0 ) begin return 0; end;
+	  
+      float WSKAZNIKI[6];
+      int KOLUMNA, POPRZEDNIA;
+      KOLUMNA := AktywnyMiesiπc;
+      POPRZEDNIA := KOLUMNA - 1;
+
+      getSheetRange( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", 2, KOLUMNA, 4, KOLUMNA, WSKAZNIKI );
+
+      addFact( _, wsk_rentownoúci_sprzedaøy, WSKAZNIKI[0] );
+      addFact( _, margines_swobody, WSKAZNIKI[1] );
+      float Curr;
+      getSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA,"", 4, POPRZEDNIA, Curr); 
+      Curr := WSKAZNIKI[2] - Curr;
+      addFact( _, wahania_marginesu_swobody, Curr );
+      addFact( _, úrednia_rentownoúÊ_sprzedaøy_w_branøy, åredniaRentownoúÊ);
+      addFact( _, max_odchylenie, MaxOdchylenie);
+      addFact( _, min_odchylenie, MinOdchylenie);
+
+	  if(PokazWskazniki == 1)
+	  begin 
+	    char Tytu≥[3], NazwaPoz[6];
+		Tytu≥[0] := "Wskaüniki do analizy rentownoúci";
+		Tytu≥[1] := "Wskaüniki";
+		Tytu≥[2] := " ";
+		WSKAZNIKI[3] := åredniaRentownoúÊ;
+		WSKAZNIKI[4] := MaxOdchylenie;
+		WSKAZNIKI[5] := MinOdchylenie;
+		getSheetValue(ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", 1, KOLUMNA, Tytu≥[2]);
+		getSheetRange(ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", 2, 1, 4, 1, NazwaPoz);
+		NazwaPoz[3] := "åred. rent. sprzed. w branøy[%]";
+		NazwaPoz[4] := "Max. odchylenie úredniej";
+		NazwaPoz[5] := "Min. odchylenie úredniej";
+		nsheetBox(0, 0, 6, 0, Tytu≥, NazwaPoz, WSKAZNIKI);
+		if(RETURN == 0)  begin return 0;  end;
+	  end;
+	  
+	  setSysText( problem, "[B[1Ocena poziomu rentownoúci" );
+      solve( zrRent, "poziom_rentownoúci = Poziom_rentownoúci" );
+   end;
+//------------------------------------------------------------------
+   function rent
+   begin
+       delNewFacts;
+       solutionWin( yes );
+       rentownosc;
+   end;
+//------------------------------------------------------------------
+   function finansowanie
+   begin
+      moznaAnalizowac;
+	  if ( RETURN < 0 ) begin return 0; end;
+
+      float WSKAZNIKI[6];
+      int KOLUMNA, POPRZEDNIA;
+      KOLUMNA := AktywnyMiesiπc;
+      POPRZEDNIA := KOLUMNA - 1;
+
+      getSheetRange( ARKUSZ_FINANSOWANIE, "", 15, KOLUMNA, 19, KOLUMNA, WSKAZNIKI );
+      addFact( _, wsk_poziomu_zad≥uøenia, WSKAZNIKI[0] );
+      addFact( _, wsk_zad≥uøenia_kapita≥u, WSKAZNIKI[1] );
+      addFact( _, rzeczowy_majπtek_trwa≥y, WSKAZNIKI[2] );
+      addFact( _, finansowy_majπtek_trwa≥y, WSKAZNIKI[3] );
+      addFact( _, zobowiπzania_d≥ugoterminowe, WSKAZNIKI[4] );
+	  getSheetValue(ARKUSZ_FINANSOWANIE, "", 2, KOLUMNA, WSKAZNIKI[5]);
+      addFact( _, udzia≥_efektu_düwigni_finansowej, WSKAZNIKI[5] );
+	  
+	  if(PokazWskazniki == 1)
+	  begin 
+	    char Tytu≥[3], NazwaPoz[6];
+		Tytu≥[0] := "Wskaüniki do analizy finansowania";
+		Tytu≥[1] := "Wskaüniki";
+		Tytu≥[2] := " ";
+		getSheetValue(ARKUSZ_FINANSOWANIE, "", 1, KOLUMNA, Tytu≥[2]);
+		getSheetRange(ARKUSZ_FINANSOWANIE, "", 15, 1, 19, 1, NazwaPoz);
+		getSheetValue(ARKUSZ_FINANSOWANIE, "", 2, 1, NazwaPoz[5]);
+		nsheetBox(0, 0, 6, 0, Tytu≥, NazwaPoz, WSKAZNIKI);
+		if(RETURN == 0)  begin return 0;  end;
+	  end;
+	  
+      setSysText( problem, "[B[1Ocena finansowania" );	
+      solve( zrFin, "finansowanie = Finansowanie" );
+   end;
+//------------------------------------------------------------------
+   function finans
+   begin
+       delNewFacts;
+       solutionWin( yes );
+       finansowanie;
+   end;
+//------------------------------------------------------------------
+   function analiza
+   begin
+      moznaAnalizowac;
+	  if ( RETURN < 0 ) begin return 0; end;
+	  
+      delNewFacts;
+      solutionWin( no );
+      plynnosc;
+      rentownosc;
+      finansowanie;
+      solutionWin( yes );
+      setSysText( problem, "[B[1Ocena warunkÛw finansowych[0" );
+      solve( zrWarFin, "warunki_finansowe = Warunki_finansowe" );
+   end;
+//------------------------------------------------------------------
+   function pokazAktywa
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+	  	showSheet( ARKUSZ_AKTYWA, TrybArk ); 
+	  end;
+   end;
+//------------------------------------------------------------------
+   function pokazKosztyIStraty
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+      	showSheet( ARKUSZ_KOSZTY_I_STRATY, TrybArk );
+	  end;
+   end;
+//------------------------------------------------------------------
+   function pokazPasywa
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+      	showSheet( ARKUSZ_PASYWA, TrybArk );
+	  end;
+   end;
+//------------------------------------------------------------------
+   function pokazPrzychodyIZyski
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+      	showSheet( ARKUSZ_PRZYCHODY_I_ZYSKI, TrybArk );
+	  end;
+   end;
+//------------------------------------------------------------------
+   function pokazZobowiπzaniaWarunkowe
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+      	showSheet( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, TrybArk);
+	  end;
+   end;
+//------------------------------------------------------------------
+   function pokazTbl1
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+      	showSheet( ARKUSZ_P£YNNOå∆_FINANSOWA, TrybArk );
+	  end;
+   end;
+//------------------------------------------------------------------
+   function pokazTbl2
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+      	showSheet( ARKUSZ_RENTOWNOå∆_OPERACYJNA, TrybArk);
+	  end;
+   end;
+//------------------------------------------------------------------
+   function pokazTbl3
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+      	showSheet( ARKUSZ_FINANSOWANIE, TrybArk);
+	  end;
+   end;
+//------------------------------------------------------------------
+   function pokazDane
+   begin
+   	  if(JestOtwarty == 1) 
+	  begin 
+         pokazAktywa;
+       	 pokazPasywa;
+		 pokazKosztyIStraty;
+		 pokazPrzychodyIZyski;
+		 pokazZobowiπzaniaWarunkowe;
+	  end;
+   end;
+//------------------------------------------------------------------
+  function pokazAlg
+  begin
+      if(JestOtwarty == 1) 
+	  begin 
+         pokazTbl1;
+         pokazTbl2;
+         pokazTbl3;
+	  end; 
+  end;
+//------------------------------------------------------------------
+   function pokazWszystkie
+   begin
+      if(JestOtwarty == 1) 
+	  begin 
+         pokazAktywa;
+		 pokazPasywa;
+		 pokazKosztyIStraty;
+		 pokazPrzychodyIZyski;
+		 pokazZobowiπzaniaWarunkowe;
+		 pokazTbl1;
+		 pokazTbl2;
+		 pokazTbl3;
+	  end; 
+   end;
+//------------------------------------------------------------------
+   function zamknijDane
+   begin
+     closeWindow(ARKUSZ_AKTYWA);
+     closeWindow(ARKUSZ_PASYWA);
+     closeWindow(ARKUSZ_KOSZTY_I_STRATY);
+     closeWindow(ARKUSZ_PRZYCHODY_I_ZYSKI);
+     closeWindow(ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE);
+   end;
+//------------------------------------------------------------------
+   function zamknijAlg
+   begin
+     closeWindow(ARKUSZ_P£YNNOå∆_FINANSOWA);
+     closeWindow(ARKUSZ_RENTOWNOå∆_OPERACYJNA);
+     closeWindow(ARKUSZ_FINANSOWANIE);
+   end;
+//------------------------------------------------------------------
+   function  dekodujMiesiπc( int I, char &MIES, int &M )
+   begin
+       int R;
+       char S;
+
+       R := RokPoczπtkowy;
+       I := I - 2;
+       M := MiesiπcPoczπtkowy + I;
+       while ( M > 12 )
+       begin
+           M := M - 12;
+           R := R + 1;
+       end;
+       if ( M == 1 ) begin S := "StyczeÒ"; end;
+       if ( M == 2 ) begin S := "Luty"; end;
+       if ( M == 3 ) begin S := "Marzec"; end;
+       if ( M == 4 ) begin S := "KwiecieÒ"; end;
+       if ( M == 5 ) begin S := "Maj"; end;
+       if ( M == 6 ) begin S := "Czerwiec"; end;
+       if ( M == 7 ) begin S := "Lipiec"; end;
+       if ( M == 8 ) begin S := "SierpieÒ"; end;
+       if ( M == 9 ) begin S := "WrzesieÒ"; end;
+       if ( M == 10 ) begin S := "Paüdziernik"; end;
+       if ( M == 11 ) begin S := "Listopad"; end;
+       if ( M == 12 ) begin S := "GrudzieÒ"; end;
+       sprintf( MIES, "%s %d", S, R );
+   end;
+//------------------------------------------------------------------
+   function ustawFormu≥yDanych(int KOLUMNA)
+   begin
+      char C, MIES, FORMU£A;
+      int M;
+      dekoduj( KOLUMNA, C );
+      dekodujMiesiπc( KOLUMNA, MIES, M );
+
+	  // wype≥nij kolumnÍ dla AKTYW”W ......
+      setSheetValue( ARKUSZ_AKTYWA, "", 1, KOLUMNA, MIES );
+      sprintf( FORMU£A, "=%s3+%s4+%s5+%s6", C, C, C, C );
+      setSheetValue( ARKUSZ_AKTYWA, "", 2, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s8+%s9+%s11+%s12", C, C, C, C );
+      setSheetValue( ARKUSZ_AKTYWA, "", 7, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s2+%s7+%s13", C, C, C );
+      setSheetValue( ARKUSZ_AKTYWA, "", 14, KOLUMNA, FORMU£A );
+
+	  //PASYWA
+      setSheetValue( ARKUSZ_PASYWA, "",  1, KOLUMNA, MIES );
+      sprintf( FORMU£A, "=%s3+%s4+%s5+%s6+%s7+%s8+%s9", C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_PASYWA, "",  2, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s12+%s13+%s14", C, C, C );
+      setSheetValue( ARKUSZ_PASYWA, "", 11, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s16+%s26", C, C );
+      setSheetValue( ARKUSZ_PASYWA, "", 15, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s17+%s18+%s19+%s20+%s21+%s22+%s23+%s24+%s25", 
+                 C, C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_PASYWA, "", 16, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s28+%s29", C, C );
+      setSheetValue( ARKUSZ_PASYWA, "", 27, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s2+%s10+%s11+%s15+%s27", C, C, C, C, C );
+      setSheetValue( ARKUSZ_PASYWA, "", 30, KOLUMNA, FORMU£A );
+
+	  //KOSZTY
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "",  1, KOLUMNA, MIES );
+      sprintf( FORMU£A, "=%s3+%s4+%s5+%s6+%s7+%s8+%s9+%s10", C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "",  2, KOLUMNA, FORMU£A );
+      sprintf(FORMU£A, "=IF(PRZYCHODY I ZYSKI!%s2<%s2;%s2-PRZYCHODY I ZYSKI!%s2;0)", C, C, C, C );
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 11, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s13+%s14", C, C );
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 12, KOLUMNA, FORMU£A );
+      sprintf(FORMU£A, "=IF(PRZYCHODY I ZYSKI!%s2+PRZYCHODY I ZYSKI!%s8-%s2-%s12<0;%s2+%s12-PRZYCHODY I ZYSKI!%s2-PRZYCHODY I ZYSKI!%s8;0)",
+             C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 15, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s17+%s18+%s19", C, C, C );
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 16, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, 
+   "=IF((PRZYCHODY I ZYSKI!%s2+PRZYCHODY I ZYSKI!%s8+PRZYCHODY I ZYSKI!%s13-%s2-%s12-%s16)<0;%s2+%s12+%s16-PRZYCHODY I ZYSKI!%s2-PRZYCHODY I ZYSKI!%s8-PRZYCHODY I ZYSKI!%s13;0)",
+       C, C, C, C,C, C, C, C,C, C, C, C );
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 20, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, 
+   "=IF((PRZYCHODY I ZYSKI!%s2+PRZYCHODY I ZYSKI!%s8+PRZYCHODY I ZYSKI!%s13+PRZYCHODY I ZYSKI!%s19-%s2-%s12-%s16-%s21)<0;%s2+%s12+%s16+%s21-PRZYCHODY I ZYSKI!%s2-PRZYCHODY I ZYSKI!%s8-PRZYCHODY I ZYSKI!%s13-PRZYCHODY I ZYSKI!%s19;0)",
+      C, C, C, C, C, C, C, C, C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 22, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(PRZYCHODY I ZYSKI!%s20-%s22-%s23<0;%s23+%s22-PRZYCHODY I ZYSKI!%s20;0)", C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 24, KOLUMNA, FORMU£A );
+
+	  //PRZYCHODY
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  1, KOLUMNA, MIES );
+      sprintf( FORMU£A, "=%s3+%s4+%s5+%s6", C, C, C, C );
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  2, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(%s2>=KOSZTY I STRATY!%s2;%s2-KOSZTY I STRATY!%s2;0)",
+           C, C, C, C );
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  7, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s9+%s10+%s11", C, C, C );
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  8, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(%s2+%s8>=KOSZTY I STRATY!%s2+KOSZTY I STRATY!%s12;%s2+%s8-KOSZTY I STRATY!%s2-KOSZTY I STRATY!%s12;0)",
+           C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 12, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s14+%s16+%s17", C, C, C );
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 13, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF((%s2+%s8+%s13-KOSZTY I STRATY!%s2-KOSZTY I STRATY!%s12-KOSZTY I STRATY!%s16)>=0;%s2+%s8+%s13-KOSZTY I STRATY!%s2-KOSZTY I STRATY!%s12-KOSZTY I STRATY!%s16;0)",
+           C, C, C, C, C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 18, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF((%s2+%s8+%s13+%s19-KOSZTY I STRATY!%s2-KOSZTY I STRATY!%s12-KOSZTY I STRATY!%s16-KOSZTY I STRATY!%s21)>=0;%s2+%s8+%s13+%s19-KOSZTY I STRATY!%s2-KOSZTY I STRATY!%s12-KOSZTY I STRATY!%s16-KOSZTY I STRATY!%s21;0)",
+         C, C, C, C, C, C, C, C, C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 20, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=IF((%s20-KOSZTY I STRATY!%s23)>=0;%s20-KOSZTY I STRATY!%s23;0)",
+        C, C, C, C );
+      setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 21, KOLUMNA, FORMU£A );
+
+	  //ZOBOWIAZANIA
+      setSheetValue( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  1, KOLUMNA, MIES );
+      sprintf( FORMU£A, "=%s2+%s3+%s4+%s5+%s6+%s7+%s8+%s9", C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  10, KOLUMNA, FORMU£A );
+   end;
+//------------------------------------------------------------------
+   function ustawFormu≥yAlg(int KOLUMNA)
+   begin
+      char C, MIES, FORMU£A;
+      int M;
+      dekoduj( KOLUMNA, C );
+      dekodujMiesiπc( KOLUMNA, MIES, M );
+
+	  //PLYNNOSC
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  1, KOLUMNA, MIES );
+      sprintf( FORMU£A, "=IF(%s8+PASYWA!%s26=0;0;(AKTYWA!%s8+AKTYWA!%s9-AKTYWA!%s10+AKTYWA!%s11+AKTYWA!%s12)/(%s8+PASYWA!%s26))",
+         C, C, C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  2, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(%s8+PASYWA!%s26=0;0;(AKTYWA!%s9-AKTYWA!%s10+AKTYWA!%s11+AKTYWA!%s12)/(%s8+PASYWA!%s26))",
+           C, C, C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  3, KOLUMNA, FORMU£A );
+      sprintf(FORMU£A, "=IF(%s8-PASYWA!%s24=0;0;(AKTYWA!%s11+AKTYWA!%s12)/(%s8-PASYWA!%s24)*100)",
+	  			C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  4, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(PRZYCHODY I ZYSKI!%s2=0;0;((%s9-%s8-PASYWA!%s26)/PRZYCHODY I ZYSKI!%s2)*30*%d)",
+	  			C, C, C, C, C, M );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  5, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s10+%s11-%s12", C, C, C );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  6, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s5-%s6", C, C );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  7, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=PASYWA!%s16", C);
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  8, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=AKTYWA!%s7", C );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  9, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(PRZYCHODY I ZYSKI!%s2=0;0;(AKTYWA!%s8/PRZYCHODY I ZYSKI!%s2)*30*%d)",
+	  			C, C, C, M );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "", 10, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(PRZYCHODY I ZYSKI!%s2=0;0;(AKTYWA!%s9/PRZYCHODY I ZYSKI!%s2)*30*%d)",
+	  			C, C, C, M );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "", 11, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(PRZYCHODY I ZYSKI!%s2=0;0;((PASYWA!%s19+PASYWA!%s20+PASYWA!%s21+PASYWA!%s22+PASYWA!%s23+PASYWA!%s24+PASYWA!%s25)/PRZYCHODY I ZYSKI!%s2)*30*%d)",
+          C, C, C, C, C, C, C, C, C, M );
+      setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "", 12, KOLUMNA, FORMU£A );
+
+	  //RENTOWNOSC
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  1, KOLUMNA, MIES );
+      sprintf( FORMU£A, "=IF(%s6=0;0;%s5/%s6*100)", C, C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  2, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(%s7=0;0;(%s13-%s7)/%s7*100)", C, C, C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  3, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s3", C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  4, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=PRZYCHODY I ZYSKI!%s21-KOSZTY I STRATY!%s24", C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  5, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=PRZYCHODY I ZYSKI!%s2+PRZYCHODY I ZYSKI!%s8+PRZYCHODY I ZYSKI!%s9+PRZYCHODY I ZYSKI!%s19", 
+              C, C, C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  6, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(%s13=0;0;IF(ABS(%s11/%s13)=0;0;%s10/ABS(%s11/%s13)))", 
+	  		  C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  7, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=IF(%s13=0;0;%s11/%s13)", C, C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  8, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=PRZYCHODY I ZYSKI!%s2+PRZYCHODY I ZYSKI!%s8+PRZYCHODY I ZYSKI!%s9-KOSZTY I STRATY!%s2-KOSZTY I STRATY!%s12",
+           	  C, C, C, C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  9, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=KOSZTY I STRATY!%s5+KOSZTY I STRATY!%s6+KOSZTY I STRATY!%s7+KOSZTY I STRATY!%s8+KOSZTY I STRATY!%s9+KOSZTY I STRATY!%s10",
+          	  C, C, C, C, C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", 10, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=%s13-%s12", C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", 11, KOLUMNA, FORMU£A );
+      sprintf( FORMU£A, "=KOSZTY I STRATY!%s3+KOSZTY I STRATY!%s4", C, C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", 12, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=PRZYCHODY I ZYSKI!%s2", C );
+      setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", 13, KOLUMNA, FORMU£A );
+
+	  //FINANSOWANIE
+      setSheetValue( ARKUSZ_FINANSOWANIE, "",  1, KOLUMNA, MIES );
+
+      sprintf( FORMU£A, "=IF(%s4=0;0;%s3/ABS(%s4)*100)", C, C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 2, KOLUMNA, FORMU£A );
+
+      sprintf(FORMU£A, "=IF(PASYWA!%s2=0;0;(%s5/PASYWA!%s2)*(%s6-%s8)*%s9*100)",C, C, C, C, C, C);
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 3, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=(%s3+%s12)*%s13", C, C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 4, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=PASYWA!%s30-PASYWA!%s2", C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 5, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=%s7/100", C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 6, KOLUMNA, FORMU£A );
+
+      sprintf(FORMU£A, "=IF(AKTYWA!%s14=0;0;(PRZYCHODY I ZYSKI!%s2+PRZYCHODY I ZYSKI!%s8+PRZYCHODY I ZYSKI!%s13-KOSZTY I STRATY!%s2-KOSZTY I STRATY!%s12)/AKTYWA!%s14*100)",C, C, C, C, C, C, C);
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 7, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=IF(%s5=0;0;KOSZTY I STRATY!%s16/%s5)", C, C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 8, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=IF(%s11=0;0;%s10/%s11)", C, C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 9, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=PRZYCHODY I ZYSKI!%s21-KOSZTY I STRATY!%s24", C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 10, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=PRZYCHODY I ZYSKI!%s20-KOSZTY I STRATY!%s22", C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 11, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=%s7*%s9", C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 12, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=IF(%s14=0;0;%s11/%s14)", C, C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 13, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=PRZYCHODY I ZYSKI!%s18-KOSZTY I STRATY!%s20", C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 14, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=IF(PASYWA!%s30=0;0;(PASYWA!%s11+PASYWA!%s15)/PASYWA!%s30*100)",
+	           C, C, C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 15, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=IF(PASYWA!%s2=0;0;(PASYWA!%s11+PASYWA!%s15)/PASYWA!%s2)", C, C, C, C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 16, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=AKTYWA!%s4", C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 17, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=AKTYWA!%s5", C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 18, KOLUMNA, FORMU£A );
+
+      sprintf( FORMU£A, "=PASYWA!%s11", C );
+      setSheetValue( ARKUSZ_FINANSOWANIE, "", 19, KOLUMNA, FORMU£A );
+   end;
+//------------------------------------------------------------------
+   function wype≥nijKolumnÍ( int KOLUMNA, int CzyZerowaÊDane )
+   begin
+      char C, MIES, FORMU£A;
+      int M;
+      dekoduj( KOLUMNA, C );
+      dekodujMiesiπc( KOLUMNA, MIES, M );
+	  ustawFormu≥yDanych(KOLUMNA);
+	  if ( CzyZerowaÊDane == 1 )
+	  begin
+	     setSheetRange(ARKUSZ_AKTYWA, "", 3, KOLUMNA, 6, KOLUMNA, Zera);
+         setSheetRange(ARKUSZ_AKTYWA, "", 8, KOLUMNA, 13, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_PASYWA, "",  3, KOLUMNA, 10, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_PASYWA, "",  12, KOLUMNA, 14, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_PASYWA, "",  17, KOLUMNA, 26, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_PASYWA, "",  28, KOLUMNA, 29, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_KOSZTY_I_STRATY, "",  3, KOLUMNA, 10, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_KOSZTY_I_STRATY, "",  13, KOLUMNA, 14, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_KOSZTY_I_STRATY, "",  17, KOLUMNA, 19, KOLUMNA, Zera);
+		 setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 21, KOLUMNA, 0 );
+		 setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", 23, KOLUMNA, 0 );
+		 setSheetRange(ARKUSZ_PRZYCHODY_I_ZYSKI, "",  3, KOLUMNA, 6, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_PRZYCHODY_I_ZYSKI, "",  9, KOLUMNA, 11, KOLUMNA, Zera);
+		 setSheetRange(ARKUSZ_PRZYCHODY_I_ZYSKI, "",  14, KOLUMNA, 17, KOLUMNA, Zera);
+		 setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 19, KOLUMNA, 0 );
+		 setSheetRange(ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "", 2, KOLUMNA, 9, KOLUMNA, Zera);
+	  end;
+	  ustawFormu≥yAlg(KOLUMNA);
+   end;
+//------------------------------------------------------------------
+	function zakresWykresuLiniowego(char Wykres, int Cols)
+	begin
+	  setChartData(Wykres, "Rows", IleAnalizowane);
+	  setChartData(Wykres, "Cols", Cols);
+	end;
+//------------------------------------------------------------------
+	function zakresWykresu(char Wykres, int Rows)
+	begin
+	  setChartData(Wykres, "Cols", IleAnalizowane);
+	  setChartData(Wykres, "Rows", Rows);
+	end;
+//------------------------------------------------------------------
+//K - kolumna startowa w ArkWykresW
+	function miesiπceWierszami(char ArkuszèrÛd≥owy, int K)
+	begin
+	  char Miesiπce[50];
+	  getSheetRange(ArkuszèrÛd≥owy, "", 1, PoczMiesiπc, 1, AktywnyMiesiπc, Miesiπce);
+	  int X;
+	  X := IleAnalizowane + 1;
+	  setSheetRange(ArkWykresW, "", 2, K, X, K, Miesiπce);
+	end;
+//------------------------------------------------------------------
+//W - wiersz startowy w ArkWykresK
+	function miesiπceKolumnami(char ArkuszèrÛd≥owy, int W)
+	begin
+	  char Miesiπce[50];
+	  getSheetRange(ArkuszèrÛd≥owy, "", 1, PoczMiesiπc, 1, AktywnyMiesiπc, Miesiπce);
+	  int X;
+	  X := IleAnalizowane + 1;
+	  setSheetRange(ArkWykresK, "", W, 2, W, X, Miesiπce);
+	end;
+//------------------------------------------------------------------
+	function daneWykresFin1
+	begin
+	  miesiπceWierszami(ARKUSZ_FINANSOWANIE, StartFin1);
+	  int Dane[255], J, X;
+  	  J := IleAnalizowane + 1;
+	  getSheetRange(ARKUSZ_FINANSOWANIE, "", 15, PoczMiesiπc, 15, AktywnyMiesiπc, Dane);
+	  X := StartFin1 + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	  getSheetRange(ARKUSZ_FINANSOWANIE, "", 2, PoczMiesiπc, 2, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	end;
+//------------------------------------------------------------------
+	function daneWykresFin2
+	begin
+	  miesiπceWierszami(ARKUSZ_FINANSOWANIE, StartFin2);
+	  int Dane[255], I, J, X;
+	  J := IleAnalizowane + 1;
+	  getSheetRange(ARKUSZ_FINANSOWANIE, "", 16, PoczMiesiπc, 16, AktywnyMiesiπc, Dane);
+	  X := StartFin2 + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	end;
+//------------------------------------------------------------------
+	function daneWykresFin3
+	begin
+	  miesiπceKolumnami(ARKUSZ_FINANSOWANIE, StartFin3);
+	  int Dane[255], I, J, X;
+	  J := IleAnalizowane + 1;
+	  getSheetRange(ARKUSZ_FINANSOWANIE, "", 17, PoczMiesiπc, 17, AktywnyMiesiπc, Dane);
+	  X := StartFin3 + 1;
+	  setSheetRange(ArkWykresK, "", X, 2, X, J, Dane);
+	  getSheetRange(ARKUSZ_FINANSOWANIE, "", 18, PoczMiesiπc, 18, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresK, "", X, 2, X, J, Dane);
+	  getSheetRange(ARKUSZ_FINANSOWANIE, "", 19, PoczMiesiπc, 19, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresK, "", X, 2, X, J, Dane);
+	end;
+//------------------------------------------------------------------
+	function daneWykresAkt
+	begin
+	  miesiπceWierszami(ARKUSZ_AKTYWA, StartAkt);
+	  int Dane[255], I, J, X;
+	  J := IleAnalizowane + 1;
+	  getSheetRange(ARKUSZ_AKTYWA, "", 2, PoczMiesiπc, 2, AktywnyMiesiπc, Dane);
+	  X := StartAkt + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	  getSheetRange(ARKUSZ_AKTYWA, "", 7, PoczMiesiπc, 7, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	  getSheetRange(ARKUSZ_AKTYWA, "", 13, PoczMiesiπc, 13, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	end;
+//------------------------------------------------------------------
+	function daneWykresPas
+	begin
+	  miesiπceWierszami(ARKUSZ_PASYWA, StartPas);
+	  int Dane[255], I, J, X;
+	  J := IleAnalizowane + 1;
+	  getSheetRange(ARKUSZ_PASYWA, "", 2, PoczMiesiπc, 2, AktywnyMiesiπc, Dane);
+	  X := StartPas + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	  getSheetRange(ARKUSZ_PASYWA, "", 10, PoczMiesiπc, 10, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	  getSheetRange(ARKUSZ_PASYWA, "", 11, PoczMiesiπc, 11, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	  getSheetRange(ARKUSZ_PASYWA, "", 15, PoczMiesiπc, 15, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	  getSheetRange(ARKUSZ_PASYWA, "", 27, PoczMiesiπc, 27, AktywnyMiesiπc, Dane);
+	  X := X + 1;
+	  setSheetRange(ArkWykresW, "", 2, X, J, X, Dane);
+	end;
+//------------------------------------------------------------------
+	function daneWykresDef
+	begin
+	  int Dane[255], I, J, Z, L, Max, M, N;
+	  Max := Zdefiniowane - 1;
+	  for L := 0 to Max step 1
+	  begin
+	    if(KierunekWyk[L] == 1)
+		begin miesiπceWierszami(ARKUSZ_PASYWA, StartDef[L]); end
+		else begin miesiπceKolumnami(ARKUSZ_PASYWA, StartDef[L]); end;
+		J := IleAnalizowane + 1;
+		Z := IleèrÛde≥[L] - 1;
+		for M := 0 to Z step 1
+		begin
+		  getSheetRange(ArkuszèrÛd≥o[L, M], "", DaneWykresu[L, M], PoczMiesiπc, 
+		  		DaneWykresu[L, M],  AktywnyMiesiπc, Dane);
+		  N := M + StartDef[L] + 1;
+		  if(KierunekWyk[L] == 1) begin setSheetRange(ArkWykresW, "", 2, N, J, N, Dane); end
+		  else begin setSheetRange(ArkWykresK, "", N, 2, N, J, Dane); end;
+		end;
+	  end;
+	end;
+//------------------------------------------------------------------
+	function aktualizujFin1
+	begin
+	  if(IleAnalizowane < 1) begin return 0; end;
+	  zakresWykresuLiniowego(WykresFin1, 2);
+	  daneWykresFin1;
+	end;
+//------------------------------------------------------------------
+	function aktualizujFin2
+	begin
+	  if(IleAnalizowane < 1) begin return 0; end;
+	  zakresWykresuLiniowego(WykresFin2, 1);
+	  daneWykresFin2;
+	end;
+//------------------------------------------------------------------
+	function aktualizujFin3
+	begin
+	  if(IleAnalizowane < 1) begin return 0; end;
+	  zakresWykresu(WykresFin3, 3);
+	  daneWykresFin3;
+	end;
+//------------------------------------------------------------------
+	function aktualizujAkt
+	begin
+	  if(IleAnalizowane < 1) begin return 0; end;
+	  zakresWykresuLiniowego(WykresAkt, 3);
+	  daneWykresAkt;
+	end;
+//------------------------------------------------------------------
+	function aktualizujPas
+	begin
+	  if(IleAnalizowane < 1) begin return 0; end;
+	  zakresWykresuLiniowego(WykresPas, 5);
+	  daneWykresPas;
+	end;
+//------------------------------------------------------------------
+	function aktualizujDef
+	begin
+	  if(IleAnalizowane < 1) begin return 0; end;
+	  int I, X;
+	  X := Zdefiniowane - 1;
+	  for I := 0 to X step 1
+	  begin
+	     if(KierunekWyk[I] == 1)
+		 begin zakresWykresuLiniowego(WykresDef[I], IleèrÛde≥[I]); end
+		 else begin zakresWykresu(WykresDef[I], IleèrÛde≥[I]); end;
+	  end;
+	  daneWykresDef;
+	end;
+//------------------------------------------------------------------
+    function aktualizujWykresy
+	begin
+      aktualizujFin1; 
+	  aktualizujFin2;
+	  aktualizujFin3; 
+	  aktualizujAkt; 
+	  aktualizujPas; 
+	  aktualizujDef;
+	end;
+//------------------------------------------------------------------
+   function ustawPoczatek
+   begin
+      int D, M;
+      getDate(D, M, RokPoczπtkowy);
+	  char S[12];
+	  S[0] := "StyczeÒ";	  S[1] := "Luty";	  S[2] := "Marzec";
+	  S[3] := "KwiecieÒ";	  S[4] := "Maj";	  S[5] := "Czerwiec";
+	  S[6] := "Lipiec"; 	  S[7] := "SierpieÒ"; S[8] := "WrzesieÒ";
+	  S[9] := "Paüdziernik";  S[10] := "Listopad";S[11] := "GrudzieÒ";
+      int Odp;
+      slistBox(0,0, "Miesiπc poczπtkowy ", "", S, 12, Odp );
+      if ( RETURN == 0 ) begin return 0; end;
+	  MiesiπcPoczπtkowy := Odp + 1;
+      neditBox(0, 0, 0, 10000,  "Rok poczπtkowy", RokPoczπtkowy);
+	  if(RETURN == 0) begin return 0; end;
+   end;
+//------------------------------------------------------------------
+  function kopiuj
+  begin
+     char ARKUSZ;
+	 char Schowek;
+     getActiveWindow( ARKUSZ );
+     if ( ARKUSZ <> "" )
+     begin
+        int X, Y;
+        getSheetActiveCell( ARKUSZ, "", X, Y );
+        getSheetValue( ARKUSZ, "", X,Y, Schowek );
+		toClipboard(Schowek);
+     end;
+  end;
+//------------------------------------------------------------------
+  function wklej
+  begin
+     char ARKUSZ;
+	 char Schowek;
+	 fromClipboard(Schowek);
+     getActiveWindow( ARKUSZ );
+     if ( ARKUSZ <> "" )
+     begin
+        int X, Y;
+        getSheetActiveCell(ARKUSZ, "", X, Y);
+        setSheetValue(ARKUSZ, "", X,Y, Schowek);
+     end;
+  end;
+//------------------------------------------------------------------
+   function korektaZakresuAnalizy
+   begin
+   	  if(IloúÊMiesiÍcy > 0)
+	  	begin 
+		  AktywnyMiesiπc := IloúÊMiesiÍcy + 1;
+		  if(PoczMiesiπc > AktywnyMiesiπc) begin PoczMiesiπc := IloúÊMiesiÍcy; end;
+		  if(PoczMiesiπc == 0) begin PoczMiesiπc := 2; end;
+		end
+	  else
+	  	begin 
+		  AktywnyMiesiπc := 0;
+		  PoczMiesiπc := 0; 
+		end;
+	  IleAnalizowane := AktywnyMiesiπc - PoczMiesiπc + 1;
+	end;
+//------------------------------------------------------------------
+   function dodajMiesiac
+   begin      
+      if( JestOtwarty == 0 )
+	  begin
+	      messageBox(0, 0, "Uwaga!", "Nie otwarto øadnego pliku z danymi");
+		  return 0;
+	  end;
+      int I;
+	  if(IloúÊMiesiÍcy == 0)
+	  begin
+         ustawPoczatek;
+		 if(RETURN == 0) begin return 0; end;
+	  end;
+      
+      CzyDaneBy≥yZmieniane := 1;
+      IloúÊMiesiÍcy := IloúÊMiesiÍcy + 1;
+	  korektaZakresuAnalizy;
+      wype≥nijKolumnÍ( AktywnyMiesiπc, 1);
+	  aktualizujWykresy;
+   end;
+//------------------------------------------------------------------
+   function usuÒKolumnÍ( int KOLUMNA )
+   begin      
+      int X;
+
+      for X := 1 to 14 step 1
+      begin
+        setSheetValue( ARKUSZ_AKTYWA, "", X, KOLUMNA, "" );
+      end;
+
+      for X := 1 to 30 step 1
+      begin
+        setSheetValue( ARKUSZ_PASYWA, "", X, KOLUMNA, "" );
+      end;
+
+      for X := 1 to 24 step 1
+      begin
+        setSheetValue( ARKUSZ_KOSZTY_I_STRATY, "", X, KOLUMNA, "" );
+      end;
+
+      for X := 1 to 21 step 1
+      begin
+        setSheetValue( ARKUSZ_PRZYCHODY_I_ZYSKI, "", X, KOLUMNA, "" );
+      end;
+
+      for X := 1 to 10 step 1
+      begin
+        setSheetValue( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "", X, KOLUMNA, "" );
+      end;
+
+      for X := 1 to 12 step 1
+      begin
+        setSheetValue( ARKUSZ_P£YNNOå∆_FINANSOWA, "", X, KOLUMNA, "" );
+      end;
+
+      for X := 1 to 13 step 1
+      begin
+        setSheetValue( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", X, KOLUMNA, "" );
+      end;
+
+      for X := 1 to 19 step 1
+      begin
+        setSheetValue( ARKUSZ_FINANSOWANIE, "", X, KOLUMNA, "" );
+      end;
+   end;
+//------------------------------------------------------------------
+   function przepiszKomÛrkÍS( char S1, char S2, int DoW, int DoK, int ZW, int ZK )
+   begin
+      char S;
+      getSheetValue( S1, S2, ZW, ZK, S );
+      setSheetValue( S1, S2, DoW, DoK, S );
+   end;
+//------------------------------------------------------------------
+   function przepiszKomÛrkÍN( char S1, char S2, int DoW, int DoK, int ZW, int ZK )
+   begin
+      double D;
+      getSheetValue( S1, S2, ZW, ZK, D );
+      setSheetValue( S1, S2, DoW, DoK, D );
+   end;
+//------------------------------------------------------------------
+   function przepiszKolumnÍ( int Do, int Z )
+   begin
+      przepiszKomÛrkÍS( ARKUSZ_AKTYWA, "", 1, Do, 1, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 3, Do, 3, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 4, Do, 4, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 5, Do, 5, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 6, Do, 6, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 8, Do, 8, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 9, Do, 9, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 10, Do, 10, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 11, Do, 11, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 12, Do, 12, Z );
+      przepiszKomÛrkÍN( ARKUSZ_AKTYWA, "", 13, Do, 13, Z );
+
+      przepiszKomÛrkÍS( ARKUSZ_PASYWA, "",  1, Do,  1, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "",  3, Do,  3, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "",  4, Do,  4, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "",  5, Do,  5, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "",  6, Do,  6, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "",  7, Do,  7, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "",  8, Do,  8, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "",  9, Do,  9, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 10, Do, 10, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 12, Do, 12, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 13, Do, 13, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 14, Do, 14, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 17, Do, 17, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 18, Do, 18, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 19, Do, 19, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 20, Do, 20, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 21, Do, 21, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 22, Do, 22, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 23, Do, 23, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 24, Do, 24, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 25, Do, 25, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 26, Do, 26, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 28, Do, 28, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PASYWA, "", 29, Do, 29, Z );
+
+      przepiszKomÛrkÍS( ARKUSZ_KOSZTY_I_STRATY, "",  1, Do,  1, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "",  3, Do,  3, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "",  4, Do,  4, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "",  5, Do,  5, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "",  6, Do,  6, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "",  7, Do,  7, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "",  8, Do,  8, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "",  9, Do,  9, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "", 10, Do, 10, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "", 13, Do, 13, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "", 14, Do, 14, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "", 17, Do, 17, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "", 18, Do, 18, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "", 19, Do, 19, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "", 21, Do, 21, Z );
+      przepiszKomÛrkÍN( ARKUSZ_KOSZTY_I_STRATY, "", 23, Do, 23, Z );
+
+      przepiszKomÛrkÍS( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  1, Do,  1, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  3, Do,  3, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  4, Do,  4, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  5, Do,  5, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  6, Do,  6, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  9, Do,  9, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 10, Do, 10, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 11, Do, 11, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 14, Do, 14, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 15, Do, 15, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 16, Do, 16, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 17, Do, 17, Z );
+      przepiszKomÛrkÍN( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 19, Do, 19, Z );
+
+      przepiszKomÛrkÍS( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  1, Do,  1, Z );
+      przepiszKomÛrkÍN( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  2, Do,  2, Z );
+      przepiszKomÛrkÍN( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  3, Do,  3, Z );
+      przepiszKomÛrkÍN( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  4, Do,  4, Z );
+      przepiszKomÛrkÍN( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  5, Do,  5, Z );
+      przepiszKomÛrkÍN( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  6, Do,  6, Z );
+      przepiszKomÛrkÍN( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  7, Do,  7, Z );
+      przepiszKomÛrkÍN( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  8, Do,  8, Z );
+      przepiszKomÛrkÍN( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  9, Do,  9, Z );
+
+      przepiszKomÛrkÍS( ARKUSZ_P£YNNOå∆_FINANSOWA, "",  1, Do,  1, Z );
+      przepiszKomÛrkÍS( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "",  1, Do,  1, Z );
+      przepiszKomÛrkÍS( ARKUSZ_FINANSOWANIE, "",  1, Do,  1, Z );
+   end;
+//------------------------------------------------------------------
+   function usuÒPierwszyMiesiπc
+   begin
+      int KOLUMNA, Odp;
+      char MIESI•C, PYTANIE;
+      if ( IloúÊMiesiÍcy < 1 )
+      begin
+         return 0;
+      end;
+
+      KOLUMNA := 2;
+      getSheetValue( ARKUSZ_AKTYWA, "", 1, KOLUMNA, MIESI•C );
+      sprintf( PYTANIE, "Czy na pewno chcesz usunπÊ dane z kolumny %s ?", MIESI•C );
+      confirmBox( 0,0, "Uwaga !", PYTANIE, Odp );
+      if ( Odp <> 1 )
+      begin
+          return 0;
+      end;
+
+      MiesiπcPoczπtkowy := MiesiπcPoczπtkowy + 1;
+      if ( MiesiπcPoczπtkowy > 12 )
+      begin
+         MiesiπcPoczπtkowy := 1;
+         RokPoczπtkowy := RokPoczπtkowy + 1;
+      end;
+
+      CzyDaneBy≥yZmieniane := 1;
+
+      int Docelowa, èrÛd≥owa, X, Y;
+      Y := IloúÊMiesiÍcy - 2;
+      for X := 1 to IloúÊMiesiÍcy step 1 
+      begin
+         Docelowa := X + 1;
+         èrÛd≥owa := Docelowa + 1;
+         przepiszKolumnÍ( Docelowa, èrÛd≥owa );
+      end;
+      X := IloúÊMiesiÍcy + 1;
+      usuÒKolumnÍ( X );
+      IloúÊMiesiÍcy := IloúÊMiesiÍcy - 1;
+	  korektaZakresuAnalizy;
+      messageBox( 0,0, "Potwierdzenie", 
+	      "Dane zosta≥y usuniÍte z pamiÍci. Trwa≥e usuniÍcie nastπpi po zapisaniu danych." );
+	  aktualizujWykresy;
+   end;
+//------------------------------------------------------------------
+   function usuÒOstatniMiesiπc
+   begin      
+      int KOLUMNA, Odp;
+      char MIESI•C, PYTANIE;
+
+      if ( IloúÊMiesiÍcy < 1 )
+      begin
+         return 0;
+      end;
+      KOLUMNA := IloúÊMiesiÍcy + 1; 
+      getSheetValue( ARKUSZ_AKTYWA, "", 1, KOLUMNA, MIESI•C );
+      sprintf( PYTANIE, "Czy na pewno chcesz usunπÊ dane z kolumny %s ?", MIESI•C );
+      confirmBox( 0,0, "Uwaga !", PYTANIE, Odp );
+      if ( Odp <> 1 ) begin  return 1;  end;
+
+      usuÒKolumnÍ( KOLUMNA );
+      CzyDaneBy≥yZmieniane := 1;
+      IloúÊMiesiÍcy := IloúÊMiesiÍcy - 1;
+	  korektaZakresuAnalizy;
+      messageBox( 0,0, "Potwierdzenie", 
+	     "Dane zosta≥y usuniÍte z pamiÍci. Trwa≥e usuniÍcie nastπpi po zapisaniu danych." );
+	  aktualizujWykresy;
+   end;
+//------------------------------------------------------------------   
+   function wybierzKoniec
+   begin
+       char Tbl[1000];
+       int X, KOL, IDX;
+       if ( IloúÊMiesiÍcy == 0 )
+       begin
+          messageBox( 0,0, "Uwaga!", "Nie ma øadnego miesiπca do wyboru" );
+          return 0;
+       end;
+       if ( IloúÊMiesiÍcy == 1 )
+       begin
+          messageBox( 0,0, "Uwaga!", "Nie moøna analizowaÊ tylko 1 miesiπca" );
+          return 0;
+       end;
+	   int Ostatni;
+	   Ostatni := IloúÊMiesiÍcy + 1;
+       for X := 3 to Ostatni step 1
+       begin
+          IDX := X - 3;
+          getSheetValue( ARKUSZ_AKTYWA, "", 1, X, Tbl[IDX] );
+       end;
+   	   X := IloúÊMiesiÍcy - 1;
+       slistBox( 0,0, "", "Wybierz koÒcowy miesiπc analizy", Tbl, X, IDX );
+       if ( RETURN == 0 ) begin return 0; end;
+       AktywnyMiesiπc := IDX + 3;
+	   if(AktywnyMiesiπc == PoczMiesiπc) 
+	   begin 
+	     PoczMiesiπc := PoczMiesiπc - 1;
+	   end;
+	   IleAnalizowane := AktywnyMiesiπc - PoczMiesiπc + 1;
+	   aktualizujWykresy;
+   end;
+//------------------------------------------------------------------
+   function wybierzPoczπtek
+   begin
+       char Tbl[1000];
+       int X, KOL, IDX;
+       if ( IloúÊMiesiÍcy == 0 )
+       begin
+          messageBox( 0,0, "Uwaga!", "Nie ma øadnego miesiπca do wyboru" );
+          return 0;
+       end;
+       if ( IloúÊMiesiÍcy == 1 )
+       begin
+          messageBox( 0,0, "Uwaga!", "Nie moøna analizowaÊ tylko 1 miesiπca" );
+          return 0;
+       end;
+       for X := 2 to  IloúÊMiesiÍcy step 1
+       begin
+          IDX := X - 2;
+          getSheetValue( ARKUSZ_AKTYWA, "", 1, X, Tbl[IDX] );
+       end;
+	   X := IloúÊMiesiÍcy - 1;
+       slistBox( 0,0, "", "Wybierz poczπtkowy miesiπc analizy", Tbl, X, IDX );
+       if ( RETURN == 0 ) begin return 0; end;
+       PoczMiesiπc := IDX + 2;
+	   if(AktywnyMiesiπc == PoczMiesiπc) 
+	   begin 
+	     AktywnyMiesiπc := AktywnyMiesiπc + 1;
+	   end;
+	   IleAnalizowane := AktywnyMiesiπc - PoczMiesiπc + 1;
+	   aktualizujWykresy;
+   end;
+//------------------------------------------------------------------
+   function pokaøZakres
+   begin
+      if(IloúÊMiesiÍcy == 0 )
+      begin
+         messageBox( 0,0, "Uwaga!", "Nie ma øadnego miesiπca" );
+         return 0;
+      end;
+      if(IloúÊMiesiÍcy == 1 )
+      begin
+         messageBox( 0,0, "Uwaga!", "Nie moøna analizowaÊ tylko 1 miesiπca" );
+         return 0;
+      end;
+      char TXT1, TXT2, S;
+      getSheetValue( ARKUSZ_AKTYWA, "", 1, AktywnyMiesiπc, TXT1 );
+      getSheetValue( ARKUSZ_AKTYWA, "", 1, PoczMiesiπc, TXT2 );
+	  sprintf(S, "Miesiπc poczπtkowy:  %s\n\nMiesiπc koÒcowy:     %s", TXT2, TXT1);
+	  messageBox( 0,0, "Zakres analizy", S );
+   end;
+//------------------------------------------------------------------
+   function ostrzezenie(char Arkusz, char S, int W, int K, char Tekst)
+   begin 
+      char Dana, Miesiπc, Temp;
+	  getSheetValue( Arkusz, S, W, 1, Dana );
+      getSheetValue( Arkusz, S, 1, K, Miesiπc );
+      sprintf(Temp, "%s\n\n%s  %s\n%s", Tekst, Arkusz, Miesiπc, Dana );    
+      showSheet( Arkusz, 0 );
+      messageBox( 0,0, "Uwaga!", Temp );
+   end;
+//------------------------------------------------------------------
+   function checkValueD( char Arkusz, char S, int W, int K, int UjemneDopuszczalne )
+   begin
+      double D;
+      getSheetValue( Arkusz, S, W, K, D );     // pobierz jako liczbÍ
+      if ( RETURN <> 1 )
+      begin
+		ostrzezenie(Arkusz, S, W, K, "Nieprawid≥owa wartoúÊ");
+        return 0;
+      end;
+      if ( UjemneDopuszczalne == 1 )
+      begin
+          return 1;
+      end;
+      if ( D < 0 )
+      begin
+		ostrzezenie(Arkusz, S, W, K, "Oczekiwana wartoúÊ nieujemna");
+        return 0;
+      end;
+   end;
+//------------------------------------------------------------------
+   function checkFormulaResult( char Arkusz, char S, int W, int K )
+   begin
+      double D;
+      char String;
+      getSheetValue( Arkusz, S, W, K, String );     // pobierz jako ≥aÒcuch
+      int ASCII;
+      strLen( String, ASCII );
+      if ( ASCII <= 0 ) begin return 0; end;
+      ascii( String, ASCII );
+      if ( ASCII == 35 )
+      begin
+		ostrzezenie(Arkusz, S, W, K, "Nieprawid≥owy wynik formu≥y.\nSprawdü poprawnoúÊ danych");
+        return 0;
+      end;
+      return 1;
+   end;
+//------------------------------------------------------------------
+   function kontrolaDanych
+   begin
+      int X, Y;
+      if( JestOtwarty == 0 )
+	  begin
+	      messageBox(0, 0, "Uwaga!", "Nie otwarto øadnego pliku z danymi");
+		  return 0;
+	  end;
+	  if(IloúÊMiesiÍcy < 1 )
+      begin
+          messageBox( 0,0, "Uwaga!", "Brak danych" );
+          return 0;
+      end;
+      Y := IloúÊMiesiÍcy + 1;
+      for X := 2 to Y step 1
+      begin
+          int W;
+		  // arkusz AKTYWA .....
+          for W := 3 to 6 step 1
+		  begin
+		  	checkValueD( ARKUSZ_AKTYWA, "",  W, X, 0 ); 
+			if ( RETURN == 0 ) begin return 0; end;
+		  end;
+          checkValueD( ARKUSZ_AKTYWA, "",  8, X, 0 ); if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_AKTYWA, "",  9, X, 0 ); if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_AKTYWA, "", 11, X, 0 ); if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_AKTYWA, "", 12, X, 0 ); if ( RETURN == 0 ) begin return 0; end;
+
+          // arkusz PASYWA
+          for W := 3 to 10 step 1
+		  begin
+          	checkValueD( ARKUSZ_PASYWA, "",  W, X, 1 ); 
+			if ( RETURN == 0 ) begin return 0; end;
+          end;
+          for W := 12 to 14 step 1
+		  begin
+          	checkValueD( ARKUSZ_PASYWA, "", W, X, 0 ); 
+			if ( RETURN == 0 ) begin return 0; end;
+          end;
+          for W := 17 to 23 step 1
+		  begin
+          	checkValueD( ARKUSZ_PASYWA, "", W, X, 0 ); 
+			if ( RETURN == 0 ) begin return 0; end;
+          end;
+          checkValueD( ARKUSZ_PASYWA, "", 24, X, 1 ); if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PASYWA, "", 25, X, 0 ); if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PASYWA, "", 26, X, 1 ); if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PASYWA, "", 28, X, 0 ); if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PASYWA, "", 29, X, 0 ); if ( RETURN == 0 ) begin return 0; end;
+
+          // KOSZTY I STRATY
+          for W := 3 to 10 step 1
+		  begin
+          	checkValueD( ARKUSZ_KOSZTY_I_STRATY, "", W, X, 0 ); 
+			if ( RETURN == 0 ) begin return 0; end;
+          end;
+          checkValueD( ARKUSZ_KOSZTY_I_STRATY, "", 13, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_KOSZTY_I_STRATY, "", 14, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_KOSZTY_I_STRATY, "", 17, X, 0 ); 
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_KOSZTY_I_STRATY, "", 18, X, 0 ); 
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_KOSZTY_I_STRATY, "", 19, X, 0 ); 
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_KOSZTY_I_STRATY, "", 21, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_KOSZTY_I_STRATY, "", 23, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+
+
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  3, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  4, X, 1 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  5, X, 1 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  6, X, 1 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "",  9, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 10, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 11, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 14, X, 0 ); 
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 15, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 16, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 17, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+          checkValueD( ARKUSZ_PRZYCHODY_I_ZYSKI, "", 19, X, 0 );
+		  if ( RETURN == 0 ) begin return 0; end;
+
+
+          for W := 2 to 9 step 1
+		  begin
+          	checkValueD( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "",  W, X, 1 ); 
+			if ( RETURN == 0 ) begin return 0; end;
+          end;
+
+      // TERAZ CZAS NA KONTROL  ALGORYTM”W
+          for W := 2 to 12 step 1
+		  begin
+          	checkFormulaResult( ARKUSZ_P£YNNOå∆_FINANSOWA, "", W, X );
+		  	if ( RETURN == 0 ) begin return 0; end;
+		  end;
+
+          for W := 2 to 13 step 1
+		  begin
+          	checkFormulaResult( ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", W, X );
+		  	if ( RETURN == 0 ) begin return 0; end;
+		  end;
+
+          for W := 2 to 14 step 1
+		  begin
+          	checkFormulaResult( ARKUSZ_FINANSOWANIE, "", W, X );
+		  	if ( RETURN == 0 ) begin return 0; end;
+		  end;
+		  
+	//A teraz analiza semantyczna: aktywa == pasywa
+		  float Akt, Pas;
+		  getSheetValue(ARKUSZ_AKTYWA, "", 14, X, Akt);
+		  getSheetValue(ARKUSZ_PASYWA, "", 30, X, Pas);
+		  if(Akt <> Pas)
+		  begin
+		     char Miesiπc;
+		     getSheetValue( ARKUSZ_AKTYWA, "", 1, X, Miesiπc );
+			 char Tekst;
+			 sprintf(Tekst, "Suma aktywÛw nie rÛwna siÍ sumie pasywÛw\n\n%s", Miesiπc);
+		     messageBox(0, 0, "Uwaga!", Tekst);
+			 return 0;
+		  end;
+	  end;
+
+      messageBox( 0,0, "Doradca finansowy", "Wszystkie dane prawdopodobnie prawid≥owe" );   
+   end;
+//------------------------------------------------------------------
+   function noweDane
+   begin
+	  otworzStaleArkusze;
+	  IloúÊMiesiÍcy := 0; 
+	  PoczMiesiπc := 0;
+      AktywnyMiesiπc := 0;
+	  IleAnalizowane := 0; 
+      NAZWA_FIRMY := "";
+      NAZWA_UNIKATOWA_PLIK”W := "";
+	  åredniaRentownoúÊ := 0;
+	  JestOtwarty := 1;
+	  CzyDaneBy≥yZmieniane := 0;
+	  setAppWinTitle(PROGRAM);
+   end;
+//------------------------------------------------------------------
+   function przelicz
+   begin
+      int I;
+	  if(IloúÊMiesiÍcy > 0)
+	  begin
+	    getSheetValue(ARKUSZ_KOSZTY_I_STRATY, "", 3, 2, I);
+		setSheetValue(ARKUSZ_KOSZTY_I_STRATY, "", 3, 2, I);
+	    getSheetValue(ARKUSZ_PRZYCHODY_I_ZYSKI, "", 3, 2, I);
+		setSheetValue(ARKUSZ_PRZYCHODY_I_ZYSKI, "", 3, 2, I);
+		//--------????????????----------------------------
+	    getSheetValue(ARKUSZ_KOSZTY_I_STRATY, "", 3, 2, I);
+		setSheetValue(ARKUSZ_KOSZTY_I_STRATY, "", 3, 2, I);
+	    getSheetValue(ARKUSZ_PRZYCHODY_I_ZYSKI, "", 3, 2, I);
+		setSheetValue(ARKUSZ_PRZYCHODY_I_ZYSKI, "", 3, 2, I);
+	  end;
+   end;
+//------------------------------------------------------------------
+   function wybierzNazwe(char Operacja, char& Nazwa, int& Nr)
+   begin
+      char S[100];
+      int IloúÊFirm;
+      getProfile( "Doradca finansowy", "IloúÊFirm", IloúÊFirm, 0, PLIK_INI );
+      if ( IloúÊFirm == 0 ) 
+      begin
+        messageBox( 0,0, "Uwaga !", "Brak zapamiÍtanych danych" );
+        return 0;
+      end;
+	  
+	  int I;
+      for I := 1 to IloúÊFirm step 1
+      begin
+          char Kategoria, Firma;
+          sprintf( Kategoria, "Firma%d", I );
+          getProfile( "Doradca finansowy", Kategoria, Firma, "", PLIK_INI );
+          if ( Firma <> "" ) 
+          begin
+            int IDX;
+            IDX := I - 1;
+            S[IDX] := Firma;
+          end;
+      end;
+      slistBox( 0,0, Operacja, "ProszÍ wybraÊ firmÍ", S, IloúÊFirm, Nr);
+      if ( RETURN == 0 ) begin return 0; end;
+	  Nazwa := S[Nr];
+   end;
+//------------------------------------------------------------------
+   function toAscii( int I, char &S )
+   begin
+     // ????
+     if ( I == 0 ) begin S := "A"; return 1; end;
+     if ( I == 1 ) begin S := "B"; return 1; end;
+     if ( I == 2 ) begin S := "C"; return 1; end;
+     if ( I == 3 ) begin S := "D"; return 1; end;
+     if ( I == 4 ) begin S := "E"; return 1; end;
+     if ( I == 5 ) begin S := "F"; return 1; end;
+     if ( I == 6 ) begin S := "G"; return 1; end;
+     if ( I == 7 ) begin S := "H"; return 1; end;
+     if ( I == 8 ) begin S := "I"; return 1; end;
+     if ( I == 9 ) begin S := "J"; return 1; end;
+     if ( I == 10 ) begin S := "K"; return 1; end;
+     if ( I == 11 ) begin S := "L"; return 1; end;
+     if ( I == 12 ) begin S := "M"; return 1; end;
+     if ( I == 13 ) begin S := "N"; return 1; end;
+     if ( I == 14 ) begin S := "O"; return 1; end;
+     if ( I == 15 ) begin S := "P"; return 1; end;
+     if ( I == 16 ) begin S := "Q"; return 1; end;
+     if ( I == 17 ) begin S := "R"; return 1; end;
+     if ( I == 18 ) begin S := "S"; return 1; end;
+     if ( I == 19 ) begin S := "T"; return 1; end;
+     if ( I == 20 ) begin S := "U"; return 1; end;
+     if ( I == 21 ) begin S := "W"; return 1; end;
+     if ( I == 22 ) begin S := "X"; return 1; end;
+     if ( I == 23 ) begin S := "Y"; return 1; end;
+     if ( I == 24 ) begin S := "Z"; return 1; end;
+     S := "0";
+     return 1;
+   end;
+//------------------------------------------------------------------
+   function generujNazwÍ( char &UNIK_NAME )
+   begin
+        int D, M, R, I;
+        int G, Sek, SS;
+        char Temp;
+        char PATH, NAME;
+        getDate( D, M, R );
+        toAscii( M, NAME ); 
+        ntos( D, Temp );
+        strcat( NAME, Temp ); // 3 znaki ...
+        getTime( G,M,Sek,SS );
+        toAscii( G, Temp ); 
+        strcat( NAME, Temp ); // 4 znakÛw ...
+        ntos( M, Temp );
+        strcat( NAME, Temp ); // 6 znaki ...
+        I := Sek / 10;
+        Sek := Sek - (I*10);
+        toAscii( Sek, Temp );
+        strcat( NAME, Temp );
+        getProfile( "Doradca finansowy", "åcieøka", PATH, "", PLIK_INI );
+		if(PATH == "") 
+			begin UNIK_NAME := NAME; end
+		else  
+			begin sprintf(UNIK_NAME, "%s\\%s", PATH, NAME); end;
+        return 1;
+   end;
+//------------------------------------------------------------------
+   function zapiszProfil(char Plik, char Nazwa, char NazwaPlikÛw, 
+   			int Miesiπc, int Rok, 
+   			int IloúÊ, float RentownoúÊ)
+   begin
+      writeProfile(Nazwa, "Plik", NazwaPlikÛw, Plik);
+	  writeProfile(Nazwa, "MiesiπcPoczπtkowy", Miesiπc, Plik);
+      writeProfile(Nazwa, "RokPoczπtkowy", Rok, Plik);
+      writeProfile(Nazwa, "IloúÊMiesiÍcy", IloúÊ, Plik);
+	  char T;
+	  ntos(RentownoúÊ, T);
+	  writeProfile(Nazwa, "RentownoúÊ", T, Plik);
+   end;
+//------------------------------------------------------------------
+   function zapisz
+   begin
+      // 1. Zapisujemy dane do pliku .INI
+	  zapiszProfil(PLIK_INI, NAZWA_FIRMY, NAZWA_UNIKATOWA_PLIK”W, MiesiπcPoczπtkowy, 
+	  		RokPoczπtkowy, IloúÊMiesiÍcy, åredniaRentownoúÊ);
+      // 2. Teraz zapamiÍtamy pod odpowiednimi nazwami arkusze
+      char Temp;
+      sprintf( Temp, "%sa.vts", NAZWA_UNIKATOWA_PLIK”W );
+      writeSheet( ARKUSZ_AKTYWA, Temp );
+      sprintf( Temp, "%sb.vts", NAZWA_UNIKATOWA_PLIK”W );
+      writeSheet( ARKUSZ_PASYWA, Temp );
+      sprintf( Temp, "%sc.vts", NAZWA_UNIKATOWA_PLIK”W );
+      writeSheet( ARKUSZ_KOSZTY_I_STRATY, Temp );
+      sprintf( Temp, "%sd.vts", NAZWA_UNIKATOWA_PLIK”W );
+      writeSheet( ARKUSZ_PRZYCHODY_I_ZYSKI, Temp );
+      sprintf( Temp, "%se.vts", NAZWA_UNIKATOWA_PLIK”W );
+      writeSheet( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, Temp );
+	  CzyDaneBy≥yZmieniane := 0;
+	  //dopisanie do tytu≥u programu nazwy firmy
+	  char Bufor;
+	  sprintf(Bufor, "%s  - %s", PROGRAM, NAZWA_FIRMY);
+	  setAppWinTitle(Bufor);
+   end;
+//------------------------------------------------------------------
+  function zapiszJako
+  begin
+	  int LEN, EXISTS;
+	  EXISTS := 0;
+	  LEN := 0;
+	  while ( LEN == 0 )
+      begin 
+         seditBox( 0,0, "Zapis danych", "ProszÍ podaÊ nazwÍ firmy", 0, NAZWA_FIRMY);
+         if ( RETURN == 0 ) begin return 0; end;
+         
+		 // A czy przez przypadek nie ma juø takiej nazwy ?
+         getProfile( NAZWA_FIRMY, "Plik", NAZWA_UNIKATOWA_PLIK”W, "", PLIK_INI );
+         strLen( NAZWA_UNIKATOWA_PLIK”W, LEN );
+         if ( LEN > 0 ) 
+         begin
+            int Odp;
+            confirmBox(0, 0, "Uwaga !", "Podana firma juø istnieje.\nCzy jπ przykryÊ ?", Odp );
+            if ( Odp == 0 )  begin LEN := 0;     end    // zapÍtli i spyta jeszcze raz o nazwÍ 
+			else             begin EXISTS := 1;  end;
+         end 
+         else
+         begin
+            LEN := 1; // zapobiegnie zapÍtleniu ...
+         end;
+      end;
+
+      if(EXISTS == 1)
+	  begin
+	     getProfile( NAZWA_FIRMY, "Plik", NAZWA_UNIKATOWA_PLIK”W, "", PLIK_INI );
+	  end
+	  else
+	  begin
+         // nie ma jeszcze wygenerowanej nazwy plikÛw
+         generujNazwÍ( NAZWA_UNIKATOWA_PLIK”W );
+         // trzeba uaktualniÊ kategoriÍ g≥Ûwnπ o nowπ pozycjÍ
+         int IloúÊFirm;
+         getProfile( "Doradca finansowy", "IloúÊFirm", IloúÊFirm, 0, PLIK_INI );
+		 IloúÊFirm := IloúÊFirm + 1;
+         writeProfile( "Doradca finansowy", "IloúÊFirm", IloúÊFirm, PLIK_INI );
+         char Kategoria;
+         sprintf( Kategoria, "Firma%d", IloúÊFirm );
+         writeProfile( "Doradca finansowy", Kategoria, NAZWA_FIRMY, PLIK_INI );
+      end;
+	  zapisz;
+  end;
+//------------------------------------------------------------------
+   function zapiszWszystko
+   begin
+      if( NAZWA_FIRMY == "" ) begin  zapiszJako;  end
+	  else  begin  zapisz; end;
+   end;
+//------------------------------------------------------------------
+   function nowy
+   begin
+      if(CzyDaneBy≥yZmieniane == 1)
+	  begin
+	  	int Odp;
+		confirmBox(0, 0, NAZWA_FIRMY, "Czy zapisaÊ zmiany?", Odp);
+		if(Odp == 1) begin  zapiszWszystko; end;
+	  end;
+      zamknijStaleArkusze;
+	  noweDane;
+   end;
+//------------------------------------------------------------------
+   function czytajProfil(char Plik, char Nazwa, char& NazwaPlikÛw,
+   		int& Miesiπc, int& Rok, int& IloúÊ, 
+		float& RentownoúÊ)
+   begin
+      getProfile( Nazwa, "Plik", NazwaPlikÛw, "", Plik);
+      if ( NazwaPlikÛw == "" ) 
+      begin 
+	     NAZWA_FIRMY := "";
+         messageBox( 0,0, "Uwaga", "B≥πd danych - nie ma nazwy plikÛw" );
+         return 0;
+      end;
+      getProfile( Nazwa, "MiesiπcPoczπtkowy", Miesiπc, 1, Plik);
+      getProfile( Nazwa, "RokPoczπtkowy", Rok, 1998, Plik);
+      getProfile( Nazwa, "IloúÊMiesiÍcy", IloúÊ, 0, Plik);
+	  char T;
+	  getProfile( Nazwa, "RentownoúÊ", T, "", Plik);
+	  ston(T, RentownoúÊ);
+   end;
+//------------------------------------------------------------------
+   function otwÛrz
+   begin
+	  if(CzyDaneBy≥yZmieniane == 1)
+	  begin
+	  	int Odp;
+		confirmBox(0, 0, NAZWA_FIRMY, "Czy zapisaÊ zmiany?", Odp);
+		if(Odp == 1) begin  zapiszWszystko; end;
+	  end;
+      zamknijDane;
+	  zamknijAlg;
+	  int Nr;
+	  wybierzNazwe("Otwarcie danych", NAZWA_FIRMY, Nr);
+	  if(RETURN == 0) begin return 0; end;
+	  czytajProfil(PLIK_INI, NAZWA_FIRMY, NAZWA_UNIKATOWA_PLIK”W, MiesiπcPoczπtkowy, 
+	  		RokPoczπtkowy, IloúÊMiesiÍcy, åredniaRentownoúÊ);
+	  if(RETURN == 0) begin return 0; end;
+	  MaxOdchylenie := 1.1 * åredniaRentownoúÊ;
+	  MinOdchylenie := 0.9 * åredniaRentownoúÊ;
+	  PoczMiesiπc := 0;
+	  korektaZakresuAnalizy;
+      // 2. Teraz odczytujemy pod odpowiednimi nazwami arkusze
+      char Temp;
+      sprintf( Temp, "%sa.vts", NAZWA_UNIKATOWA_PLIK”W );
+      readSheet( ARKUSZ_AKTYWA, Temp );
+      sprintf( Temp, "%sb.vts", NAZWA_UNIKATOWA_PLIK”W );
+      readSheet( ARKUSZ_PASYWA, Temp );
+      sprintf( Temp, "%sc.vts", NAZWA_UNIKATOWA_PLIK”W );
+      readSheet( ARKUSZ_KOSZTY_I_STRATY, Temp );
+      sprintf( Temp, "%sd.vts", NAZWA_UNIKATOWA_PLIK”W );
+      readSheet( ARKUSZ_PRZYCHODY_I_ZYSKI, Temp );
+      sprintf( Temp, "%se.vts", NAZWA_UNIKATOWA_PLIK”W );
+      readSheet( ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, Temp );
+      readSheet( ARKUSZ_P£YNNOå∆_FINANSOWA, PLIKI_WZORC”W[5] );
+      readSheet( ARKUSZ_RENTOWNOå∆_OPERACYJNA, PLIKI_WZORC”W[6] );
+      readSheet( ARKUSZ_FINANSOWANIE, PLIKI_WZORC”W[7] );
+      int I1, I2;
+      I2 := IloúÊMiesiÍcy + 1;
+      for I1 := 2 to I2 step 1
+      begin
+		  wype≥nijKolumnÍ(I1, 0);
+		  ustawFormu≥yAlg(I1);
+      end;
+	  JestOtwarty := 1;
+	  char Bufor;
+	  sprintf(Bufor, "%s - %s", PROGRAM, NAZWA_FIRMY);
+	  setAppWinTitle(Bufor);
+	  aktualizujWykresy;
+//	  przelicz;
+   end;
+//------------------------------------------------------------------
+  function usuÒ
+  begin
+	  char Nazwa;
+	  char Plik;
+	  Plik := ".\\tmp.ini";
+	  int Nr;
+	  wybierzNazwe("Usuwanie danych", Nazwa, Nr);
+	  if(RETURN == 0) begin return 0; end;
+	  int Ile, NoweIle;
+	  char åcieøka;
+	  getProfile("Doradca finansowy", "åcieøka", åcieøka, "", PLIK_INI );
+	  writeProfile("Doradca finansowy", "åcieøka", åcieøka, Plik);
+	  getProfile( "Doradca finansowy", "PokazWskazniki", PokazWskazniki, 1, PLIK_INI);
+	  writeProfile( "Doradca finansowy", "PokazWskazniki", PokazWskazniki, Plik); 
+	  getProfile( "Doradca finansowy", "CzytajDefy", CzytajDefy, 0, PLIK_INI);
+	  writeProfile( "Doradca finansowy", "CzytajDefy", CzytajDefy, Plik); 
+	  getProfile("Doradca finansowy", "IloúÊFirm", Ile, 0, PLIK_INI );
+	  NoweIle := Ile - 1;
+	  writeProfile("Doradca finansowy", "IloúÊFirm", NoweIle, Plik);
+	  int I;
+	  char Nazwa2, Kateg;
+	  int Liczba1, Liczba2, Liczba3;
+	  float F1, F2;
+	  char Tekst;
+	  for I := 1 to Nr step 1
+	  begin
+	    sprintf(Kateg, "Firma%d", I);
+		getProfile("Doradca finansowy", Kateg, Nazwa2, "", PLIK_INI);
+		writeProfile("Doradca finansowy", Kateg, Nazwa2, Plik);
+		czytajProfil(PLIK_INI, Nazwa2, Tekst, Liczba1, Liczba2, Liczba3, F1);
+		zapiszProfil(Plik,  Nazwa2, Tekst, Liczba1, Liczba2, Liczba3, F1);
+	  end;
+	  int X, Y;
+	  X := Nr + 2;
+	  for I := X to Ile step 1
+	  begin
+	    sprintf(Kateg, "Firma%d", I);
+		getProfile("Doradca finansowy", Kateg, Nazwa2, "", PLIK_INI);
+		Y := I - 1;
+		sprintf(Kateg, "Firma%d", Y);
+		writeProfile("Doradca finansowy", Kateg, Nazwa2, Plik);
+		czytajProfil(PLIK_INI, Nazwa2, Tekst, Liczba1, Liczba2, Liczba3, F1);
+		zapiszProfil(Plik,  Nazwa2, Tekst, Liczba1, Liczba2, Liczba3, F1);
+	  end;
+	  getProfile(Nazwa, "Plik", Plik, "", PLIK_INI);
+	  char Polecenie;
+	  sprintf(Polecenie, "usun.bat %s*", Plik);
+	  system(Polecenie);
+	  if(Nazwa == NAZWA_FIRMY) begin nowy; end;
+  end;
+//------------------------------------------------------------------
+  function katalog
+  begin
+    char Buf;
+	getProfile( "Doradca finansowy", "åcieøka", Buf, "", PLIK_INI);
+	char Tekst;
+	sprintf(Tekst, "Aktualny katalog: %s", Buf);
+	seditBox(0, 0, "Katalog archiwum", Tekst, 1, Buf);
+	if(RETURN == 1)
+	begin
+	  writeProfile("Doradca finansowy", "åcieøka", Buf, PLIK_INI);
+	end;
+  end;
+//------------------------------------------------------------------
+  function w≥πczWskaüniki
+  begin
+    PokazWskazniki := 1;
+	writeProfile( "Doradca finansowy", "PokazWskazniki", PokazWskazniki, PLIK_INI );
+  end;
+//------------------------------------------------------------------
+  function wy≥πczWskaüniki  
+  begin
+    PokazWskazniki := 0;
+	writeProfile( "Doradca finansowy", "PokazWskazniki", PokazWskazniki, PLIK_INI );
+  end;
+//------------------------------------------------------------------
+  function úredniaRentownoúÊ
+  begin
+	  neditBox(0, 0, 0, 1000, "årednia rentownoúÊ w branøy [%] :", åredniaRentownoúÊ);
+	  if(RETURN == 0) begin return 0; end; //nacisnieto Anuluj
+	  MaxOdchylenie := 1.1 * åredniaRentownoúÊ;
+	  MinOdchylenie := 0.9 * åredniaRentownoúÊ;
+      if( NAZWA_FIRMY <> "" ) 
+	  begin  
+	    char T;
+		ntos(åredniaRentownoúÊ, T);
+		writeProfile(NAZWA_FIRMY, "RentownoúÊ", T, PLIK_INI);
+	  end;
+  end;
+//------------------------------------------------------------------
+  function winieta
+  begin
+    char S1, S2, S3;
+	S1 := "Doradca finansowy 4.0";
+	S2 := "\nDemonstracyjny system analizy finansowej\n\nWer. 4.0\n\ne-mail: aitech@aitech.com.pl\n\nWWW: http://www.aitech.com.pl";
+	S3 := "© 1990-2003 AITECH Artificial Intelligence Laboratory";
+	vignette(S1, S2, S3);
+  end;
+//------------------------------------------------------------------
+  function help
+  begin 
+    winHelp("dss.hlp", index, 0);
+  end;
+//------------------------------------------------------------------
+   function koniec
+   begin
+      if(CzyDaneBy≥yZmieniane == 1)
+	  begin
+	  	int Odp;
+		confirmBox(0, 0, "", "Czy zapisaÊ zmiany?", Odp);
+		if(Odp == 1) begin  zapiszWszystko; end;
+	  end;
+	  mainMenu;
+   end;
+//------------------------------------------------------------------
+   function ustawTypWykresÛw
+   begin
+	 typWykresu(WykresFin1,  "Line");
+	 typWykresu(WykresFin2, "Line");
+	 typWykresu(WykresFin3, "Horizontal Bar");
+	 typWykresu(WykresAkt, "Pie");
+	 typWykresu(WykresPas, "Pie");
+	 int I, X;
+	 X := Zdefiniowane - 1;
+	 for I := 0 to X step 1	 begin typWykresu(WykresDef[I], TypDef[I]);	 end;
+   end;
+//------------------------------------------------------------------
+// wykres zad≥uøenia ogÛlnego i düwigni -> alg. finansowanie
+   function wykFin1
+   begin
+	  if(IleAnalizowane < 1) 
+	  begin 
+	     messageBox(0,0, "Uwaga!", "Nie ma øadnego miesiπca w bazie"); 
+		 return 0; 
+	  end;
+	  typWykresu(WykresFin1, "Line");
+	  aktualizujFin1;
+	  showChart(WykresFin1, TrybWykresÛw);
+   end;
+//------------------------------------------------------------------
+// wykres zad≥uøenia kapita≥u -> alg. finansowanie
+   function wykFin2
+   begin
+	  if(IleAnalizowane < 1) 
+	  begin 
+	     messageBox(0,0, "Uwaga!", "Nie ma øadnego miesiπca w bazie"); 
+		 return 0; 
+	  end;
+	  typWykresu(WykresFin2, "Line");
+	  aktualizujFin2;
+	  showChart(WykresFin2, TrybWykresÛw);
+   end;
+//------------------------------------------------------------------
+// wykres majπtku i zobowiπzaÒ -> alg. finansowanie
+   function wykFin3
+   begin
+	  if(IleAnalizowane < 1) 
+	  begin 
+	     messageBox(0,0, "Uwaga!", "Nie ma øadnego miesiπca w bazie"); 
+		 return 0; 
+	  end;
+	  typWykresu(WykresFin3, "Horizontal Bar");
+	  aktualizujFin3;
+	  showChart(WykresFin3, TrybWykresÛw);
+   end;
+//------------------------------------------------------------------
+// wykres aktywÛw
+   function wykAkt
+   begin
+	  if(IleAnalizowane < 1) 
+	  begin 
+	     messageBox(0,0, "Uwaga!", "Nie ma øadnego miesiπca w bazie"); 
+		 return 0; 
+	  end;
+	  typWykresu(WykresAkt, "Pie");
+	  aktualizujAkt;
+	  showChart(WykresAkt, TrybWykresÛw);
+   end;
+//------------------------------------------------------------------
+// wykres pasywÛw
+   function wykPas
+   begin
+	  if(IleAnalizowane < 1) 
+	  begin 
+	     messageBox(0,0, "Uwaga!", "Nie ma øadnego miesiπca w bazie"); 
+		 return 0; 
+	  end;
+	  typWykresu(WykresPas, "Pie");
+	  aktualizujPas;
+	  showChart(WykresPas, TrybWykresÛw);
+   end;
+//------------------------------------------------------------------
+   function wykDef
+   begin
+      int Odp;
+	  if(IleAnalizowane < 1) 
+	  begin 
+	     messageBox(0,0, "Uwaga!", "Nie ma øadnego miesiπca w bazie"); 
+		 return 0; 
+	  end;
+	  if(Zdefiniowane == 0) 
+	  begin 
+	     messageBox(0, 0, "Brak zdefiniowanych wykresÛw", "Jeúli chcesz zdefiniowaÊ w≥asny wykres, wybierz polecenie Definiuj... z menu Wykresy");
+		 return 0; 
+	  end;
+	  slistBox(0,0, "Wykresy zdefiniowane przez uøytkownika", "Wybierz wykres", 
+	  		Tytu≥Wykresu,  Zdefiniowane, Odp);
+	  if ( RETURN <> 1 ) begin return 0; end;
+	  aktualizujDef;
+	  showChart(WykresDef[Odp], TrybWykresÛwDefiniowanych);
+   end;
+//------------------------------------------------------------------
+   function okreúlTypWykresu
+   begin
+     char S[7], T[7];
+	 S[0] := "Bar";	 S[1] := "Line";   	 S[2] := "Area";	 S[3] := "Step";	 
+	 S[4] := "Combination";	 S[5] := "Horizontal Bar";	 S[6] := "Pie";
+	 T[0] := "s≥upkowy"; T[1] := "liniowy"; T[2] := "powierzchniowy"; 
+	 T[3] := "krokowy"; T[4] := "≥πczony"; T[5] := "s≥upkowy poziomy"; 
+	 T[6] := "tort (ko≥owy)";
+	 int Sel;
+	 slistBox(0,0,"Definiowanie wykresu", "Wybierz typ wykresu", T, 7, Sel);
+	 if ( RETURN <> 1 ) begin return 0; end;
+	 TypDef[Zdefiniowane] := S[Sel];
+	 T[0] := "Grupowanie kategoriami"; T[1] := "Grupowanie miesiπcami";
+	 slistBox(0,0,"Definiowanie wykresu", "Wybierz uk≥ad danych", T, 2, Sel);
+	 KierunekWyk[Zdefiniowane] := Sel;
+   end;
+//------------------------------------------------------------------
+   function okreúlèrÛd≥a
+   begin
+     int I, X, Y, Odp, Nr;
+	 X := IleèrÛde≥[Zdefiniowane] - 1;
+	 char S[8], T, W[50];
+	 S[0] := "Aktywa"; S[1] := "Pasywa"; S[2] := "Koszty i straty";
+	 S[3] := "Przychody i zyski"; S[4] := "Zobowiπzania warunkowe";
+	 S[5] := "P≥ynnoúÊ finansowa"; S[6] := "RentownoúÊ operacyjna";
+	 S[7] := "Finansowanie";
+	 char ElemAkt[13], ElemPas[29], ElemKosz[23], ElemZys[20], ElemZob[9], 
+	 	ElemP[11], ElemR[12], ElemF[18];
+	 getSheetRange(ARKUSZ_AKTYWA, "", 2, 1, 14, 1, ElemAkt);
+	 getSheetRange(ARKUSZ_PASYWA, "", 2, 1, 30, 1, ElemPas);
+	 getSheetRange(ARKUSZ_KOSZTY_I_STRATY, "", 2, 1, 24, 1, ElemKosz);
+	 getSheetRange(ARKUSZ_PRZYCHODY_I_ZYSKI, "", 2, 1, 21, 1, ElemZys);
+	 getSheetRange(ARKUSZ_ZOBOWI•ZANIA_WARUNKOWE, "", 2, 1, 10, 1, ElemZob);
+	 getSheetRange(ARKUSZ_P£YNNOå∆_FINANSOWA, "", 2, 1, 12, 1, ElemP);
+	 getSheetRange(ARKUSZ_RENTOWNOå∆_OPERACYJNA, "", 2, 1, 13, 1, ElemR);
+	 getSheetRange(ARKUSZ_FINANSOWANIE, "", 2, 1, 19, 1, ElemF);
+	 for I := 0 to X step 1
+	 begin
+	    Y := I + 1;
+		sprintf(T, "Wybierz arkusz ürÛd≥owy dla elementu %d", Y);
+		slistBox(0, 0, "Definiowanie wykresu", T, S, 8, Odp);
+		if( RETURN <> 1 ) begin return 0; end;
+		ArkuszèrÛd≥o[Zdefiniowane, I] := ARKUSZE[Odp];
+		sprintf(T, "Wybierz element %d", Y);
+		if(Odp == 0)
+		begin slistBox(0, 0, "Definiowanie wykresu", T, ElemAkt, 13, Nr); end;
+		if(Odp == 1)
+		begin slistBox(0, 0, "Definiowanie wykresu", T, ElemPas, 29, Nr); end;
+		if(Odp == 2)
+		begin slistBox(0, 0, "Definiowanie wykresu", T, ElemKosz, 23, Nr); end;
+		if(Odp == 3)
+		begin slistBox(0, 0, "Definiowanie wykresu", T, ElemZys, 20, Nr); end;
+		if(Odp == 4)
+		begin slistBox(0, 0, "Definiowanie wykresu", T, ElemZob, 9, Nr); end;
+		if(Odp == 5)
+		begin slistBox(0, 0, "Definiowanie wykresu", T, ElemP, 11, Nr); end;
+		if(Odp == 6)
+		begin slistBox(0, 0, "Definiowanie wykresu", T, ElemR, 12, Nr); end;
+		if(Odp == 7)
+		begin slistBox(0, 0, "Definiowanie wykresu", T, ElemF, 18, Nr); end;
+		if( RETURN <> 1 ) begin return 0; end;
+		DaneWykresu[Zdefiniowane, I] := Nr + 2;
+		if( RETURN <> 1 ) begin return 0; end;
+	 end;
+   end;
+//------------------------------------------------------------------
+   function sprawdüZapisane(char Nazwa, int& Wiersz)
+   begin
+      int I, X;
+	  char S;
+	  for I := 1 to Zapisane step 1
+	  begin
+	     Wiersz := 39 + I;
+		 getSheetValue(LEGENDY, "", Wiersz, 1, S);
+		 if(S == Nazwa) begin return 1; end;
+	  end;
+	  Wiersz := 0;
+   end;
+//------------------------------------------------------------------
+   function zapiszDefinicjÍ
+   begin
+     int W, I, K;
+	 sprawdüZapisane(Tytu≥Wykresu[Zdefiniowane], W);
+	 if(W > 0) 
+	 begin 
+	    confirmBox(0, 0, "Zapis definicji", 
+		"Wykres o podanej nazwie zosta≥ juø wczeúniej zapisany.\nCzy nadpisaÊ definicjÍ wykresu?", I); 
+		if(I == 0) begin return 0; end;
+	 end
+	 else
+	 begin
+	    Zapisane := Zapisane + 1;
+		setSheetValue(LEGENDY, "", 39, 1, Zapisane);
+		W := 39 + Zapisane;
+	 end;
+	 setSheetValue(LEGENDY, "", W, 1, Tytu≥Wykresu[Zdefiniowane]);
+	 setSheetValue(LEGENDY, "", W, 2, IleèrÛde≥[Zdefiniowane]);
+	 setSheetValue(LEGENDY, "", W, 3, KierunekWyk[Zdefiniowane]);
+	 setSheetValue(LEGENDY, "", W, 4, TypDef[Zdefiniowane]);
+	 for I := 0 to IleèrÛde≥[Zdefiniowane] step 1
+	 begin
+	   K := 5 + I;
+	   setSheetValue(LEGENDY, "", W, K, ArkuszèrÛd≥o[Zdefiniowane, I]);
+	   K := 15 + I;
+	   setSheetValue(LEGENDY, "", W, K, DaneWykresu[Zdefiniowane, I]);
+	 end;
+	 writeSheet(LEGENDY, "legendy.vts");
+   end;
+//------------------------------------------------------------------
+// zwraca 0 jeúli jest juø zdefiniowany wykres o takiej nazwie
+   function sprawdüNazwÍ(char Nazwa)
+   begin
+      int I, X;
+	  X := Zdefiniowane - 1;
+	  for I := 0 to X step 1
+	  begin
+	     if(Tytu≥Wykresu[I] == Nazwa) begin return 0; end;
+	  end;
+	  return 1;
+   end;
+//------------------------------------------------------------------
+   function definiujWykres
+   begin
+	  if(IleAnalizowane < 1) 
+	  begin 
+	     messageBox(0,0, "Uwaga!", "Nie ma øadnego miesiπca w bazie"); 
+		 return 0; 
+	  end;
+	  if(Zdefiniowane == 10) 
+	  begin 
+	     messageBox(0,0, "Uwaga!", "Nie moøna zdefiniowaÊ wiÍcej wykresÛw"); 
+		 return 0; 
+	  end;
+	  int Dalej;
+	  Dalej := 1;
+	  while(Dalej == 1)
+	  begin
+	    seditBox(0,0,"Definiowanie wykresu","Podaj tytu≥ wykresu",0,Tytu≥Wykresu[Zdefiniowane]);
+		if(RETURN <> 1) begin return 0; end;
+		sprawdüNazwÍ(Tytu≥Wykresu[Zdefiniowane]);
+		if(RETURN == 0) 
+		begin 
+		   messageBox(0,0, "Uwaga!", "Istnieje juø wykres o takiej nazwie. Podaj innπ nazwÍ");
+		   Tytu≥Wykresu[Zdefiniowane] := "";
+		end
+		else begin Dalej := 0; end;
+	  end;
+	  okreúlTypWykresu;	  if(RETURN <> 1) begin return 0; end;
+	  neditBox(0,0, 1, 10, "Podaj liczbÍ elementÛw wykresu", IleèrÛde≥[Zdefiniowane]);
+	  if(RETURN <> 1) begin return 0; end;
+	  okreúlèrÛd≥a;	  if(RETURN <> 1) begin return 0; end;
+	  parametryWykresu(Zdefiniowane);
+	  int Odp;
+	  confirmBox(0, 0, "Definiowanie wykresu", "Czy zapisaÊ definicjÍ?", Odp);
+	  if(Odp == 1) begin zapiszDefinicjÍ; end;
+	  Zdefiniowane := Zdefiniowane + 1;
+	  aktualizujDef;
+	  int Q;
+	  Q := Zdefiniowane - 1;
+	  showChart(WykresDef[Q], TrybWykresÛwDefiniowanych);
+   end;
+//------------------------------------------------------------------
+   function usuÒDefinicjÍ
+   begin
+      int Odp, I, J, K, L, X;
+	  slistBox(0,0, "Usuwanie definicji wykresu", "Wybierz wykres", 
+	  		Tytu≥Wykresu,  Zdefiniowane, Odp);
+	  if ( RETURN <> 1 ) begin return 0; end;
+	  X := Zdefiniowane - 2;
+	  for I := Odp to X step 1
+	  begin
+	     J := I + 1;
+		 Tytu≥Wykresu[I] := Tytu≥Wykresu[J];
+		 IleèrÛde≥[I] := IleèrÛde≥[J];
+		 KierunekWyk[I] := KierunekWyk[J];
+		 TypDef[I] := TypDef[J];
+		 L := IleèrÛde≥[J] - 1;
+		 for K := 0 to L step 1
+		 begin
+		    ArkuszèrÛd≥o[I, K] := ArkuszèrÛd≥o[J, K];
+			DaneWykresu[I, K] := DaneWykresu[J, K];
+		 end;
+		 parametryWykresu(I);
+	  end;
+	  Zdefiniowane := Zdefiniowane - 1;
+	  closeWindow(WykresDef[Zdefiniowane]);
+	  aktualizujDef;
+   end;
+//------------------------------------------------------------------
+   function usuÒWszystkieDef
+   begin
+      int I, X;
+	  X := Zdefiniowane - 1;
+	  for I := 0 to X step 1
+	  begin  closeWindow(WykresDef[I]);  end;
+	  Zdefiniowane := 0;
+   end;
+//------------------------------------------------------------------
+   function typ2d
+   begin
+	 TypWykresÛw := "2d";
+        writeProfile("Doradca finansowy", "TypWykresÛw", "2d", PLIK_INI );
+	 ustawTypWykresÛw;
+   end;
+//------------------------------------------------------------------
+   function typ3d
+   begin
+	 TypWykresÛw := "3d";
+        writeProfile("Doradca finansowy", "TypWykresÛw", "3d", PLIK_INI );
+	 ustawTypWykresÛw;
+   end;
+//------------------------------------------------------------------
+   function zapiszWykres
+   begin
+     char Okno;
+     getActiveWindow(Okno);
+     if (Okno <> "")
+     begin
+       char Typ;
+       getWindowType(Okno, Typ);
+       if(Typ == "chart")
+       begin
+         writeChart(Okno, "");
+       end;
+	 end;
+   end;
+//------------------------------------------------------------------
+   function zamknijWykres
+   begin
+     char Okno;
+     getActiveWindow(Okno);
+     if (Okno <> "")
+     begin
+       char Typ;
+       getWindowType(Okno, Typ);
+       if(Typ == "chart")
+       begin
+         closeWindow(Okno);
+       end;
+	 end;
+   end;
+//------------------------------------------------------------------
+   function pokazWszystkieDaneWykresÛw
+   begin
+	  showSheet(ArkWykresW, 1);
+	  showSheet(ArkWykresK, 1);
+   end;
+//------------------------------------------------------------------
+   function zmianaHas≥a
+   begin
+      kontrolaUøytkownika(1);
+	  if(RETURN == 0) begin return 0; end;
+	  int DLG, PrÛba, Odp;
+	  char Has≥o, Has≥o2;
+	  PrÛba := 3;
+	  while(PrÛba > 0)
+	  begin
+	     Has≥o := "";
+		 Has≥o2 := "";
+		 dlgCreate( DLG, "haslo.dll", 101);
+		 dlgBindEdit(DLG, 1000, Has≥o);
+		 dlgBindEdit(DLG, 1001, Has≥o2);
+		 setDialogPos( DLG,0,0,0,0 );
+		 dlgExecute(DLG, Odp);
+		 if(Odp == 1) 
+		 begin 
+			if(Has≥o == "") begin PrÛba := PrÛba - 1; continue; end;
+			if(Has≥o == Has≥o2) 
+			begin
+			   writeProfile(Uøytkownik, "Has≥o", Has≥o, PLIK_USR);
+			   return 1;
+			end
+			else begin PrÛba := PrÛba - 1; end;
+		 end
+		 else begin return 0; end;
+	  end;
+   end;
+//------------------------------------------------------------------
+   function dodajUøytkownika
+   begin
+	  seditBox(0,0, "Nowy uøytkownik", "Podaj imiÍ", 0, Uøytkownik);
+	  if(RETURN == 0) begin return 0; end;
+      int DLG, PrÛba, Odp;
+	  char Has≥o, Has≥o2;
+	  PrÛba := 3;
+	  while(PrÛba > 0)
+	  begin
+	     Has≥o := "";
+		 Has≥o2 := "";
+		 dlgCreate( DLG, "haslo.dll", 101);
+		 dlgBindEdit(DLG, 1000, Has≥o);
+		 dlgBindEdit(DLG, 1001, Has≥o2);
+		 setDialogPos( DLG,0,0,0,0 );
+		 dlgExecute(DLG, Odp);
+		 if(Odp == 1) 
+		 begin 
+			if(Has≥o == "") 
+			begin 
+			   messageBox(0,0, "Uwaga!", "Has≥o nie moøe byÊ puste");
+			   PrÛba := PrÛba - 1; 
+			   continue; 
+			end;
+			if(Has≥o == Has≥o2) 
+			begin
+			   int IleUøytkÛw;
+			   char Kateg;
+			   getProfile( "Doradca finansowy", "IloúÊUøytkownikÛw", IleUøytkÛw, 0, PLIK_USR );
+			   IleUøytkÛw := IleUøytkÛw + 1;
+			   writeProfile( "Doradca finansowy", "IloúÊUøytkownikÛw", IleUøytkÛw, PLIK_USR );
+			   sprintf(Kateg, "Usr%d", IleUøytkÛw);
+			   writeProfile("Doradca finansowy", Kateg, Uøytkownik, PLIK_USR);
+			   writeProfile(Uøytkownik, "Has≥o", Has≥o, PLIK_USR);
+			   return 1;
+			end
+			else
+			begin 
+			   messageBox(0,0, "Uwaga!", "Has≥o siÍ nie zgadza. Wpisz ponownie.");
+			   PrÛba := PrÛba - 1; 
+			end;
+		 end
+		 else begin return 0; end;
+	  end;
+	  return 0;
+   end;
+//------------------------------------------------------------------
+   function usuÒUøytkownika
+   begin
+      int Ile, I, Nr, X, Y;
+	  getProfile("Doradca finansowy", "IloúÊUøytkownikÛw", Ile, 0, PLIK_USR);
+	  if(Ile == 0) begin messageBox(0,0, "Uwaga!", "Nie ma øadnego uøytkownika"); return 0; end;
+	  char S[50], Nazwa;
+	  for I := 1 to Ile step 1
+	  begin
+          char Kateg, Uøyt;
+          sprintf( Kateg, "Usr%d", I );
+          getProfile( "Doradca finansowy", Kateg, Uøyt, "", PLIK_USR );
+          if ( Uøyt <> "" ) 
+          begin
+            int IDX;
+            IDX := I - 1;
+            S[IDX] := Uøyt;
+          end;
+	  end;
+      slistBox(0, 0, "Usuwanie uøytkownika", "ProszÍ wybraÊ uøytkownika", S, Ile, Nr);
+      if( RETURN == 0 ) begin return 0; end;
+	  char Plik, Nazwa2;
+	  Plik := ".\\tmp.ini";
+	  X := Ile - 1;
+	  writeProfile("Doradca finansowy", "IloúÊUøytkownikÛw", X, Plik);
+	  for I := 1 to Nr step 1
+	  begin
+	    sprintf(Kateg, "Usr%d", I);
+		getProfile("Doradca finansowy", Kateg, Nazwa2, "", PLIK_USR);
+		writeProfile("Doradca finansowy", Kateg, Nazwa2, Plik);
+		getProfile(Nazwa2, "Has≥o", Kateg, "", PLIK_USR);
+		writeProfile(Nazwa2, "Has≥o", Kateg, Plik);
+	  end;
+	  X := Nr + 2;
+	  for I := X to Ile step 1
+	  begin
+	    sprintf(Kateg, "Usr%d", I);
+		getProfile("Doradca finansowy", Kateg, Nazwa2, "", PLIK_USR);
+		Y := I - 1;
+		sprintf(Kateg, "Usr%d", Y);
+		writeProfile("Doradca finansowy", Kateg, Nazwa2, Plik);
+		getProfile(Nazwa2, "Has≥o", Kateg, "", PLIK_USR);
+		writeProfile(Nazwa2, "Has≥o", Kateg, Plik);
+	  end;
+	  system("usunusr.bat");
+   end;
+//------------------------------------------------------------------
+   function w≥πczCzytanieDef
+   begin
+	   writeProfile("Doradca finansowy", "CzytajDefy", 1, PLIK_INI);
+   end;
+//------------------------------------------------------------------
+   function wy≥πczCzytanieDef
+   begin
+	   writeProfile("Doradca finansowy", "CzytajDefy", 0, PLIK_INI);
+   end;
+//------------------------------------------------------------------
+
+//------------------------------------------------------------------
+   function monitoringFinansowy
+   begin
+     moznaAnalizowac;
+	  if ( RETURN < 0 ) begin return 0; end;
+
+     int KOLUMNA, POPRZEDNIA;
+     KOLUMNA := AktywnyMiesiπc;
+     POPRZEDNIA := KOLUMNA - 1;
+     float WSKAZNIKI[6];
+     getSheetRange( ARKUSZ_P£YNNOå∆_FINANSOWA, "", 2, KOLUMNA, 7, KOLUMNA, WSKAZNIKI );
+     float Kap;
+     getSheetValue(ARKUSZ_P£YNNOå∆_FINANSOWA, "", 5, POPRZEDNIA, Kap );
+     Kap := WSKAZNIKI[3] - Kap;
+
+     if(PokazWskazniki == 1)
+	  begin
+	      char Tytu≥[3], NazwaPoz[6];
+		   Tytu≥[0] := "Wskaüniki do analizy p≥ynnoúci";
+		   Tytu≥[1] := "Wskaüniki";
+		   Tytu≥[2] := " ";
+		   getSheetValue(ARKUSZ_P£YNNOå∆_FINANSOWA, "", 1, KOLUMNA, Tytu≥[2]);
+		   getSheetRange(ARKUSZ_P£YNNOå∆_FINANSOWA, "", 2, 1, 7, 1, NazwaPoz);
+		   nsheetBox(0, 0, 6, 0, Tytu≥, NazwaPoz, WSKAZNIKI);
+		   if(RETURN == 0)  begin return 0;  end;
+	  end;
+
+	  openChart( "Poziom zagroøenia", ".\\wykresy\\zagro.vtc" );
+	  openChart( "Poziom bezpieczeÒstwa", ".\\wykresy\\bezp.vtc" );
+
+     record NeuralNet We[6];
+	  record NeuralNet Wy[2];
+
+	  We[0].Name := "wskaünik p≥ynnoúci bieøπcej";
+	  We[0].DValue := WSKAZNIKI[0];
+     We[1].Name := "wskaünik p≥ynnoúci szybki";
+     We[1].DValue := WSKAZNIKI[1];
+	  We[2].Name := "wskaünik p≥ynnoúci aktywÛw";
+	  We[2].DValue:= WSKAZNIKI[2];
+	  We[3].Name := "cykl operacyjny";
+	  We[3].DValue := WSKAZNIKI[4];
+	  We[4].Name := "kapita≥ obrotowy";
+	  We[4].DValue := Kap;
+	  We[5].Name := "saldo úrodkÛw pieniÍønych";
+	  We[5].DValue := WSKAZNIKI[5];
+
+	  Wy[0].Name := "zagroøenie";
+     Wy[1].Name := "bezpieczeÒstwo";
+
+     initNetwork ( netFirma );
+     runNetwork ( netFirma, We, Wy );
+     delNetwork ( netFirma );
+
+     setChartData( "Poziom zagroøenia", "Rows", 1 );
+     setChartData( "Poziom zagroøenia", "Cols", 2 );
+     setChartData( "Poziom zagroøenia", "[1,1]", Wy[0].DValue );
+
+	  double X;
+     X := 1-Wy[0].DValue;
+     setChartData( "Poziom zagroøenia", "[1,2]", X);
+
+     setChartData( "Poziom bezpieczeÒstwa", "Rows", 1 );
+     setChartData( "Poziom bezpieczeÒstwa", "Cols", 2 );
+     setChartData( "Poziom bezpieczeÒstwa", "[1,1]", Wy[1].DValue );
+     double Y;
+	  Y:=1-Wy[1].DValue;
+     setChartData( "Poziom bezpieczeÒstwa", "[1,2]", Y );
+
+	  showChart("Poziom zagroøenia",0);
+	  //showWindow("Poziom zagroøenia", 3);
+	  setWindowPos("Poziom zagroøenia", 5,5, 300, 300, 0);
+	  showChart("Poziom bezpieczeÒstwa",0);
+	  //showWindow("Poziom bezpieczeÒstwa", 3);
+	  setWindowPos("Poziom bezpieczeÒstwa", 305,5, 300, 300, 0);
+  end;
+
+// G≥Ûwny program ....
+   PROGRAM := "Doradca finansowy 4.0";
+   TrybArk := 0;
+   TrybWykresÛw := 0;
+   TrybWykresÛwDefiniowanych := 1;
+   run;
+   setAppWinTitle(PROGRAM);
+   createAppWindow;
+   winieta;
+   czytajPoczπtkoweDane;
+   if(RETURN == 0) begin mainMenu; end;
+   noweDane;
+   inicjujWykresy;
+   int ID, ID1, ID2;
+   createMenu(ID);
+
+   createPopupMenu(ID1, "&Dane");
+   appendMenu(ID1, "&Nowe", nowy);
+   appendMenu(ID1, "&OtwÛrz ...", otwÛrz);
+   appendMenu(ID1, "&Zapisz", zapiszWszystko);
+   appendMenu(ID1, "Zapisz &jako...", zapiszJako);
+   appendMenu(ID1, "&UsuÒ...", usuÒ);
+   
+   appendMenu(ID1, separator, _ );
+   appendMenu(ID1, "&Koniec", koniec);
+   appendMenu(ID, menu, ID1);
+
+   createPopupMenu(ID1, "&Edycja");
+   appendMenu(ID1, "&Nowy miesiπc", dodajMiesiac);
+   appendMenu(ID1, "U&suÒ pierwszy miesiπc", usuÒPierwszyMiesiπc);
+   appendMenu(ID1, "&UsuÒ ostatni miesiπc", usuÒOstatniMiesiπc);
+   appendMenu(ID1, separator, _);
+   appendMenu(ID1, "&Kopiuj komÛrkÍ", kopiuj);
+   appendMenu(ID1, "&Wklej", wklej);
+   appendMenu(ID1, separator, _);
+   appendMenu(ID1, "Kontrola &danych", kontrolaDanych);
+   appendMenu(ID1, "&Przeliczenie", przelicz);
+   appendMenu(ID, menu, ID1);
+
+   createPopupMenu(ID1, "E&kspertyza");
+   createPopupMenu(ID2, "Zakres &analizy");
+   appendMenu(ID2, "Miesiπc &poczπtkowy", wybierzPoczπtek);
+   appendMenu(ID2, "Miesiπc &koÒcowy", wybierzKoniec);
+   appendMenu(ID1, menu, ID2);
+   appendMenu(ID1, "Pokaø &zakres analizy", pokaøZakres);
+   appendMenu(ID1, separator, _);
+   appendMenu(ID1, "Analiza &p≥ynnoúci finansowej", plynn);
+   appendMenu(ID1, "Analiza &rentownoúci", rent);
+   appendMenu(ID1, "Analiza &finansowania", finans);
+   appendMenu(ID1, "Analiza &ca≥kowita", analiza);
+   appendMenu(ID1, separator, _);
+   appendMenu(ID1, "&Monitoring finansowy", monitoringFinansowy);
+   appendMenu(ID, menu, ID1);
+   
+   createPopupMenu(ID1, "&Arkusze");
+   createPopupMenu(ID2, "&Dane");
+   appendMenu(ID2, "&Aktywa", pokazAktywa);
+   appendMenu(ID2, "&Pasywa", pokazPasywa);
+   appendMenu(ID2, "&Koszty i straty", pokazKosztyIStraty);
+   appendMenu(ID2, "Przychody i &zyski", pokazPrzychodyIZyski);
+   appendMenu(ID2, "Zobowiπzania &warunkowe", pokazZobowiπzaniaWarunkowe);
+   appendMenu(ID1, menu, ID2);
+   createPopupMenu(ID2, "&Algorytmy");
+   appendMenu(ID2, "P≥ynnoúÊ finansowa", pokazTbl1);
+   appendMenu(ID2, "RentownoúÊ operacyjna", pokazTbl2);
+   appendMenu(ID2, "Finansowanie", pokazTbl3);
+   appendMenu(ID1, menu, ID2);
+   appendMenu(ID1, separator, _);
+   appendMenu(ID1, "&Wszystkie dane", pokazDane);
+   appendMenu(ID1, "Wszystkie a&lgorytmy", pokazAlg);
+   appendMenu(ID1, "Wszystkie a&rkusze", pokazWszystkie);
+   appendMenu(ID1, separator, _);
+   appendMenu(ID1, "&Zamknij dane", zamknijDane);
+   appendMenu(ID1, "Za&mknij algorytmy", zamknijAlg);
+   appendMenu(ID, menu, ID1);
+
+   createPopupMenu(ID2, "&Finansowanie");
+   appendMenu(ID2, "Zad≥uøenie ogÛlne + Düwignia", wykFin1);
+   appendMenu(ID2, "Zad≥uøenie kapita≥u", wykFin2);
+   appendMenu(ID2, "Majπtek + Zobowiπzania", wykFin3);
+   createPopupMenu(ID1, "&Wykresy");
+   appendMenu(ID1, menu, ID2);
+   appendMenu(ID1, "&Aktywa", wykAkt);
+   appendMenu(ID1, "&Pasywa", wykPas);
+   appendMenu(ID1, "&Zdefiniowane...", wykDef);
+   appendMenu(ID1, separator, _ );
+   appendMenu(ID1, "&Definiuj...", definiujWykres);
+   appendMenu(ID1, "&UsuÒ definicjÍ...", usuÒDefinicjÍ);
+   appendMenu(ID1, "UsuÒ wszystkie", usuÒWszystkieDef);
+   appendMenu(ID1, "&Wczytaj definicje", czytajDefinicje);
+   appendMenu(ID1, separator, _ );
+   appendMenu(ID1, "Aktualizuj", aktualizujWykresy);
+   createPopupMenu(ID2, "&Typ wykresÛw");
+   appendMenu(ID2, "Dwuwymiarowe", typ2d);
+   appendMenu(ID2, "TrÛjwymiarowe", typ3d);
+   appendMenu(ID1, menu, ID2);
+   appendMenu(ID1, "&Zapisz", zapiszWykres);
+   appendMenu(ID1, "Za&mknij", zamknijWykres);
+//   appendMenu(ID1, separator, _ );
+//   appendMenu(ID1, "Pokaz wszystkie dane", pokazWszystkieDaneWykresÛw);
+   appendMenu(ID, menu, ID1);
+
+   createPopupMenu(ID1, "&Uøytkownik");
+   appendMenu(ID1, "&ZmieÒ has≥o", zmianaHas≥a);
+   appendMenu(ID1, "&Dodaj", dodajUøytkownika);
+   appendMenu(ID1, "&UsuÒ", usuÒUøytkownika);
+   appendMenu(ID, menu, ID1);
+
+   createPopupMenu(ID1, "Kon&figuracja");
+   appendMenu(ID1, "Katalog &archiwum", katalog);
+   createPopupMenu(ID2, "&Pokazywanie wskaünikÛw analizy");
+   appendMenu(ID2, "&W≥πcz", w≥πczWskaüniki);
+   appendMenu(ID2, "W&y≥πcz", wy≥πczWskaüniki);
+   appendMenu(ID1, menu, ID2);
+   createPopupMenu(ID2, "&Czytanie definicji wykresÛw");
+   appendMenu(ID2, "&W≥πcz", w≥πczCzytanieDef);
+   appendMenu(ID2, "W&y≥πcz", wy≥πczCzytanieDef);
+   appendMenu(ID1, menu, ID2);
+   appendMenu(ID1, separator, _);
+   appendMenu(ID1, "årednia &rentownoúÊ", úredniaRentownoúÊ);
+   appendMenu(ID, menu, ID1);
+
+   appendMenu(ID, menu, window);
+
+   createPopupMenu(ID1, "&Pomoc");
+   appendMenu(ID1, "Tematy pomocy", help);
+   appendMenu(ID1, separator, _);
+   appendMenu(ID1, "&O programie...", winieta);
+   appendMenu(ID, menu, ID1);
+   fullMenu(ID);
+ end;
+end;
+

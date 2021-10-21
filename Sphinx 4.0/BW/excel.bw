@@ -1,0 +1,271 @@
+knowledge base excel_test
+
+//
+//    Plik : EXCEL.BW  Ocena kredytowa w oparciu o dane z arkusza Excel.
+//                  Przyk³ad komunikacji z wykorzystania DDE.
+//    Copyright (c) 1990-2003 AITECH Artificial Intelligence Laboratory K-CE
+//
+//    Autorzy : K.Michalik, T.Kaczmarek
+//
+//    Uwagi :
+//      - Nale¿y zaktualizowaæ œcie¿kê do programu Microsoft Excel
+//        oraz do pliku zawieraj¹cego plik KREDYT.XLS
+//
+
+ sources
+    deckred :
+        type kb
+        file "deckred.zw";
+
+    profil :
+        type kb
+        file "profil.zw";
+
+    gwarancje :
+        type kb
+        file "gwaranc.zw";
+
+    sytfin :
+        type kb
+        file "sytfin.zw";
+
+ end;
+ control
+
+    char  S1, S2, S3;
+    char  Firmy[10];
+    int   Sel;
+    int ID, ID2;
+    char NazwaKomorki;
+    char IdStr;
+
+    run;    // automatycznie uruchom program po wczytaniu bazy wiedzy
+
+    // poka¿ winietê tytu³ow¹ programu :
+    S1 := "KREDYT - DDE & EXCEL";
+    S2 := "DEMONSTRACYJNY SYSTEM TABLICOWY\nDemonstracja komunikacji z programem \nMicrosoft Excel przy u¿yciu DDE\n\nKrzysztof Michalik\nTomasz Kaczmarek\n\nAITECH\nArtificial Intelligence Laboratory\nKatowice";
+    S3 := "Copyright (C)1990-2003 AITECH Artificial Intelligence Laboratory";
+    createAppWindow;
+    vignette( S1, S2, S3 );
+
+    solutionWin( no );
+
+    // Uruchom Excel'a
+    int Test;
+    int ZamknijExcela;
+    isAppRunning("Microsoft Excel", Test );
+    ZamknijExcela := 0;
+    if ( Test == 0 )
+    begin
+        system( "C:\\Program Files\\Microsoft Office\\Office\\EXCEL.EXE");
+        if ( RETURN <> 1 )
+        begin
+                messageBox( 0,0, "B³¹d", "Nie potrafiê uruchomiæ programu Microsoft Word. Proszê ewentualnie zmieniæ œcie¿kê dostêpu w pliku grzyby1.bw" );
+        end;
+        
+        ZamknijExcela := 1;
+    end;
+
+
+    // wybierz firmê do badania :
+
+    // otwórz komunikacjê z Excel'em
+    ddeConnect( ID, "Excel", "System" );
+
+    // otwórz plik ....
+    // uwaga - ewentualnie zmieniæ œcie¿kê !!!
+    char Path, Command;
+    getProfile( "Dirs", "System",Path, "C:\\Sphinx 4.0", "shel40.ini" );
+    sprintf( Command, "[OPEN(\"%s\\BW\\KREDYT.XLS\")]", Path );
+    ddeExecute( ID, Command );
+
+    // nawi¹¿ komunikacjê arkuszem Dane
+    ddeConnect( ID2, "Excel", "[kredyt.xls]Dane" );
+
+    // pobranie listy firm :
+    int I;
+    int Idx;
+    I := 1;
+    while ( 1 == 1 )
+    begin
+//       NazwaKomorki := "Nazwa";
+//       ntos( I, IdStr );
+//       strcat( NazwaKomorki, IdStr );
+
+       Idx := I + 6;
+       sprintf( NazwaKomorki, "W%dK2", Idx ); 
+       Idx := I - 1;
+//     messageBox( 0,0, NazwaKomorki, NazwaKomorki );
+       ddeRequest( ID2, NazwaKomorki, Firmy[Idx] );
+       if ( Firmy[Idx] == "" )
+       begin
+           I := Idx;
+           break;
+       end;
+       if ( I == 7 )
+       begin
+         messageBox( 0, 0, "Uwaga !", "Max dopuszczalna liczba firm do badania to 7" );
+         I := Idx;
+         break;
+       end;
+       I := I + 1;
+    end;
+
+    slistBox( 0, 0, "Lista firm ubiegajacych siê o kredyt", "Wybierz firmê :",
+              Firmy, I, Sel );
+
+    if ( RETURN == 1 )
+    begin
+
+        // pobieramy dane o wybranej firmie z arkusza :
+        char   Zabezp, Query;
+        double Zadluz;
+        double Zysk;
+        double Porow;
+        char   OsobowoscPrawna;
+        double Sprzedaz;
+
+        // Pobierz "Zabezpieczenie" :
+        NazwaKomorki := "Zabez";
+        Sel := Sel + 1; // w Excel'u nazwy od 1..N
+        ntos( Sel, IdStr );
+        strcat( NazwaKomorki, IdStr );
+        ddeRequest( ID2, NazwaKomorki, Zabezp );
+
+        // Pobierz "Zadluzenie" :
+        NazwaKomorki := "Zad³";
+        strcat( NazwaKomorki, IdStr );
+        ddeRequest( ID2, NazwaKomorki, Zadluz );
+
+        // Pobierz "Zysk" :
+        NazwaKomorki := "Zysk";
+        strcat( NazwaKomorki, IdStr );
+        ddeRequest( ID2, NazwaKomorki, Zysk );
+
+        // Pobierz "Osobowosc Prawna" :
+        NazwaKomorki := "OsPr";
+        strcat( NazwaKomorki, IdStr );
+        ddeRequest( ID2, NazwaKomorki, OsobowoscPrawna );
+
+        // Pobierz "Sprzedaz" :
+        NazwaKomorki := "Sprz";
+        strcat( NazwaKomorki, IdStr );
+        ddeRequest( ID2, NazwaKomorki, Sprzedaz );
+
+
+
+          // Analiza danych i dodawanie faktów na ich podstawie :
+
+          // Zabezpieczenie kredytu :
+          addFact( _, rodzaj_zabezpieczenia, Zabezp );
+
+          // okreslenie plynnosci finansowej i poziomu zad³u¿enia :
+          Porow := Zadluz*3;
+          if ( Zysk < Porow )
+          begin
+              if ( Zysk < Zadluz )
+              begin
+                  addFact( _, p³ynnoœæ_finansowa, "z³a" );
+                  addFact( _, poziom_zad³u¿enia, "niedopuszczalny" );
+              end
+              else
+              begin
+                  addFact( _, p³ynnoœæ_finansowa, "zachowana" );
+                  addFact( _, poziom_zad³u¿enia, "dopuszczalny" );
+              end;
+          end
+          else
+          begin
+              addFact( _, p³ynnoœæ_finansowa, "dobra" );
+              addFact( _, poziom_zad³u¿enia, "dopuszczalny" );
+          end;
+
+          // Ustalenie faktu dotycz¹cego stanu dotychczasowych kredytów
+          if ( Zadluz > 0 )
+          begin
+             addFact( _, dotychczasowe_kredyty, "niesp³acone" );
+          end
+          else
+          begin
+             addFact( _, dotychczasowe_kredyty, "sp³acone" );
+          end;
+
+          if ( OsobowoscPrawna == "T" )
+          begin
+             addFact( _, status_prawny_klienta, "ma osobowoœæ prawn¹" );
+          end
+          else
+          begin
+             addFact( _, status_prawny_klienta, "nie ma osobowoœci prawnej" );
+          end;
+
+          // ustalenie rentownosci sprzedazy ....
+          // wg. wzoru   rent = (zysk*100%)/Wartosc_sprzedazy
+
+          double Rent_Sprz;
+          Rent_Sprz := (Zysk*100)/Sprzedaz;
+          if ( Rent_Sprz <= 5 )
+          begin
+             addFact( _, rentownoœæ_sprzeda¿y, "niska" );
+          end
+          else
+          begin
+              if ( Rent_Sprz <= 20 )
+              begin
+                  addFact( _, rentownoœæ_sprzeda¿y, "wysoka" );
+              end
+              else
+              begin
+                  addFact( _, rentownoœæ_sprzeda¿y, "bardzo wysoka" );
+              end;
+          end;
+
+          // ________________ ANALIZA KREDYTOWA ________________
+
+          // ocena profilu klienta :
+          solve( profil, "profil_klienta = Profil_klienta" );
+
+          // ocena gwarancji kredytowych :
+          solve( gwarancje, "gwarancje_kredytowe = Gwarancje_kredytowe" );
+
+          // ocena sytuacji finansowej :
+          solve( sytfin, "sytuacja_finansowa = Sytuacja_finansowa" );
+          solutionWin( yes );
+
+          // g³ówna ocena wniosku kredytowego :
+          solve( deckred, "decyzja_kredytowa = DECYZJA_KREDYTOWA" );
+
+          // ^^^^^^^^^^^^^^^^^^ KONIEC ANALIZY ^^^^^^^^^^^^^^^^^^
+
+          // a teraz wstawimy rozwi¹zanie do arkusza :
+          int LR;
+          char Rozw[5];
+          saveSolution( Rozw, LR );       // pobranie rozwi¹zania
+          if ( LR >= 1 )
+          begin
+             char O, A, W;
+             splitOAV( Rozw[0], O, A, W );  // wyodrêbnienie m.in. wartoœci
+             NazwaKomorki := "Dec";
+             strcat( NazwaKomorki, IdStr );
+             ddePoke( ID2, NazwaKomorki, W );
+          end;
+         delNewFacts;
+       end;
+
+
+    // zakoñcz kana³
+    ddeDisconnect( ID2 );
+
+
+    // WSZELKIE ZMIANY W ARKUSZU NALEZY ZAPAMIÊTAÆ !!!
+    ddeExecute( ID, "[SAVE]" );
+    ddeExecute( ID, "[CLOSE(0)]" );
+
+    // zakoñcz kana³
+    ddeDisconnect( ID );
+    if ( ZamknijExcela == 1 )
+    begin
+        closeWindow( "Microsoft Excel");
+    end;
+ end;
+end;

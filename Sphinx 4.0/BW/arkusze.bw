@@ -1,0 +1,106 @@
+knowledge base nazwa
+ control
+  char Title;
+  int TitleID;
+
+  function nowyArkusz
+  begin
+     TitleID := TitleID + 1;
+     sprintf( Title, "Arkusz %d", TitleID );
+     openSheet( Title, "" );
+     showSheet( Title, 1 );
+  end;
+
+  function otwórzArkusz
+  begin
+     char NazwaPliku;
+     fileBox( 0,0, "Otwórz arkusz", 
+        "Arkusz FormulaOne (*.vts)|*.vts|Arkusz Excel (*.xls)|*.xls|Inne (*.*)|*.*", 
+         NazwaPliku );
+     if ( RETURN <> 1 )
+     begin
+       return 0;
+     end;
+     TitleID := TitleID + 1;
+     sprintf( Title, "Arkusz %d", TitleID );
+     openSheet( Title, "" );
+     readSheet( Title, NazwaPliku );
+     showSheet( Title, 1 );
+  end;
+
+  function zapiszArkusz
+  begin
+     char ARKUSZ;
+     getActiveWindow( ARKUSZ );
+     if ( ARKUSZ <> "" )
+     begin
+       char TYP;
+       getWindowType( ARKUSZ, TYP );
+       if ( TYP == "sheet" )
+       begin
+         writeSheet( ARKUSZ, "" );
+       end;
+     end;
+  end;
+
+  function zapiszArkuszJako
+  begin
+     char ARKUSZ;
+     getActiveWindow( ARKUSZ );
+     if ( ARKUSZ <> "" )
+     begin
+       char TYP;
+       getWindowType( ARKUSZ, TYP );
+       if ( TYP == "sheet" )
+       begin
+         char NazwaPliku;
+         fileBox( 0,0, "Zapisz arkusz jako...", 
+          "Arkusz FormulaOne (*.vts)|*.vts|Arkusz Excel (*.xls)|*.xls|Inne (*.*)|*.*", 
+           NazwaPliku );
+         if ( RETURN <> 1 )
+         begin
+           return 0;
+         end;
+         writeSheet( ARKUSZ, NazwaPliku );
+       end;
+     end;
+  end;
+
+  function zamknijAplikacjê
+  begin
+      mainMenu;
+  end;
+ 
+  function oProgramie
+  begin
+     char  S1, S2, S3;
+     run;
+     S1 := "Edytor arkuszy";
+     S2 := "Program demonstracyjny do edycji\narkuszy kalkulacyjnych.\n\nAutor aplikacji:\nTomasz Kaczmarek\n\nEdycja w³asnoœci arkusza po naciœniêciu prawego przycisku myszki na obszarze arkusza";
+     S3 := "(C) AITECH Artificial Intelligence Laboratory, Katowice 1990-2003";
+     vignette( S1, S2, S3 );
+  end;
+
+  int MENUID, POPID1;
+  TitleID := 0;
+  setAppWinTitle( "Edytor arkuszy kalkulacyjnych" );
+  createAppWindow;
+
+  createMenu(MENUID);
+
+  createPopupMenu(POPID1, "Arkusz");
+  appendMenu(POPID1, "Nowy", nowyArkusz );
+  appendMenu(POPID1, "Otwórz", otwórzArkusz );
+  appendMenu(POPID1, "Zapisz", zapiszArkusz );
+  appendMenu(POPID1, "Zapisz jako ...", zapiszArkuszJako );
+  appendMenu(POPID1, separator, _);
+  appendMenu(POPID1, "Wyjœcie", zamknijAplikacjê );
+  appendMenu(MENUID,menu,POPID1);
+  appendMenu(MENUID,menu,window);
+  createPopupMenu(POPID1, "Pomoc");
+  appendMenu(POPID1, "O programie", oProgramie );
+  appendMenu(MENUID,menu,POPID1);
+  fullMenu(MENUID);
+
+ end;
+end;

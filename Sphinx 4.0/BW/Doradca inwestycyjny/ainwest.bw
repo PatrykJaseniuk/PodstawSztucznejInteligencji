@@ -1,0 +1,644 @@
+knowledge base nazwa
+ sources
+  ocenaw:
+      type kb
+      file "ocenaw.zwc";
+  ocena11:
+      type kb
+      file "ocena11.zwc";
+  coto:
+	type what_is_file
+	file "maria.dbw";
+
+ end;
+
+ control
+
+  // ZMIENNE GLOBALNE :
+
+  int Odp, X;
+  char BILANS, RACHW, CASHF, CASHFP, CASHFN;
+
+  double  Majatek_trwa³y_netto[5],
+          Majatek_obrotowy[5],
+          Zapasy[5],
+          Zap_wyr_gotowych[5],
+          Zap_mat_i_sur[5],
+          Zap_towarów[5],
+          Nale¿noœci[5],
+          Œrodki_pieniê¿ne[5],
+          Aktywa[5],
+          Pasywa[5],
+          Kapita³y_w³asne_suma[5],
+          Kapita³y_w³asne[5],
+          Zysk_zatrzymany[5],
+          Zobowi¹zania[5],
+          Kredyt_krótko_term[5],
+          Kredyt_d³ugo_term[5],
+          Zysk_bilansowany[5];
+
+  double  Przychód_sprz_wyrobów[5],
+          Przychód_sprz_towarów[5],
+          Przychód_inne[5],
+          Przychód_razem[5],
+          Koszty_zmienne[5],
+          Koszty_zakupu_towarów[5],
+          Mar¿a_brutto[5],
+          Mar¿a_brutto_produktów[5],
+          Mar¿a_brutto_towarów[5],
+          Koszty_sta³e_bez_amortyzacji[5],
+          Zysk_operacyjny[5],
+          Amortyzacja[5],
+          Zysk_bez_kosztów[5],
+          Koszty_fianansowe[5],
+          Zysk_brutto[5],
+          Podatek_dochodowy[5],
+          Zysk_netto[5],
+          Stopa_podatku_dochodowego;
+
+  double  Wp³ywy_z_dzia³alnoœci[5],
+          Sprzeda¿_wyr_robót_us³[5],
+          Inne_przychody[5],
+          Zmiana_stanu_nale¿noœci[5],
+          Zmiana_st_doch_przesz_okresów[5],
+          Wydatki_na_dzia³alnoœæ[5],
+          Koszt_w³asny[5],
+          Podatki[5],
+          Straty_nadzwyczajne[5],
+          Zmiana_stanu_zapasów[5],
+          Zmiana_stanu_zobowi¹zañ[5],
+          Wydatki_inwestycyjne[5],
+          Wp³_i_wyd_z_trans_finans[5],
+          Zaci¹gniêcie_kred_i_po¿yczek[5],
+          Sp³aty[5],
+          Oproc_i_prowizje[5],
+          Zmiany_stanu_œrod_pieniê¿nych[5],
+          Stopa_dyskontowa[5],
+          Wartoœæ_koñcowa[5],
+          Zdyskontowane_przep³ywy_pieniê¿ne[5];
+
+
+
+// ******************* FUNKCJE *******************
+
+  function analizaWstepna
+  begin
+    char Tytu³[3], Npoz[5], P,P1,P2;
+    float Wart[5], BEP, BEP1, BEP2, BEP3, BEP4;
+
+    Tytu³[0]:="DANE DLA WYZNACZENIA PROGU RENTOWNOŒCI";
+    Tytu³[1]:="Nazwa";
+    Tytu³[2]:="Wartoœæ";
+    Npoz[0]:="Produkcja w szt";
+    Npoz[1]:="J. cena sprzeda¿y";
+    Npoz[2]:="J. koszt zmienny";
+    Npoz[3]:="Koszty sta³e";
+    Npoz[4]:="Max zdolnoœæ produkcyjna";
+
+    nsheetBox(0, 0, 5, 0, Tytu³, Npoz, Wart);
+    BEP1:=Wart[3]/(Wart[1]-Wart[2]);
+    BEP2:=BEP1*Wart[1];
+
+    BEP:=Wart[3]/(Wart[4]*(Wart[1]-Wart[2]))*100;
+
+    ntos(BEP1, P1);
+    ntos(BEP2, P2);
+    ntos(BEP, P);
+
+    messageBox(0,0, "PRÓG RENTOWNOŒCI ILOŒCIOWY", P1);
+    messageBox(0,0, "PRÓG RENTOWNOŒCI WARTOŒCIOWY", P2);
+    messageBox(0,0, "WYKORZYSTANIE ZDOLNOŒCI PRODUKCYJNEJ", P);
+
+    solutionWin(yes);
+    setSysText( problem, "[1[BOcena wstêpna" );
+    solve(ocenaw, "ocena_wstêpna=Ocena_wstêpna");
+    delNewFacts;
+  end; // koniec funkcji : analizaWstepna
+
+  function analizaPodstawowa
+  begin
+    double TAB[20,5], RW[20,5];
+    double ONPV, OIRR, ET1, ET2, ET3, TAB1[20,5], TAB2[20,5], TET[3,5];
+    getSheetRange(CASHFN , "",2, 2, 19, 6, TAB1 );
+    getSheetRange(CASHFP, "",2, 2, 19, 6, TAB2 );
+    getSheetRange(CASHF , "",2, 2, 19, 6, TAB );
+    getSheetRange(RACHW , "", 2, 2, 19, 6, RW );
+    float GSZ, GR,  GO, LP, Wart1[4];
+    int L,  I, J, K1, K2, K3, N;
+    double NPV, IRR, PB, GSZ1, GR1, GO1, SDIRR, SDIRR1, PV1, DT,  CF[20], PV, AT[20],  Stopdys;
+
+    char Tytu³1[3], Npoz1[4], R, ROZW[4],  TWR[4], TWD[4], TPI[4], Metoda, OB, ATR,  R1, MP;
+    Odp := 1;
+    Stopdys := 0;
+    confirmBox(0,0, "Czy stopa dyskontowa okreœlona?", "Naciœnij 'OK' jeœli tak, 'ANULUJ' jeœli nie", Odp);
+    if (Odp==1)
+    begin
+      addFact(_, stopa_dyskontowa, "okreœlona");
+      neditBox(0,0, 0, 100, "Podaj wartoœæ stopy dyskontowej w %", LP);
+      Stopdys:=LP;
+    end
+    else
+    begin
+      confirmBox(0,0, "Czy sposób finansowania okreœlony?", "Naciœnij 'OK' jeœli tak, 'ANULUJ' jeœli nie", Odp);
+      if (Odp==1)
+      begin
+        Tytu³1[0]:="Sposób finansowania";
+        Tytu³1[1]:="Nazwa";
+        Tytu³1[2]:="Wart.%";
+        Npoz1[0]:="Kapita³ w³asny";
+        Npoz1[1]:="Oproc. kapita³u w³as.";
+        Npoz1[2]:="Kapita³ obcy";
+        Npoz1[3]:="Oproc kipita³u obcego";
+        Wart1[1]:=23;
+        Wart1[3]:=26;
+        nsheetBox(0, 0, 4, 0, Tytu³1, Npoz1, Wart1);
+
+        Stopdys:= (Wart1[0]*Wart1[1]+ Wart1[2]*Wart1[3]) / 100;
+        ntos(Stopdys, R);
+        messageBox(0,0, "WYZNACZONA STOPA DYSKONTOWA", R);
+
+        addFact(_, stopa_dyskontowa, "okreœlona");
+      end
+      else
+      begin
+        addFact(_, stopa_dyskontowa, "nieokreœlona");
+      end;
+    end;
+    setSysText( problem, "[1[BWyznaczenie metod dopuszczalnych oceny" );
+    solve( ocena11, "metoda_dopuszczalna=Metoda_dopuszczalna" );
+    solutionWin( yes);
+    saveSolution(ROZW, L);
+
+    NPV:=0;
+    IRR:=0;
+    PB:=0;
+    K1:=0;
+    K2:=0;
+    K3:=0;
+    L:=L-1;
+    for  I:=0 to L step 1
+    begin
+      splitOAV(ROZW[I],  OB, ATR, TWD[I]);
+      if (TWD[I] =="PB")
+      begin
+          K1:=1;
+      end;
+      if (TWD[I] =="NPV")
+      begin
+          K2:=1;
+      end;
+      if (TWD[I] =="IRR")
+      begin
+          K3:=1;
+      end;
+    end;
+    double NP, A, F, NP1, NP2[4], PB1;
+    if (K1==1)
+    begin
+      NP:=0;
+      A:=0;
+      F:=0;
+      NP1:=0;
+      I:=0;
+      while (NP1<TAB[11,0])
+      begin
+        I:=I+1;
+        NP:=NP+RW[11, I];
+        A:=A+ RW[12, I];
+        F:=F+ RW[14, I];
+        NP2[I]:=NP+A+F;
+        NP1:=NP1+NP2[I];
+      end;
+      J := I-1;
+      PB1 := ((TAB[11, 0]-NP2[J])/(NP2[I]-NP2[J]));
+      PB  := J+PB1;
+      ntos(PB, R1);
+      messageBox(0, 0, "WARTOŒÆ PB", R1);
+    end;
+    if (K2==1)
+    begin
+      DT := 1/(1+Stopdys);
+      I := 1;
+      N := 10;
+      AT[0]:=1;
+      for  I:=1 to N step 1
+      begin
+        J := I-1;
+        AT[I] := AT[J] * DT;
+      end;
+      for I:=0 to 4 step 1
+      begin
+        J := I-2;
+        NPV := NPV+TAB[17,I]* AT[I];
+      end;
+      ntos(NPV, R1);
+      messageBox(0, 0, "WARTOŒÆ NPV", R1);
+    end;
+
+    if (K3==1)
+    begin
+      IRR:=0;
+      SDIRR:=0.20;
+      DT:=1/(1+SDIRR);
+      I:=1;
+      N:=10;
+      AT[0]:=1;
+      for  I:=1 to N step 1
+      begin
+        J:=I-1;
+        AT[I]:=AT[J] * DT;
+      end;
+      for I:=0 to 4 step 1
+      begin
+        PV:= PV+TAB[17,I] * AT[I];
+      end;
+
+      if  (PV>0)
+      begin
+        while (PV>0)
+        begin
+          SDIRR:=SDIRR+0.01;
+          DT:=1/(1+SDIRR);
+          I:=1;
+          N:=6;
+          AT[0]:=1;
+          for  I:=1 to N step 1
+          begin
+            J:=I-1;
+            AT[I]:=AT[J] * DT;
+          end;
+          PV:=0;
+          for I:=0 to 4 step 1
+          begin
+            double Z;
+            PV:= PV+TAB[17,I]*AT[I];
+            if (PV>0)
+            begin
+              PV1:=PV;
+              SDIRR1:=SDIRR;
+            end;
+          end;
+          IRR:=SDIRR1+((PV1*(SDIRR-SDIRR1))/(PV1+abs(PV)));
+        end;
+      end
+      else
+      begin
+        while (PV<0)
+        begin
+          SDIRR:=SDIRR-0.1;
+
+          if ( SDIRR == -1 )
+          begin
+            SDIRR:=SDIRR-0.1;
+          end;
+          DT:=1/(1+SDIRR);
+          I:=1;
+          N:=10;
+          AT[0]:=1;
+          for  I:=1 to N step 1
+          begin
+            J:=I-1;
+            AT[I]:=AT[J] * DT;
+          end;
+          PV:=0;
+          for I:=0 to 4 step 1
+          begin
+            PV:= PV+TAB[17,I] * AT[I];
+            if (PV>0)
+            begin
+              PV1:=PV;
+              SDIRR1:=SDIRR;
+            end;
+            IRR:=SDIRR1+((PV1*(SDIRR-SDIRR1))/(PV1+abs(PV)));
+          end;
+        end;
+      end;
+      ntos(IRR, R1);
+      messageBox(0, 0, "WARTOŒÆ IRR", R1);
+    end;
+    TPI[0]:="szybki okres zwrotu";
+    TPI[1]:="wysoka stopa zwrotu";
+    TPI[2]:="nieokreœlone";
+
+    slistBox(0, 0, " ", "PREFERENCJE INWESTORA",  TPI, 3, L);
+    if (RETURN== 1)
+    begin
+      addFact( _, preferencje_inwestora, TPI[L]);
+    end;
+    setSysText( problem, "[1[BWyznaczenie metody preferowanej oceny" );
+    solve( ocena11, "metoda_preferowana=Metoda_preferowana");
+    saveSolution(TWR, L);
+    if ( L <= 0 ) 
+    begin 
+      messageBox( 0,0, "Ocena przerwana", "Brak rozwi¹zania. Ocena zostanie przerwana" ); 
+      return 0; 
+    end;
+    I:=0;
+    splitOAV(TWR[I], OB, ATR, MP);
+    if (MP=="PB")
+    begin
+      GR := 0;
+      neditBox(0,0, 0, 100, "Podaj graniczny okres zwrotu", GR);
+      GR1 := GR;
+      if ( PB <= GR )
+      begin
+        addFact (_, okres_PB, "krótszy lub równy granicznemu");
+      end
+      else
+      begin
+        addFact(_, okres_PB, "d³u¿szy od granicznego okresu zwrotu");
+      end;
+    end;
+
+    if (MP=="IRR")
+    begin
+      GSZ:=0;
+      neditBox(0,0, 0, 100, "Podaj graniczn¹ stopê  zwrotu", GSZ);
+      GSZ1:=GSZ;
+      if ( IRR>GSZ )
+      begin
+        addFact(_, stopa_IRR, "wy¿sza od granicznej stopy zwrotu");
+      end
+      else
+      begin
+        addFact(_, stopa_IRR, "ni¿sza od granicznej stopy zwrotu");
+      end;
+    end;
+    if (MP=="NPV")
+    begin
+      if(NPV>0)
+      begin
+        addFact(_, wartoœæ_NPV, "dodatnia");
+      end
+      else
+      begin
+        addFact(_, wartoœæ_NPV, "mniejsza od zera");
+      end;
+    end;
+
+    char TOM[2], TMR[2], RYZ;
+    double NPVRYZ, IRRRYZ;
+    setSysText( problem, "[1[BOcena - metoda preferowana" );
+    solve ( ocena11, "ocena_metoda_preferowana=Ocena_metoda_preferowana");
+    saveSolution(TOM, L);
+    if ( L <= 0 ) 
+    begin 
+      messageBox( 0,0, "Ocena przerwana", "Brak rozwi¹zania. Ocena zostanie przerwana" ); 
+      return 0; 
+    end;
+    solutionWin( yes);
+    I:=0;
+    splitOAV(TOM[I], OB, ATR,  Metoda);
+
+    if (Metoda=="negatywna")
+    begin
+      addFact(_, ocena_ryzyka, "nieokreœlona");
+    end;
+
+    if (Metoda=="pozytywna")
+    begin
+      setSysText( problem, "[1[BWyznaczenie metody oceny ryzyka" );
+      solve ( ocena11,  "metoda_oceny_ryzyka =Metoda_oceny_ryzyka");
+      solutionWin( yes);
+      saveSolution(TMR, L);
+      if ( L <= 0 ) 
+      begin 
+        messageBox( 0,0, "Ocena przerwana", "Brak rozwi¹zania. Ocena zostanie przerwana" ); 
+        return 0; 
+      end;
+      I:=0;
+      splitOAV(TMR[I], OB, ATR, RYZ);
+      if (RYZ=="podwy¿szyæ stopê dyskontow¹")
+      begin
+        if (MP=="NPV")
+	begin
+	  Stopdys:=Stopdys+0.05;
+	  DT:=1/(1+Stopdys);
+	  I:=1;
+	  N:=10;
+	  AT[0]:=1;
+	  for  I:=1 to N step 1
+	  begin
+	    J:=I-1;
+	    AT[I]:=AT[J] * DT;
+	  end;
+	  for I:=0 to 4 step 1
+	  begin
+	    NPVRYZ:= NPVRYZ+TAB[17,I]* AT[I];
+	  end;
+	  if (NPVRYZ>0)
+	  begin
+	    addFact(_, npv_z_uwzglêdnieniem_ryzyka, "dodatnia");
+	  end
+	  else
+	  begin
+	    addFact(_, npv_z_uwzglêdnieniem_ryzyka, "ujemna");
+	  end;
+	end;
+	if ( MP=="IRR" )
+	begin
+	  IRRRYZ:=IRR-0.05;
+	  if (IRRRYZ>GSZ)
+          begin
+            addFact(_, stopa_IRR, "wy¿sza od granicznej stopy zwrotu");
+          end
+          else
+          begin
+            addFact(_, stopa_IRR, "ni¿sza od granicznej stopy zwrotu");
+          end;
+	end;
+      end;
+      if (RYZ=="statystyczna")
+      begin
+        float P11, P33;
+        double P1, P2, P3;
+        neditBox(0,0, 0, 100, "Prawdopodobieñstwo wersji optymistycznej w %", P11);
+        neditBox(0,0, 0, 100, "Prawdopodobieñstwo wersji pesymistycznej w %", P33);
+        P1:=P11/100;
+        P3:=P33/100;
+        P2:=1-(P1+P3)/100;
+
+        for I:=0 to 4 step 1
+        begin
+          ET1:=TAB2[17, I]*P1;
+          ET2:=TAB[17, I]*P2;
+          ET3:=TAB1[17, I]*P3;
+          TET[0, I]:=ET1+ET2+ET3;
+        end;
+        if (MP=="NPV")
+	begin
+          DT:=1/(1+Stopdys);
+          I:=1;
+          N:=10;
+          AT[0]:=1;
+	  for  I:=1 to N step 1
+	  begin
+	    J:=I-1;
+	    AT[I]:=AT[J] * DT;
+	  end;
+	  for I:=0 to 4 step 1
+	  begin
+	    J:=I-2;
+	    ONPV:=ONPV+TET[0,I]* AT[I];
+	  end;
+          if (ONPV>0)
+	  begin
+	    addFact(_, wartoœæ_oczekiwana_NPV, "dodatnia");
+	  end
+          else
+          begin
+            addFact(_, wartoœæ_oczekiwana_NPV, "ujemna");
+          end;
+        end;
+      end;
+    end;
+    setSysText( problem, "[1[BOcena podstawowa" );
+    solve ( ocena11,  "ocena_podstawowa =Ocena_podstawowa");
+    solutionWin( yes);
+    delNewFacts;
+  end;  // koniec funkcji : analizaPodstawowa
+
+  function otwarcie_aplikacji
+  begin
+    char  S1, S2, S3;
+    run;
+    setAppWinTitle("Doradca inwestycyjny");
+    S1 := "Doradca inwestycyjny";
+    S2 := "Autor: Maria Smolarek\nPrototyp badawczy systemu ekspertowego do wspomadania decyzji inwestycyjnych\nzrealizowany w ramach pracy doktorskiej\nPromotor: Prof. dr hab. Halina Henzel";
+    S3 := "Akademia Ekonomiczna, Katowice 1998";
+    createAppWindow;
+    vignette( S1, S2, S3 );
+  end;
+
+
+
+  function zamknijAplikacjê
+  begin
+      mainMenu;
+  end;
+
+  function otwarcie_arkuszy
+  begin
+    showSheet( BILANS, 1 );
+    showSheet( RACHW,  1 );
+    showSheet( CASHF,  1 );
+    showSheet( CASHFP, 1 );
+    showSheet( CASHFN, 1 );
+  end;
+
+
+  function ekspertyza
+  begin
+    double TBL[20,5], M;
+    int H;
+    char R;
+    getSheetRange( CASHF, "", 2, 2, 19, 6, TBL );
+
+    for H:=0 to 4 step 1
+    begin
+       M:= TBL[17, H];
+       ntos(M, R);
+       messageBox(0,0, "w", R);
+    end;
+
+
+  end;
+
+  function parametryzacja
+  begin
+     paramWindow;
+  end;
+
+
+  function pomoc
+  begin
+     winHelp("instr.hlp",index,0);
+  end;
+
+  function o_programie
+  begin
+     char  S1, S2, S3;
+     run;
+     S1 := "Doradca inwestycyjny";
+     S2 := "Autor: Maria Smolarek\nPrototyp badawczy systemu ekspertowego do wspomadania decyzji inwestycyjnych\nzrealizowany w ramach pracy doktorskiej\nPromotor: Prof. dr hab. Halina Henzel";
+     S3 := "Akademia Ekonomiczna, Katowice 1998";
+     vignette( S1, S2, S3 );
+  end;
+
+
+  function otwórzPlik
+  begin
+    char Plik;
+    char LAST;
+    fileBox( 0,0, "Otwórz", "Pliki Formula One (*.vts) |*.vts|Pliki Excela (*.xls)|*.xls", Plik );
+    if ( RETURN == 0 ) begin return 0; end;
+    openSheet( LAST, Plik );
+  end;
+
+  function wykres
+  begin
+    openChart( "Kapita³y w³asne", "kapit.vtc" );
+    showChart( "Kapita³y w³asne", 1 );
+    linkChart2Sheet( "Kapita³y w³asne", "BILANS", "Ainw1!B13:F13", 2 );
+
+  end;
+
+//****************** PROCEDURY *************************************
+
+
+
+  int MENUID,POPID1,POPID11, POPID31, POPID32, POPID33, POPID34, POPID2, POPID21, POPID3, POPID4,
+   POPID5, POPID6;
+  setAppWinTitle( "Doradca inwestycyjny" );
+
+  otwarcie_aplikacji;
+
+    BILANS := "BILANS";
+    RACHW  := "RACHUNEK WYNIKÓW";
+    CASHF  := "PRZEP£YWY PIENIÊ¯NE";
+    CASHFP := "PRZEP£YWY PIENIÊ¯NE WERSJA OPTYMISTYCZNA";
+    CASHFN := "PRZEP£YWY PIENIÊ¯NE WERSJA PESYMISTYCZNA";
+
+    openSheet( BILANS, "ainw1.vts" );
+    openSheet( RACHW, "ainw3.vts" );
+    openSheet( CASHF, "ainw4.vts" );
+    openSheet( CASHFP, "ainwp.vts" );
+    openSheet( CASHFN, "ainwn.vts" );
+
+  createMenu(MENUID);
+
+  createPopupMenu(POPID1, "Dane");
+  appendMenu(POPID1, "Wyœwietl arkusze danych", otwarcie_arkuszy );
+  appendMenu(POPID1, separator, _);
+  appendMenu(POPID1, "Wyjœcie", zamknijAplikacjê );
+  appendMenu(MENUID,menu,POPID1);
+
+  createPopupMenu(POPID2, "Analiza");
+  createPopupMenu(POPID21, "Ekspertyza" );
+  appendMenu(POPID21, "Analiza wstêpna", analizaWstepna );
+  appendMenu(POPID21, "Analiza Podstawowa", analizaPodstawowa );
+  appendMenu(POPID2,menu,POPID21);
+  appendMenu(MENUID,menu,POPID2);
+
+  createPopupMenu(POPID2, "Wykresy");
+  appendMenu(POPID2, "Kapita³ w³asny", wykres );
+
+  appendMenu(MENUID,menu,POPID2);
+
+  // Menu standardowe "Okno" :
+  appendMenu( MENUID, menu, window );
+
+  createPopupMenu(POPID4, "Pomoc");
+  appendMenu(POPID4, "Spis treœci", pomoc );
+//  appendMenu(POPID4, "Pomoc na temat", pomoc );
+  appendMenu(POPID4,separator,_);
+  appendMenu(POPID4, "O programie", o_programie );
+  appendMenu(MENUID,menu,POPID4);
+
+  fullMenu(MENUID);
+
+ end;
+end;
+
+
+

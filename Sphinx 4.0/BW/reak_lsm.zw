@@ -1,0 +1,255 @@
+//------------------------------------------------------------------------------
+//
+// Tekst Ÿród³a zapisanego w pliku:
+//  reak_lsm.bzw
+//
+//------------------------------------------------------------------------------
+// Opis Ÿród³a:
+//  Identyfikacja rodzaju tworzywa sztucznego (¿ywicy syntetycznej) w oparciu o reakcjê Liebermanna-Storcha-Morawskiego oraz badanie odczynu produktów pirolizy.
+//  
+//------------------------------------------------------------------------------
+
+knowledge source reakcja_LSM
+
+facets
+
+  ask     yes;
+  single  yes;
+
+  rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co :
+     ask     yes
+     single  yes
+     query   "Okreœl stopieñ rozpuszczalnoœci tworzywa w bezwodniku octowym na gor¹co"
+     val oneof  
+     { 
+        "rozpuszczalnoœæ ca³kowita",
+        "roztwór mêtny",
+        "roztwór przezroczysty"
+     };
+
+  rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu :
+     ask     yes
+     single  yes
+     query   "Okreœl stopieñ rozpuszczalnoœci tworzywa w bezwodniku octowym po oziêbieniu"
+     val oneof  
+     { 
+        "roztwór mêtny",
+        "roztwór przezroczysty"
+     };
+
+  zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego :
+     ask     yes
+     single  yes
+     query   "Okreœl zabarwienie roztworu po dodaniu stê¿onego kwasu siarkowego"
+     val oneof  
+     { 
+        "brak zabarwienia",
+        "czerwonofioletowe przechodz¹ce w ¿ó³te",
+        "¿ó³te przechodz¹ce w czerwonobrunatne",
+        "niebieskie przechodz¹ce w zielone",
+        "czerwone przechodz¹ce w brunatne",
+        "¿ó³tobrunatne"
+     };
+
+  zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu :
+     ask     yes
+     single  yes
+     query   "Okreœl zabarwienie roztworu po odczekaniu 10 minut w obecnoœci stê¿onego kwasu siarkowego"
+     val oneof  
+     { 
+        "brak zabarwienia",
+        "brunatne",
+        "¿ó³te przechodz¹ce w czerwonobrunatne",
+        "ciemnobrunatne"
+     };
+
+  zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu :
+     ask     yes
+     single  yes
+     query   "Okreœl zabarwienie roztworu po dodatkowym ogrzaniu w obecnoœci stê¿onego kwasu siarkowego"
+     val oneof  
+     { 
+        "brak zabarwienia",
+        "brudnoniebieskie",
+        "brunatno¿ó³te przechodz¹ce w brunatne",
+        "ciemnobrunatne",
+        "czerwonobrunatne",
+        "jasnobrunatne",
+        "jasno¿ó³te przechodz¹ce w czerwone",
+        "¿ó³tawopomarañczowe",
+        "¿ó³tobrunatne"
+     };
+
+  odczyn_produktów_pirolizy :
+     ask     yes
+     single  yes
+     query   "Okreœl odczyn produktów pirolizy"
+     val oneof  
+     { 
+        "odczyn kwaœny",
+        "odczyn zasadowy"
+     };
+
+  rodzaj_tworzywa :
+     ask     no
+     single  no
+     val oneof  
+     { 
+        "acetyloceluloza",
+        "acetylomaœlan celulozy",
+        "azotan celulozy",
+        "benzyloceluloza",
+        "eter poliwinylowy",
+        "etyloceluloza",
+        "octan celulozy",
+        "poliakrylan",
+        "polialkohol winylowy",
+        "polibutyral winylowy",
+        "polichlorek winylidenu",
+        "polichlorek winylu",
+        "polietylen",
+        "polietylen chlorosulfonowany",
+        "poliizobutylen",
+        "polimetakrylan metylu",
+        "polioctan winylu",
+        "polistyren",
+        "politetrafluoroetylen",
+        "¿ywica anilinowo-formaldehydowa",
+        "¿ywica epoksydowa",
+        "¿ywica fenolowo-formaldehydowa",
+        "¿ywica melaminowo-formaldehydowa",
+        "¿ywica mocznikowo-formaldehydowa",
+        "¿ywica poliamidowa",
+        "¿ywica poliestrowa",
+        "¿ywica poliuretanowa"
+     };
+
+end; // facets
+
+rules
+
+   2001: rodzaj_tworzywa = "polistyren" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "roztwór mêtny" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór mêtny" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "brak zabarwienia" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brak zabarwienia" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "¿ó³tobrunatne";
+
+   2002: rodzaj_tworzywa = "¿ywica fenolowo-formaldehydowa" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "rozpuszczalnoœæ ca³kowita" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór mêtny" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "czerwonofioletowe przechodz¹ce w ¿ó³te" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brunatne" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "czerwonobrunatne";
+
+   2003: rodzaj_tworzywa = "¿ywica mocznikowo-formaldehydowa" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "roztwór mêtny" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór mêtny" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "brak zabarwienia" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brak zabarwienia" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "¿ó³tawopomarañczowe";
+
+   2004: rodzaj_tworzywa = "¿ywica melaminowo-formaldehydowa" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "rozpuszczalnoœæ ca³kowita" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór przezroczysty" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "brak zabarwienia" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brak zabarwienia" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "brak zabarwienia";
+
+   2005: rodzaj_tworzywa = "¿ywica poliamidowa" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "rozpuszczalnoœæ ca³kowita" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór przezroczysty" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "brak zabarwienia" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brak zabarwienia" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "jasno¿ó³te przechodz¹ce w czerwone";
+
+   2006: rodzaj_tworzywa = "¿ywica epoksydowa" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "roztwór mêtny" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór mêtny" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "¿ó³te przechodz¹ce w czerwonobrunatne" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "¿ó³te przechodz¹ce w czerwonobrunatne";
+
+   2007: rodzaj_tworzywa = "polichlorek winylu" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "roztwór przezroczysty" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór mêtny" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "brak zabarwienia" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brak zabarwienia" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "brunatno¿ó³te przechodz¹ce w brunatne";
+
+   2008: rodzaj_tworzywa = "polioctan winylu" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "roztwór przezroczysty" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór mêtny" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "brak zabarwienia" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brak zabarwienia" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "brudnoniebieskie";
+
+   2009: rodzaj_tworzywa = "eter poliwinylowy" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "roztwór przezroczysty" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór przezroczysty" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "niebieskie przechodz¹ce w zielone" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brunatne";
+
+   2010: rodzaj_tworzywa = "polibutyral winylowy" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "roztwór mêtny" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór mêtny" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "czerwone przechodz¹ce w brunatne" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "ciemnobrunatne" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "ciemnobrunatne";
+
+   2011: rodzaj_tworzywa = "acetyloceluloza" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "rozpuszczalnoœæ ca³kowita" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór przezroczysty" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "brak zabarwienia" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brak zabarwienia" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "brak zabarwienia";
+
+   2012: rodzaj_tworzywa = "etyloceluloza" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "rozpuszczalnoœæ ca³kowita" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór mêtny" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "¿ó³tobrunatne" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "ciemnobrunatne" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "ciemnobrunatne";
+
+   2013: rodzaj_tworzywa = "benzyloceluloza" if
+             rozpuszczalnoœæ_w_bezwodniku_octowym_na_gor¹co = "rozpuszczalnoœæ ca³kowita" 
+             & rozpuszczalnoœæ_w_bezwodniku_octowym_po_oziêbieniu = "roztwór przezroczysty" 
+             & zabarwienie_po_dodaniu_stê¿onego_kwasu_siarkowego = "brak zabarwienia" 
+             & zabarwienie_po_odczekaniu_10min_w_obecnoœci_kwasu = "brak zabarwienia" 
+             & zabarwienie_po_dodatkowym_ogrzaniu_w_obecnoœci_kwasu = "brak zabarwienia";
+
+   2014: rodzaj_tworzywa ( piroliza ) = "¿ywica mocznikowo-formaldehydowa" if
+             odczyn_produktów_pirolizy = "odczyn zasadowy" 
+             & rodzaj_tworzywa = "¿ywica mocznikowo-formaldehydowa";
+
+   2015: rodzaj_tworzywa ( piroliza ) = "¿ywica melaminowo-formaldehydowa" if
+             odczyn_produktów_pirolizy = "odczyn zasadowy" 
+             & rodzaj_tworzywa = "¿ywica melaminowo-formaldehydowa";
+
+   2016: rodzaj_tworzywa ( piroliza ) = "¿ywica poliamidowa" if
+             odczyn_produktów_pirolizy = "odczyn zasadowy" 
+             & rodzaj_tworzywa = "¿ywica poliamidowa";
+
+   2017: rodzaj_tworzywa ( piroliza ) = "polichlorek winylu" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "polichlorek winylu";
+
+   2018: rodzaj_tworzywa ( piroliza ) = "polioctan winylu" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "polioctan winylu";
+
+   2019: rodzaj_tworzywa ( piroliza ) = "polibutyral winylowy" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "polibutyral winylowy";
+
+   2020: rodzaj_tworzywa ( piroliza ) = "etyloceluloza" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "etyloceluloza";
+
+   2021: rodzaj_tworzywa ( piroliza ) = "benzyloceluloza" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "benzyloceluloza";
+
+
+end; // rules
+
+end; // knowledge source

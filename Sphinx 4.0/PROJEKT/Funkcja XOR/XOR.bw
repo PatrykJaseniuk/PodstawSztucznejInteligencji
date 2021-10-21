@@ -1,0 +1,114 @@
+//   Model funkcji XOR
+//
+//
+//   wersja testowa 1.0
+//  
+
+
+
+
+
+knowledge base XOR
+
+  sources
+    netAnaliza : 
+        type neural_net
+        file ".\\XOR.npr";
+  end;
+
+ control
+    
+    char Title;
+    int TitleID;
+	
+    record NeuralNet XorWe[2];
+    record NeuralNet XorWy[1];	
+
+    
+
+//----------------------------- funkcje ------------------------------------------------
+
+function prepareDate
+	begin
+		openSheet( "model funkcji XOR", "wiz.vts" );
+     		showSheet( "model funkcji XOR", 0 );
+		setWindowPos("model funkcji XOR", 50, 50, 500, 300, 0 );
+		showWindow("model funkcji XOR", 0);
+
+
+	end;
+
+    
+
+function makeXOR
+   begin	
+   	XorWe[0].Name := "x1";
+	getSheetValue( "model funkcji XOR", "", 50, 1, XorWe[0].DValue );
+    	XorWe[1].Name := "x2";
+    	getSheetValue( "model funkcji XOR", "", 50, 2, XorWe[1].DValue);
+    
+   	XorWy[0].Name := "y";	
+
+    	initNetwork ( netAnaliza );	
+    	runNetwork ( netAnaliza, XorWe, XorWy );
+    	delNetwork ( netAnaliza);
+
+
+	setSheetValue( "model funkcji XOR", "", 50, 5, XorWy[0].DValue );
+
+	
+   
+
+   end;
+	
+
+function about
+  begin
+     char  S1, S2, S3;
+     run;
+     S1 := "Aplikacja neuronowa";
+     S2 := "\n\nProgram symuluj¹cy funkcjê XOR";
+     S3 := "(C) AITECH Artificial Intelligence Laboratory, Katowice 1999";
+     vignette( S1, S2, S3);
+  end;
+
+
+function closeApp
+  begin
+      mainMenu;
+  end;
+
+//======================== BLOK G£ÓWNY ================================
+
+	run;	
+
+	
+
+ 	int MENUID,POPID1;  	
+  	setAppWinTitle( "Funkcja XOR" );
+  	createAppWindow;
+	prepareDate;
+
+	createMenu(MENUID);
+	
+	createPopupMenu(POPID1, "Dane");
+   	appendMenu(POPID1, "Przelicz model", makeXOR );
+	appendMenu(POPID1, separator, _);
+  	appendMenu(POPID1, "Wyjœcie", closeApp );
+
+	
+
+	appendMenu(MENUID,menu,POPID1);
+	
+	appendMenu(MENUID,menu,window);
+  	createPopupMenu(POPID1, "Pomoc");
+  	appendMenu(POPID1, "O programie", about );
+  	appendMenu(MENUID,menu,POPID1);
+
+  
+	fullMenu(MENUID);
+ 
+
+
+ end;
+end;

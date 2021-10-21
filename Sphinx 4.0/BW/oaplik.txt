@@ -1,0 +1,22 @@
+		
+
+
+				KONSULTANT				
+                               ------------
+
+	Baza ta zosta³a stworzona dla potrzeb firmy AITECH. Jest demonstracj¹
+ mo¿liwoœci sytemów ekspertowych w dziedzinie finansów. Dziêki stworzeniu
+ prostych zale¿noœci w postaci regu³ mo¿na przeprowadziæ efektywn¹ ocenê
+ przedsiêbiorstwa, np. podczas rozpatrywania wniosku kredytowego. Oczywiœcie,
+ jako wersja demonstracyjna, baza ta jest obarczona du¿¹ iloœci¹ uproszczeñ
+ dla lepszej jej przejrzystoœci. Wersja ta s³u¿y równie¿ do celów edukacyjnych
+ i nie zawiera wszystkich regu³ i wyjaœnieñ, aby mo¿na by³o samodzielnie
+ uzupe³niaæ.
+ 
+ 	Opisy s¹ wiernym odzwierciedleniem zapisów w nastêpuj¹cych pozycjach:
+1. Sierpiñska M., Jachna T.:	"Ocena przedsiêbiorstwa wed³ug standardów
+				 œwiatowych"
+2. Bednarski L., Borowiecki R.,
+   Duraj J., Kurtys E.,
+   Waœniewski T., Wersty B.:	"Analiza ekonomiczna w przedsiêbiorstwie"
+

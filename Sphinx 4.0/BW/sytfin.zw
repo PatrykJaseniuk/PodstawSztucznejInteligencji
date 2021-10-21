@@ -1,0 +1,58 @@
+knowledge source sytuacja_finansowa
+
+// èrÛd≥o wiedzy oceniajπce sytuacjÍ finansowπ badanego podmiotu
+
+  facets
+
+    single yes;
+
+    sytuacja_finansowa :
+        val oneof { "dobra", "z≥a" };
+
+    p≥ynnoúÊ_finansowa :
+       query "OKREåL P£YNNOå∆ FINANSOW• :"
+       val oneof { "dobra", "zachowana", "z≥a" };
+
+    poziom_zad≥uøenia :
+       query "PODAJ POZIOM ZADLUØENIA:"
+       val oneof { "dopuszczalny", "niedopuszczalny" };
+
+    rentownoúÊ_sprzedaøy :
+       query "JAKA JEST RENTOWNOå∆ SPRZEDAØY ?"
+       val oneof {  "niska", "wysoka", "bardzo wysoka" };
+
+  end;
+
+  rules
+
+    31: sytuacja_finansowa = "dobra"  if
+           p≥ynnoúÊ_finansowa = "dobra",
+           rentownoúÊ_sprzedaøy = "wysoka";
+
+    32: sytuacja_finansowa = "dobra"  if
+           p≥ynnoúÊ_finansowa = "dobra",
+           rentownoúÊ_sprzedaøy = "bardzo wysoka";
+
+    35: sytuacja_finansowa = "dobra"  if
+           p≥ynnoúÊ_finansowa = "zachowana",
+           rentownoúÊ_sprzedaøy = "bardzo wysoka";
+
+    36: sytuacja_finansowa = "z≥a"  if
+           p≥ynnoúÊ_finansowa = "z≥a";
+
+    37: sytuacja_finansowa = "z≥a"  if
+           rentownoúÊ_sprzedaøy = "niska";
+
+    38: sytuacja_finansowa = "dobra" if
+          p≥ynnoúÊ_finansowa = "zachowana",
+          rentownoúÊ_sprzedaøy = "wysoka",
+          poziom_zad≥uøenia = "dopuszczalny";
+
+    39: sytuacja_finansowa = "z≥a" if
+          p≥ynnoúÊ_finansowa = "zachowana",
+          rentownoúÊ_sprzedaøy = "wysoka",
+          poziom_zad≥uøenia = "niedopuszczalny";
+
+  end;
+
+end;

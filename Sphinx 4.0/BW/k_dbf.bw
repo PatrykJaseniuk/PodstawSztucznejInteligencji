@@ -1,0 +1,221 @@
+knowledge base kredyt_w_powiazaniu_z_sql
+
+//
+//    Plik : K_DBF.BW   Ocena kredytowa w oparciu o dane z baz danych.
+//                      Przyk³ad wykorzystania SQL'a.
+//    Copyright (c) 1990-2003 AITECH Artificial Intelligence Laboratory K-CE
+//
+//    Autorzy : K.Michalik, T.Kaczmarek
+//
+// UWAGA ! Przed u¿yciem tej bazy wiedzy nale¿y wygenerowaæ odpowiedni¹
+//          bazê danych przy u¿yciu bazy wiedzy : GEN_DBF.BW
+//
+// Baza wiedzy demonstruj¹ca pobieranie danych z baz danych
+// Fakty s¹ tworzone na podstawie zawartoœci bazy danych FIRMA
+// nastêpnie analizowane i dodawane instrukcj¹ 'addFact'
+// na postawie zebrabych danych jest generowane rozwi¹zanie które
+// jest ukazane u¿ytkownikowi a nastêpnie zostaje zapisane do bazy danych.
+//
+// UWAGA ! Aby korzystaæ z Ÿród³a danych nale¿y zmieniæ instrukcjê sqlInit np.
+//
+//   Paradox :         sqlInit( "DSN=Paradox Files", 1 );
+//   Pliki tekstowe :  sqlInit( "DSN=Text Files", 1 );
+//   Access :          sqlInit( "DSN=Access Files;FIL=RedISAM;DBQ=C:\\BAZA.MDB", 1 );
+//           gdzie C:\\BAZA.MDB to baza wygenerowana np w zarz¹dcy systemem ODBC
+//
+
+  sources
+
+    deckred :
+        type kb
+        file "deckred.zw";
+
+    profil :
+        type kb
+        file "profil.zw";
+
+    gwarancje :
+        type kb
+        file "gwaranc.zw";
+
+    sytfin :
+        type kb
+        file "sytfin.zw";
+
+  end;
+
+  control
+
+    int   Odp, I, IsValue;
+    char  S1, S2, S3;
+    char  Firma;
+    char  Firmy[10];
+    int   Sel;
+
+    run;    // automatycznie uruchom program po wczytaniu bazy wiedzy
+
+    // poka¿ winietê tytu³ow¹ programu :
+    S1 := "KREDYT - SQL";
+    S2 := "DEMONSTRACYJNY SYSTEM TABLICOWY\nDemo komunikacji z bazami danych\n\nKrzysztof Michalik\nTomasz Kaczmarek\n\nAITECH\nArtificial Intelligence Laboratory\nKatowice";
+    S3 := "Copyright (C)1990-2003 AITECH Artificial Intelligence Laboratory";
+    createAppWindow;
+    vignette( S1, S2, S3 );
+
+    solutionWin( no );
+
+    // Inicjuj dostêp do baz danych typu dBase :
+    sqlInit( "DSN=Pliki dBase", 1 );
+
+    // pobieramy listê firm z bazy danych do tablicy Firmy
+    sqlInitBinding;
+    sqlBind( Firma );
+    sqlQuery( "SELECT nazwa FROM firmy" );
+    I := 0;
+    IsValue := 1;
+    while ( IsValue == 1 )
+    begin
+        sqlFetch( IsValue );
+        if ( IsValue == 1 )
+        begin
+            Firmy[I] := Firma;
+            I := I + 1;
+        end;
+    end;
+
+    // wybierz firmê do badania :
+    slistBox( 0, 0, "Lista firm ubiegajacych siê o kredyt", "Wybierz firmê :",
+              Firmy, I, Sel );
+
+    if ( RETURN == 1 )
+    begin
+        // pobieramy dane o wybranej firmie z bazy danych :
+
+        char   Zabezp, Query;
+        double Zadluz;
+        double Zysk;
+        double Porow;
+        int    OsobowoscPrawna;
+        double Sprzedaz;
+
+        sqlInitBinding;
+        sqlBind( Zabezp );
+        sqlBind( Zadluz );
+        sqlBind( Zysk );
+        sqlBind( OsobowoscPrawna );
+        sqlBind( Sprzedaz );
+
+        Query := "SELECT zabezp,zadluz,zysk,os_prawna,sprzedaz FROM firmy WHERE nazwa='";
+        strcat( Query, Firmy[Sel] );
+        strcat( Query, "'" );
+
+        sqlQuery( Query );
+
+        sqlFetch( IsValue );
+        if ( RETURN == 1 )
+        begin
+
+ 
+         // Analiza danych i dodawanie faktów na ich podstawie :
+
+          // Zabezpieczenie kredytu :
+          addFact( _, rodzaj_zabezpieczenia, Zabezp );
+
+          // okreslenie plynnosci finansowej i poziomu zad³u¿enia :
+          Porow := Zadluz*3;
+          if ( Zysk < Porow )
+          begin
+              if ( Zysk < Zadluz )
+              begin
+                  addFact( _, p³ynnoœæ_finansowa, "z³a" );
+                  addFact( _, poziom_zad³u¿enia, "niedopuszczalny" );
+              end
+              else
+              begin
+                  addFact( _, p³ynnoœæ_finansowa, "zachowana" );
+                  addFact( _, poziom_zad³u¿enia, "dopuszczalny" );
+              end;
+          end
+          else
+          begin
+              addFact( _, p³ynnoœæ_finansowa, "dobra" );
+              addFact( _, poziom_zad³u¿enia, "dopuszczalny" );
+          end;
+
+          // Ustalenie faktu dotycz¹cego stanu dotychczasowych kredytów
+          if ( Zadluz > 0 )
+          begin
+             addFact( _, dotychczasowe_kredyty, "niesp³acone" );
+          end
+          else
+          begin
+             addFact( _, dotychczasowe_kredyty, "sp³acone" );
+          end;
+
+          if ( OsobowoscPrawna == 1 )
+          begin
+             addFact( _, status_prawny_klienta, "ma osobowoœæ prawn¹" );
+          end
+          else
+          begin
+             addFact( _, status_prawny_klienta, "nie ma osobowoœci prawnej" );
+          end;
+
+          // ustalenie rentownosci sprzedazy ....
+          // wg. wzoru   rent = (zysk*100%)/Wartosc_sprzedazy
+
+          double Rent_Sprz;
+          Rent_Sprz := (Zysk*100)/Sprzedaz;
+          if ( Rent_Sprz <= 5 )
+          begin
+             addFact( _, rentownoœæ_sprzeda¿y, "niska" );
+          end
+          else
+          begin
+              if ( Rent_Sprz <= 20 )
+              begin
+                  addFact( _, rentownoœæ_sprzeda¿y, "wysoka" );
+              end
+              else
+              begin
+                  addFact( _, rentownoœæ_sprzeda¿y, "bardzo wysoka" );
+              end;
+          end;
+
+          // ocena profilu klienta :
+          solve( profil, "profil_klienta = Profil_klienta" );
+
+          // ocena gwarancji kredytowych :
+          solve( gwarancje, "gwarancje_kredytowe = Gwarancje_kredytowe" );
+
+          // ocena sytuacji finansowej :
+          solve( sytfin, "sytuacja_finansowa = Sytuacja_finansowa" );
+          solutionWin( yes );
+
+          // g³ówna ocena wniosku kredytowego :
+          solve( deckred, "decyzja_kredytowa = DECYZJA_KREDYTOWA" );
+
+          // a teraz zapiszemy konkluzje do bazy wiedzy ....
+          int LR;
+          char Rozw[5];
+          saveSolution( Rozw, LR );       // pobranie rozwi¹zania
+          if ( LR >= 1 )
+          begin
+             char O, A, W;
+             splitOAV( Rozw[0], O, A, W );  // wyodrêbnienie m.in. wartoœci
+             Query := "UPDATE firmy SET WYNIK = '";
+             strcat( Query, W );
+             strcat( Query, "' WHERE nazwa ='" );
+             strcat( Query, Firmy[Sel] );
+             strcat( Query, "'" );
+             sqlQuery ( Query );
+          end;
+         delNewFacts;
+       end
+       else
+       begin
+          messageBox( 0,0, "B³¹d", "B³¹d pobrania danych z bazy danych" );
+       end;
+   end;
+   sqlDone;
+ end;
+end;

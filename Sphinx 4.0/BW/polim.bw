@@ -1,0 +1,146 @@
+//------------------------------------------------------------------------------
+// Opis aplikacji:
+//  Identyfikacja polimerów w oparciu o proste metody analizy:
+//  - badanie rozpuszczalnoœci,
+//  - reakcja Liebermanna-Storcha-Morawskiego,
+//  - piroliza.
+//  
+//------------------------------------------------------------------------------
+
+knowledge base identyfikacja_polimerów
+
+sources
+
+  badanie_rozpuszczalnoœci:
+    type kb
+    file "rozp.zw";
+
+  reakcja_LSM:
+    type kb
+    file "reak_lsm.zw";
+
+
+end; // sources
+
+facets
+
+  ask     yes;
+  single  no;
+
+  odczyn_produktów_pirolizy :
+     ask     yes
+     single  yes
+     query   "Okreœl odczyn produktów pirolizy"
+     val oneof  
+     { 
+        "odczyn kwaœny",
+        "odczyn zasadowy"
+     };
+
+  rodzaj_tworzywa :
+     ask     no
+     single  no
+     val oneof  
+     { 
+        "acetyloceluloza",
+        "acetylomaœlan celulozy",
+        "azotan celulozy",
+        "benzyloceluloza",
+        "eter poliwinylowy",
+        "etyloceluloza",
+        "octan celulozy",
+        "poliakrylan",
+        "polialkohol winylowy",
+        "polibutyral winylowy",
+        "polichlorek winylidenu",
+        "polichlorek winylu",
+        "polietylen",
+        "polietylen chlorosulfonowany",
+        "poliizobutylen",
+        "polimetakrylan metylu",
+        "polioctan winylu",
+        "polistyren",
+        "politetrafluoroetylen",
+        "¿ywica anilinowo-formaldehydowa",
+        "¿ywica epoksydowa",
+        "¿ywica fenolowo-formaldehydowa",
+        "¿ywica melaminowo-formaldehydowa",
+        "¿ywica mocznikowo-formaldehydowa",
+        "¿ywica poliamidowa",
+        "¿ywica poliestrowa",
+        "¿ywica poliuretanowa"
+     };
+
+end; // facets
+
+control
+
+// ***********************************************
+// * Identyfikacja ¿ywic syntetycznych w oparciu *
+// * o proste metody analizy.                    *
+// ***********************************************
+
+// deklaracja zmiennych
+
+char Text1;
+char Text2;
+char Text3;
+
+// winieta - informacja o programie
+
+	Text1 := "Identyfikacja polimerów";
+	Text2 := "Identyfikacja tworzyw sztucznych w oparciu o proste metody analizy";
+	Text3 := "demonstracyjna baza wiedzy";
+
+// automatyczne uruchomienie aplikacji
+
+	run;
+
+// utworzenie okna g³ównego aplikacji
+
+	createAppWindow;
+	setAppWinTitle( Text1 );
+	setSysText( problem, "Rodzaj tworzywa" );
+	setSysText( notConfirmed, "Identyfikacja rodzaju tworzywa niemo¿liwa" );
+	
+	vignette( Text1, Text2, Text3 );
+
+// menu steruj¹ce programu
+
+	menu "&Metoda"
+
+		1. "&Badanie rozpuszczalnoœci"
+		2. "Badanie &rozpuszczalnoœci + piroliza"
+		3. "&Reakcja Liebermanna-Storcha-Morawskiego"
+		4. "Reakcja &Liebermanna-Storcha-Morawskiego + piroliza"
+		5. "&Koniec sesji"
+
+	case 1:
+
+		solve( "badanie_rozpuszczalnoœci", "rodzaj_tworzywa=X" );
+		delNewFacts;
+
+	case 2:
+
+		solve( "badanie_rozpuszczalnoœci", "rodzaj_tworzywa(piroliza)=X" );
+		delNewFacts;
+
+	case 3:
+
+		solve( "reakcja_LSM", "rodzaj_tworzywa=X" );
+		delNewFacts;
+
+	case 4:
+
+		solve( "reakcja_LSM", "rodzaj_tworzywa(piroliza)=X" );
+		delNewFacts;
+
+	case 5:
+
+		exit;  // zamkniêcie aplikacji
+
+	end;
+
+end;
+
+end; // knowledge base

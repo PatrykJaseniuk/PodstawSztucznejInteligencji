@@ -1,0 +1,84 @@
+knowledge base nazwa
+ control
+   // definicja rekordu definiuj¹cego liczby zespolone
+   record Complex
+   begin
+      double R, U;  // r - czêœæ rzeczywista, u - urojona
+   end;
+
+   // Result = L1 + L2 :
+   function addComplex( record Complex L1, record Complex L2, record Complex &Result )
+   begin
+      Result.R := L1.R + L2.R;
+      Result.U := L1.U + L2.U;
+   end;
+
+   // Result = L1 - L2 :
+   function subComplex( record Complex L1, record Complex L2, record Complex &Result )
+   begin
+      Result.R := L1.R - L2.R;
+      Result.U := L1.U - L2.U;
+   end;
+
+   // Result = L1 * L2 :
+   function mulComplex( record Complex L1, record Complex L2, record Complex &Result )
+   begin
+      Result.R := (L1.R*L2.R) - (L1.U*L2.U);
+      Result.U := (L1.R*L2.U) + (L1.U*L2.R);
+   end;
+
+   // Result = L1 / L2 :
+   function divComplex( record Complex L1, record Complex L2, record Complex &Result )
+   begin
+      if ( L2.R == 0 ) begin return 0; end;
+      if ( L2.U == 0 ) begin return 0; end;
+      Result.R := (((L1.R*L2.R) + (L1.U*L2.U)) / ((L2.R*L2.R) + (L2.U*L2.U)));
+      Result.U := (((L2.R*L1.U) - (L1.R*L2.U)) / ((L2.R*L2.R) + (L2.U*L2.U)));
+      return 1;
+   end;
+
+
+
+   function showComplex( record Complex R, char Title )
+   begin
+     char S;
+     if ( R.U >= 0 )
+     begin
+         sprintf( S, "Wartoœæ: %lf + %lf", R.R, R.U );
+     end
+     else
+     begin
+         R.U := R.U * -1; // to nic nie zmieni !!!
+         sprintf( S, "Wartoœæ: %lf - %lf", R.R, R.U );
+     end;
+     messageBox( 0, 0, Title, S );
+   end;
+
+
+   // a teraz czêœæ testuj¹ca :
+   run;
+
+   vignette( "Biblioteka liczb zespolonych", "Przyk³adowa aplikacja zawieraj¹ca funkcje do obs³ugi liczb zespolonych", "(C) AITECH Artificial Intelligence Laboratory, Katowice 1990-2003");
+   record Complex R1, R2, R3;
+   R1.R := 1;
+   R1.U := 2;
+
+   R2.R := 1;
+   R2.U := -1;
+
+   showComplex( R1, "Liczba R1" );
+   showComplex( R2, "Liczba R2" );
+
+   addComplex( R1, R2, R3 );
+   showComplex( R3, "Wynik operacji: R1 + R2" );
+
+   subComplex( R1, R2, R3 );
+   showComplex( R3, "Wynik operacji: R1 - R2" );
+
+   mulComplex( R1, R2, R3 );
+   showComplex( R3, "Wynik operacji: R1 * R2" );
+
+   divComplex( R1, R2, R3 );
+   showComplex( R3, "Wynik operacji: R1 / R2" );
+ end;
+end;

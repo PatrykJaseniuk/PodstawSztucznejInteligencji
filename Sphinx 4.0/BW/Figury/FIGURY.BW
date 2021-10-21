@@ -1,0 +1,386 @@
+knowledge base nazwa
+
+//
+//    Plik : FIGURY.BW - Klasyfikacja figur geometrycznych.
+//       Multimedialna baza wiedzy, przyk³ad wykorzystania instrukcji obs³ugi
+//       dialogów u¿ytkownika oraz wywo³ania plików pomocy.
+//
+//    Copyright (c) 1998-2003 AITECH Artificial Intelligence Laboratory K-CE
+//
+//    Autor : Tomasz Kaczmarek
+//
+
+
+ sources
+   coto :
+     type what_is
+     file "figury.dbw";
+ end;
+
+ facets
+    single yes;
+
+    figura :
+     val oneof { 
+          "szeœcian", 
+          "prostopad³oœcian o podstawie kwadratu", 
+          "prostopad³oœcian o podstawie prostok¹ta",
+          "prostopad³oœcian o podstawie w kszta³cie rombu", 
+          "prostopad³oœcian o podstawie w kszta³cie trapezu",
+
+          "ostros³up trójk¹tny", 
+          "ostros³up o podstawie kwadratu",  
+          "ostros³up o podstawie prostok¹ta",
+          "ostros³up o podstawie w kszta³cie rombu", 
+          "ostros³up o podstawie w kszta³cie trapezu",
+
+          "graniastos³up o podstawie trójk¹ta",
+          "wielok¹t dowolny", 
+          "p³aska", 
+          "nieprawid³owa" }
+     video { 
+          "szeœcian.avi", 
+          "prostopad³oœcian_o_podstawie_kwadratu.avi", 
+          "prostopad³oœcian_o_podstawie_w_kszta³cie_prostok¹ta.avi", 
+          "prostopad³oœcian_o_podstawie_w_kszta³cie_rombu.avi",
+          "prostopad³oœcian_o_podstawie_w_kszta³cie_trapezu.avi", 
+
+          "ostros³up_trójk¹tny.avi", 
+          "ostros³up_o_podstawie_kwadratu.avi",  
+          "ostros³up_o_podstawie_prostok¹ta.avi", 
+          "ostros³up_o_podstawie_w_kszta³cie_rombu.avi",  
+          "ostros³up_o_podstawie_w_kszta³cie_trapezu.avi", 
+
+          "",  
+          "", 
+          "p³aska.avi", 
+          "nieprawid³owa.avi" };
+
+    graniastos³up :
+      query "Czy jest to wieloœcian który posiada dwie œciany, zwane podstawami, le¿¹ce w p³aszczyznach równoleg³ych ?"
+      val oneof { "tak", "nie" };
+
+    iloœæ_wierzcho³ków :
+      query "Podaj iloœæ wierzcho³ków wieloœcianu : "
+      val oneof { 3, 4, 5, 6, 7, 8, 9, 10 }; 
+ 
+    krawêdzie_boczne_prostopad³e_do_podstaw :
+      query "Czy krawêdzie boczne s¹ prostopad³e do podstaw ?"
+      val oneof { "tak", "nie" }
+      single yes;
+
+    graniastos³up_prosty :
+      val oneof { "tak", "nie" }
+      ask no
+      single yes;
+
+    graniastos³up_prawid³owy :
+      val oneof { "tak", "nie" }
+      ask no
+      single yes;
+    
+    podstawa_jest_wielok¹tem_foremnym : 
+      val oneof { "tak", "nie" }
+      ask no
+      single yes;
+
+    wszystkie_krawêdzie_podstawy_równe :
+      query "Czy wszystkie krawêdzie podstawy s¹ równe ?"
+      val oneof { "tak", "nie" }
+      single yes;
+  
+    wszystkie_k¹ty_podstawy_równe :
+      query "Czy wszystkie k¹ty w podstwie s¹ równe ?"
+      val oneof { "tak", "nie" }
+      single yes;
+
+    wszystkie_krawêdzie_równe :
+      query "Czy wszystkie krawêdzie wieloœcianu s¹ równe ?"
+      val oneof { "tak", "nie" }
+      single yes;
+
+    prostopad³oœcian :
+      val oneof { "tak", "nie" }
+      ask no
+      single yes;
+
+    wszystkie_œciany_s¹_prostok¹tami:
+      query "Czy wszystkie œciany wieloœcianu s¹ prostok¹tami ?"
+      val oneof { "tak", "nie" }
+      single yes;
+
+    równoleg³oœcian :
+      val oneof { "tak", "nie" }
+      ask no
+      single yes;
+
+    podstawa_jest_równoleg³obokiem :
+      val oneof { "tak", "nie" }
+      ask no
+      single yes;
+
+    iloœæ_krawêdzi_podstawy :
+     query "Podaj iloœæ krawêdzi podstawy :"
+     single yes
+     val oneof { 3, 4, 5, 6, 7, 8, 9 };
+     
+    podstawa :
+     ask no
+     val oneof { "kwadrat", "prostok¹t", "romb", "trapez", "trójk¹t", "inna" };
+
+    krawêdzie_podstawy_naprzeciwleg³e_równe :
+      query "Czy wszystkie krawêdzie podstawy le¿¹ce naprzeciw siebie s¹ równe ?"
+      val oneof { "tak", "nie" }
+      single yes;
+
+    krawêdzie_podstawy_równoleg³e:
+      query "Czy wszystkie krawêdzie podstawy le¿¹ce naprzeciw s¹ równoleg³e ?"
+      val oneof { "tak", "nie" }
+      single yes;
+
+ end;
+
+ rules
+
+  10: figura = "szeœcian" if
+       prostopad³oœcian = "tak",
+       wszystkie_krawêdzie_równe = "tak";
+
+  11: figura = "prostopad³oœcian o podstawie kwadratu" if
+       prostopad³oœcian = "tak",
+       podstawa = "kwadrat";
+
+  12: figura = "prostopad³oœcian o podstawie prostok¹ta" if
+       prostopad³oœcian = "tak",
+       podstawa = "prostok¹t";
+
+  13: figura = "prostopad³oœcian o podstawie w kszta³cie rombu" if
+       prostopad³oœcian = "tak",
+       podstawa = "romb";
+
+  14: figura = "prostopad³oœcian o podstawie w kszta³cie trapezu" if
+       prostopad³oœcian = "tak",
+       podstawa = "trapez";
+
+  20: figura = "ostros³up trójk¹tny" if
+       iloœæ_wierzcho³ków = X,
+       X == 4,
+       iloœæ_krawêdzi_podstawy = Y,
+       Y == 3;
+
+  21: figura = "ostros³up o podstawie kwadratu" if
+       iloœæ_wierzcho³ków = X,
+       X == 5,
+       podstawa = "kwadrat";
+
+  22: figura = "ostros³up o podstawie prostok¹ta" if
+       iloœæ_wierzcho³ków = X,
+       X == 5,
+       podstawa = "prostok¹t";
+
+  23: figura = "ostros³up o podstawie w kszta³cie rombu" if
+       iloœæ_wierzcho³ków = X,
+       X == 5,
+       podstawa = "romb";
+
+  24: figura = "ostros³up o podstawie w kszta³cie trapezu" if
+       iloœæ_wierzcho³ków = X,
+       X == 5,
+       podstawa = "trapez";
+
+  25: figura = "graniastos³up o podstawie trójk¹ta" if
+       iloœæ_wierzcho³ków = X,
+       X == 6,
+       iloœæ_krawêdzi_podstawy = Y,
+       Y == 3,
+       graniastos³up = "tak";
+
+  
+  34: figura = "nieprawid³owa" if
+       iloœæ_wierzcho³ków = X,
+       iloœæ_krawêdzi_podstawy = Y,
+       X < Y;
+
+  32: figura = "p³aska" if
+       iloœæ_wierzcho³ków = X,
+       iloœæ_krawêdzi_podstawy = Y,
+       X == Y;
+
+  31: figura = "wielok¹t dowolny" if
+       iloœæ_wierzcho³ków = X,
+       (X > 8 |
+       X < 4 |
+       X == 7);
+
+
+
+       
+  35: figura = "wielok¹t dowolny" if
+       iloœæ_wierzcho³ków = X,
+       X == 6,
+       iloœæ_krawêdzi_podstawy = Y,
+       Y == 3,
+       graniastos³up = "nie";
+       
+  36: figura = "wielok¹t dowolny" if
+       iloœæ_wierzcho³ków = X,
+       X == 8,
+       iloœæ_krawêdzi_podstawy = Y,
+       Y == 4,
+       graniastos³up = "nie";
+
+
+  37: figura = "wielok¹t dowolny" if
+       iloœæ_wierzcho³ków = X,
+       X == 8,
+       graniastos³up = "nie";
+
+  50: figura = "wielok¹t dowolny" if
+       iloœæ_wierzcho³ków = X,
+       X == 5,
+       iloœæ_krawêdzi_podstawy = Y,
+       Y == 3;
+
+  51: figura = "wielok¹t dowolny" if
+       iloœæ_wierzcho³ków = X,
+       X == 6,
+       iloœæ_krawêdzi_podstawy = Y,
+       (Y == 4 | Y == 5);
+       
+       
+  100: prostopad³oœcian = "tak" if
+         iloœæ_wierzcho³ków = X,
+         X == 8,
+         iloœæ_krawêdzi_podstawy = Y,
+         Y == 4,
+         równoleg³oœcian = "tak",
+         wszystkie_œciany_s¹_prostok¹tami = "tak";
+
+
+  101: równoleg³oœcian = "tak" if
+         graniastos³up = "tak",
+         podstawa_jest_równoleg³obokiem = "tak";
+
+
+  201: graniastos³up_prosty = "tak" if
+         graniastos³up = "tak",
+         krawêdzie_boczne_prostopad³e_do_podstaw = "tak";
+
+  202: graniastos³up_prosty = "nie" if
+         graniastos³up = "tak",
+         krawêdzie_boczne_prostopad³e_do_podstaw = "nie";
+
+  203: graniastos³up_prawid³owy = "tak" if
+         graniastos³up_prosty = "tak",
+         podstawa_jest_wielok¹tem_foremnym = "tak";
+
+  204: graniastos³up_prawid³owy = "nie" if
+         graniastos³up = "tak",
+         podstawa_jest_wielok¹tem_foremnym = "nie";
+
+  205: graniastos³up_prawid³owy = "nie" if
+         graniastos³up = "tak",
+         graniastos³up_prosty = "nie";
+       
+   
+
+  220: podstawa_jest_wielok¹tem_foremnym = "tak" if
+         wszystkie_krawêdzie_podstawy_równe = "tak",
+         wszystkie_k¹ty_podstawy_równe = "tak";
+
+  221: podstawa_jest_wielok¹tem_foremnym = "nie" if
+         wszystkie_krawêdzie_podstawy_równe = "nie";
+
+  223: podstawa_jest_wielok¹tem_foremnym = "nie" if
+         wszystkie_k¹ty_podstawy_równe = "nie";
+
+  301: podstawa_jest_równoleg³obokiem = "tak" if
+          podstawa = "kwadrat" | 
+          podstawa = "prostok¹t" |
+          podstawa = "romb";
+
+  310: podstawa = "kwadrat" if
+         iloœæ_krawêdzi_podstawy = X,
+         X == 4,
+         wszystkie_k¹ty_podstawy_równe = "tak",
+         wszystkie_krawêdzie_podstawy_równe = "tak";
+
+  311: podstawa = "prostok¹t" if
+         iloœæ_krawêdzi_podstawy = X,
+         X == 4,
+         wszystkie_k¹ty_podstawy_równe = "tak";
+
+  312: podstawa = "romb" if
+         iloœæ_krawêdzi_podstawy = X,
+         X == 4,
+         (krawêdzie_podstawy_naprzeciwleg³e_równe = "tak" |
+         krawêdzie_podstawy_równoleg³e = "tak");
+
+  313: podstawa = "trapez" if
+         iloœæ_krawêdzi_podstawy = X,
+         X == 4,
+         (krawêdzie_podstawy_naprzeciwleg³e_równe = "nie" |
+         krawêdzie_podstawy_równoleg³e = "nie");
+
+  314: podstawa = "trójk¹t" if
+         iloœæ_krawêdzi_podstawy = X,
+         X == 3;
+
+  320: podstawa = "inna" if
+         iloœæ_krawêdzi_podstawy = X,
+         X > 4;
+        
+
+ end;
+
+ control
+
+   function help
+   begin
+     winHelp( "..\\..\\instr.hlp", key, "figury");
+   end;
+
+   run;
+
+   int DLG, RET;
+   addSolution( yes );
+   char Liczby[7];
+   Liczby[0] := "3";
+   Liczby[1] := "4";
+   Liczby[2] := "5";
+   Liczby[3] := "6";
+   Liczby[4] := "7";
+   Liczby[5] := "8";
+   Liczby[6] := "9";
+   char WIERZ;
+   char KRAW;
+
+
+   WIERZ := "8";
+   KRAW := "4";
+   dlgCreate( DLG, "dlgs.dll", 201 );
+   dlgBindComboBox( DLG, 101, Liczby, WIERZ );
+   dlgBindComboBox( DLG, 102, Liczby, KRAW );
+   dlgBindButton( DLG, 998, help );
+   dlgExecute( DLG, RET );
+
+   if ( RET <> 1 )
+   begin  
+     mainMenu;
+   end;
+   float W, K;
+   
+   ston( WIERZ, W );
+   ston( KRAW,  K );
+   addFact( _, "iloœæ_wierzcho³ków", W );
+   addFact( _, "iloœæ_krawêdzi_podstawy", K );
+   precision( 5, 0 );
+   setSysText( notConfirmed, "[I[Bfigura dowolna lub nieprawid³owa" );
+   setSysText( problem, "[1[BKlasyfikacja wieloœcianów" );
+   goal ( "figura=X" );
+   delNewFacts;
+ end;
+
+end;     
+
+  // hghhhhhhh

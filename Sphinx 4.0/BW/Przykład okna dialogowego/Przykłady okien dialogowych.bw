@@ -1,0 +1,45 @@
+knowledge base nazwa
+ control
+
+  char Imiê, Nazwisko, Ulica, NrDomu, KodPocztowy, Województwo;
+  int Plec;
+
+   function getWojewództwo
+   begin
+     int DLG,Ret;
+     dlgCreate( DLG, "", "wojewodztwo.dlg" );
+     dlgBindListBox( DLG, "Woj", _, Województwo );
+     dlgExecute( DLG, Ret );
+   end;
+
+   function poka¿KwestionariuszDanychOsobowych
+   begin
+     int DLG, Ret;
+     dlgCreate( DLG, "", "kwestionariusz.dlg" );
+     dlgBindEdit( DLG, "Imie", Imiê );
+     dlgBindEdit( DLG, "Nazwisko", Nazwisko );
+     dlgBindEdit( DLG, "Ulica", Ulica );
+     dlgBindEdit( DLG, "Nr", NrDomu );
+     dlgBindEdit( DLG, "KodPocztowy", KodPocztowy );
+     dlgBindRadioButton ( DLG, "Plec", Plec );
+     dlgBindEdit( DLG, "Woj", Województwo );
+
+     dlgBindButton( DLG, "GetWoj", getWojewództwo );
+     dlgExecute( DLG, Ret );
+   end;
+
+  // g³ówny program
+
+  run;
+  setAppWinTitle( "Przyk³ad okien dialogowych" );
+
+  menu "Opcje"
+   1. "Kwestionariusz danych osobowych"
+   2. "Wyjœcie"
+   case 1:
+    poka¿KwestionariuszDanychOsobowych;
+  case 2:
+   exit;
+  end;
+ end;
+end;

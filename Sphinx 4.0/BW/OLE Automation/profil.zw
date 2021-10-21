@@ -1,0 +1,46 @@
+knowledge source profil_klienta
+
+// ród³o wiedzy oceniaj¹ce profil klienta ubiegaj¹cego siê o kredyt
+
+  facets
+
+     single yes;
+
+     profil_klienta :
+        val oneof { "ok", "z³y" };
+
+     status_prawny_klienta :
+       query "PODAJ STATUS PRAWNY KLIENTA:"
+       val oneof { "ma osobowoœæ prawn¹", "nie ma osobowoœci prawnej" };
+
+     dotychczasowe_kredyty :
+       query "PODAJ POZIOM SP£ATY DOTYCHCZASOWYCH KREDYTÓW:"
+       val oneof { "sp³acone", "niesp³acone" };
+
+     zad³u¿enie; 
+  end;
+
+  rules
+
+    11: profil_klienta="ok" if
+            status_prawny_klienta = "ma osobowoœæ prawn¹",
+            dotychczasowe_kredyty = "sp³acone";
+            
+    12: profil_klienta = "z³y" if
+            status_prawny_klienta = "nie ma osobowoœci prawnej";
+
+    13: profil_klienta = "z³y" if
+            dotychczasowe_kredyty = "niesp³acone";
+
+
+    14: dotychczasowe_kredyty = "sp³acone" if
+          zad³u¿enie = Zad³u¿enie,
+          Zad³u¿enie >=0;
+
+    15: dotychczasowe_kredyty = "niesp³acone" if
+          zad³u¿enie = Zad³u¿enie,
+          Zad³u¿enie <0;
+  end;
+
+end;  
+     

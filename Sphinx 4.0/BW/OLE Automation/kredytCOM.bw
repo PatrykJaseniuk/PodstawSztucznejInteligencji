@@ -1,0 +1,22 @@
+knowledge base przyklad_7_3__aplikacja_tablicowa
+
+  sources
+    deckred : 
+        type kb
+        file "deckred.zw";
+    profil : 
+        type kb 
+        file "profil.zw";
+    gwarancje : 
+        type kb
+        file "gwaranc.zw";
+    sytfin : 
+        type kb 
+        file "sytfin.zw";
+  end;
+ 
+    
+ control  
+   messageBox( 0,0,"Uwaga", "Baza wiedzy uruchamiana z poziomu arkusza kalkulacyjnego programu Microsoft Excel" );
+ end;
+end;

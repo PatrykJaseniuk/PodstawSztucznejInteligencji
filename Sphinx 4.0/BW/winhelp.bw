@@ -1,0 +1,22 @@
+knowledge base nazwa
+ control
+  char HELPFILE, KEY;
+  HELPFILE := "..\\INSTR.HLP";
+  menu "Test instrukcji winHelp"
+   1. "Help Index"
+   2. "Help Context"
+   3. "Help Key"
+   4. "Exit"
+   case 1:
+    winHelp( HELPFILE, index, 0 );
+   case 2:
+    winHelp( HELPFILE, context, 101 );
+   case 3:
+    seditBox( 0,0, "Podaj klucz", "", 0, KEY );
+    winHelp( HELPFILE, key, KEY );
+   case 4:
+    winHelp( HELPFILE, quit, 0 );
+    exit;
+  end;    
+ end;
+end;

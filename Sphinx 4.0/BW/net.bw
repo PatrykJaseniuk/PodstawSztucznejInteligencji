@@ -1,0 +1,182 @@
+knowledge base net
+// Demonstracyjna baza wiedzy
+// © 1990-2003 AITECH, Artificial Intelligence Laboratory, Katowice
+ sources
+
+   nos:
+      type kb
+      file "nos.zw";
+
+   server:
+      type kb
+      file "server.zw";
+
+   pc:
+      type kb
+      file "pc.zw";
+
+   metafory: 
+      type metaphors
+      file "metaf.dbm";
+
+ end;
+
+ facets
+   ask yes;
+   single yes;
+
+   stacje :
+   query "Jaka jest przewidywana iloœæ stacji w sieci ?:"
+   val oneof { "do 10", "10 do 20", "20 do 50" };
+
+   dane_il :
+   query "Jaka jest przewidywana wielkoœæ danych wraz z oprogramowaniem ?:"
+   val oneof { "do 300 MB", "300 MB do 500 MB", "500 MB do 1 GB", "1 GB do 4 GB","ponad 4 GB" };
+
+   rozbudowa :
+   query "Czy przewiduje siê mo¿liwoœæ dalszej rozbudowy systemu ?:"
+   val oneof { "tak", "nie" };
+
+   char_rozbudowy :
+   query "Na czym bêdzie polegaæ rozbudowa systemu ?:"
+   val oneof { "dodanie urz¹dzeñ peryferyjnych", "dodanie stacji roboczych" };
+
+   rozb_oprogramowania :
+   query "Czy przewiduje siê rozwój i rozbudowê oprogramowania?:"
+   val oneof { "tak", "nie" };
+
+   sprzêt:
+   query "Jaka konfiguracja sprzêtowa ?:"
+   val oneof { "minimalna", "sprzêt standardowy", "najlepsza" };
+
+   integracja:
+   query "Czy oprogramowanie pracuje na wspólnych zbiorach danych ?:"
+   val oneof { "tak", "nie", "nie wiem" };
+
+   sql :
+   query "Czy serwer bêdzie serwerem baz danych (SQL) ?:"
+   val oneof { "tak","nie" };
+
+   mirroring :
+   query "Czy bêdzie zastosowany mirroring dysków ?:"
+   val oneof { "tak", "nie" };
+
+   swd :
+   query "Czy przewiduje siê zastosowanie aplikacji SIK lub SWD ?:"
+   val oneof { "tak", "nie" };
+
+   rodzaj_pracy :
+   query "Okreœl rodzaj pracy:"
+   val oneof { "przetwarzanie grafiki", 
+          "automatyzacja prac projektowych",
+                    "obliczenia statystyczno-ekonometryczne",
+                    "tworzenie oprogramowania",
+                    "systemy ewidencyjne", 
+          "SIK lub SWD" };
+
+   œrod_operacyjne :
+   query "Jakie œrodowisko operacyjne bêdzie stosowane ?:"
+   val oneof { "DOS", "Windows" };
+
+   dostêpy :
+   query "Jaka jest przewidywana czêstotliwoœæ dostêpu do sieciowych zasobów dyskowych ?:"
+   val oneof { "du¿a", "ma³a" };
+
+   zasoby :
+   query "Jakie zasoby bed¹ przewa¿nie wykorzystywane ?:"
+   val oneof { "lokalne", "sieciowe" };
+
+   dane_ms :
+   query "Czy dane i aplikacje u¿ytkownika bêd¹ sk³adowane na dysku lokalnym ?:"
+   val oneof { "tak", "nie" };
+
+   local_MB :
+   query "Okreœl w przybli¿eniu wielkoœæ oprogramowania wraz z danymi (dysk lokalny) ?:"
+   val oneof { "do 120 MB", "120 MB do 240 MB", "240 MB do 500 MB" };
+// NOS
+
+   typ_systemu_operacyjnego :
+   val oneof { "system zcentralizowany", "sieæ równorzêdna peer to peer" };
+// SERWER
+   konfiguracja_serwera :
+   single no
+   val oneof { "p³yta g³ówna 386dx 40 mhz",
+          "p³yta g³ówna 486sx 25 mhz",
+          "p³yta g³ówna 486dx 33 mhz",
+          "p³yta g³ówna 486dx2 66 mhz",
+          "p³yta g³ówna 486dx4 100 mhz",
+          "p³yta g³ówna Pentium 90 mhz",
+          "dysk twardy o pojemnoœci 540 MB",
+          "dysk twardy o pojemnoœci 1 GB",
+          "dysk twardy o pojemnoœci 2 GB",
+          "dysk twardy o pojemnoœci 4 GB",
+          "dysk twardy o pojemnoœci 8 GB",
+          "dysk twardy o pojemnoœci 16 GB",
+          "sterownik HDD typu IDE",
+          "sterownik HDD typu ESDI",
+          "sterownik HDD typu SCSI",
+          "pamiêæ ram o pojemnoœci 4 MB", 
+          "pamiêæ ram o pojemnoœci 8 MB",
+          "pamiêæ ram o pojemnoœci 16 MB",
+          "pamiêæ ram o pojemnoœci 32 MB",
+          "pamiêæ ram o pojemnoœci 64 MB",
+          "pamiêæ ram o pojemnoœci 128 MB" };
+// PC
+   konfiguracja_koñcówek_sieciowych :
+   single no
+   val oneof { "p³yta g³ówna 386dx 40 mhz",
+          "p³yta g³ówna 486sx 33 mhz",
+          "p³yta g³ówna 486dx 33 mhz",
+          "p³yta g³ówna 486dx2 66 mhz",
+          "p³yta g³ówna 486dx4 100 mhz",
+          "p³yta g³ówna Pentium 60 mhz",
+          "p³yta g³ówna Pentium 90 mhz",
+          "pamiêæ ram o pojemnoœci 2 MB",
+          "pamiêæ ram o pojemnoœci 4 MB", 
+          "pamiêæ ram o pojemnoœci 8 MB",
+          "pamiêæ ram o pojemnoœci 16 MB",
+          "pamiêæ ram o pojemnoœci 20 MB",
+          "pamiêæ ram o pojemnoœci 32 MB",
+          "pamiêæ ram o pojemnoœci 64 MB",
+          "pamiêæ ram o pojemnoœci 128 MB",
+          "karta graficzna svga vlb lub pci 512 KB vram",
+          "karta graficzna svga vlb lub pci 1024 KB vram",
+          "karta graficzna svga vlb lub pci 2048 KB vram",
+          "specjalistyczna karta graficzna",
+          "karta graficzna vga",
+          "karta graficzna svga vlb lub pci",
+          "dysk twardy nie jest konieczny",
+          "dysk twardy o pojemnoœci 240 MB",
+          "dysk twardy o pojemnoœci 520 MB",
+          "dysk twardy o pojemnoœci 1 GB" };
+ end;
+
+ control
+
+   run;  
+   createAppWindow;
+   vignette( "NET", "Demonstracyjna baza wiedzy\nKonfiguracja sieci, serwera i stanowisk roboczych", 
+                        "Copyright ©1990-99  AITECH, Artificial Intelligence Laboratory K-CE");
+   setAppWinTitle("KONFIGURACJA SIECI");
+
+   menu "&Konfiguracja"
+   1.  "Dobór rodzaju &sieci"
+   2.  "Dobór &konfiguracji serwera (NOVELL)"
+   3.  "Dobór konfiguracji stanowisk &roboczych"
+   4.  "&Nowa konsultacja"
+   5.  "&Wyjœcie"
+  
+   case 1;
+       solve( nos, "typ_systemu_operacyjnego=Typ_systemu_operacyjnego" );
+   case 2;
+       solve( server, "konfiguracja_serwera=Konfiguracja_serwera" );
+   case 3;
+       solve( pc, "konfiguracja_koñcówek_sieciowych=Konfiguracja_koncowek_sieciowych" );
+   case 4;
+       delNewFacts;
+   case 5;
+       exit;
+   end;
+  end; 
+
+ end; 

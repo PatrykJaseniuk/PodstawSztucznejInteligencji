@@ -1,0 +1,17 @@
+:Base dss.hlp
+:Title Doradca Finansowy
+1 Wprowadzenie=Start
+1 Krok po kroku
+2 Nowy u¿ytkownik=nowyUsr
+2 Nowa firma=nowa
+2 Wprowadzanie danych=wprowadz
+2 Analiza eksperta=analiza
+2 Wykresy=opisWykresy
+1 Menu
+2 Dane=dane
+2 Edycja=edycja
+2 Eskpertyza=ekspert
+2 Arkusze=arkusze
+2 Wykresy=wykresy
+2 U¿ytkownik=u¿ytkownik
+2 Konfiguracja=konfig

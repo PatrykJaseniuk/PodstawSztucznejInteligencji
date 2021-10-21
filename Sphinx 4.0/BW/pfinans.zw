@@ -1,0 +1,23 @@
+knowledge source p³ynnoœæ_finansowa
+
+rules
+
+ 11: p³ynnoœæ_finansowa = "zachowana" if
+     wskaŸnik_p³ynnoœci_bie¿¹cej = #WPB_PAR2,
+     wskaŸnik_szybki = "WPS > 1";
+
+ 12: p³ynnoœæ_finansowa = "firma dzia³a z dnia na dzieñ" if
+     wskaŸnik_p³ynnoœci_bie¿¹cej = #WPB_PAR1,
+     wskaŸnik_szybki = "WPS > 1";
+
+ 13: p³ynnoœæ_finansowa = "firma mo¿e nie sprostaæ zobowi¹zaniom" if
+     wskaŸnik_p³ynnoœci_bie¿¹cej = #WPB_PAR2,
+     wskaŸnik_szybki = "WPS < 1";
+
+ 14: p³ynnoœæ_finansowa = "niezachowana" if
+     wskaŸnik_p³ynnoœci_bie¿¹cej = #WPB_PAR1,
+     wskaŸnik_szybki = "WPS < 1";
+
+end;
+
+end;

@@ -1,0 +1,22 @@
+header: Okno aplikacji, winieta, blok instrukcji
+
+// *********************************************
+// * Prosta aplikacja uruchamiana w oknie,     *
+// * zawieraj¹ca winietê informacyjn¹.         *
+// *********************************************
+
+char Text1, Text2, Text3;
+
+	run;
+
+	createAppWindow;
+
+	Text1 := "Nazwa aplikacji";
+	Text2 := "Informacje dodatkowe\nAutor programu\nWydawca";
+	Text3 := "© 1999, Autor/Firma";
+
+	vignette( Text1, Text2, Text3 );
+
+	// <- blok instrukcji
+
+end

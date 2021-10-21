@@ -1,0 +1,96 @@
+knowledge source ocena_sprawnoœci_dzia³ania
+
+rules
+
+ 41:  ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO < 50%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "zawy¿ony";
+
+ 42:  ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO < 50%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "normalny";
+
+ 43:  ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO < 50%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "zani¿ony";
+
+ 44:  ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO < 50%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "zawy¿ony";
+
+ 45:  ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO < 50%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "normalny";
+
+ 46:  ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO < 50%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "zani¿ony";
+
+ 47:  ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "zakres 50% < WO < 90%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "normalny";
+
+ 48:  ocena_sprawnoœci_dzia³ania = "firma surowo egzekwuje nale¿noœci" if
+       wskaŸnik_operacyjnoœci = "zakres 50% < WO < 90%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "normalny";
+
+ 49:  ocena_sprawnoœci_dzia³ania = "firma ma zbyt wysokie zapasy" if
+       wskaŸnik_operacyjnoœci = "zakres 50% < WO < 90%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "zawy¿ony";
+
+ 410: ocena_sprawnoœci_dzia³ania="firma ma zbyt wysokie zapasy" if
+       wskaŸnik_operacyjnoœci = "zakres 50% < WO < 90%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "zawy¿ony";
+  
+ 411: ocena_sprawnoœci_dzia³ania = "firma ma zbyt niskie zapasy" if
+       wskaŸnik_operacyjnoœci = "zakres 50% < WO < 90%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "zani¿ony";
+
+ 412: ocena_sprawnoœci_dzia³ania = "firma ma zbyt niskie zapasy" if
+       wskaŸnik_operacyjnoœci = "zakres 50% < WO < 90%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "zani¿ony";
+
+ 413: ocena_sprawnoœci_dzia³ania = "niska sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO > 90%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "normalny";
+
+ 414: ocena_sprawnoœci_dzia³ania = "niska sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO > 90%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "normalny";
+
+ 415: ocena_sprawnoœci_dzia³ania = "niska sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO > 90%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "zawy¿ony";
+
+ 416: ocena_sprawnoœci_dzia³ania = "niska sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO > 90%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "zawy¿ony";
+
+ 417: ocena_sprawnoœci_dzia³ania = "niska sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO > 90%",
+       wskaŸnik_rotacji_nale¿noœci = "niski",
+       wskaŸnik_rotacji_zapasów = "zani¿ony";
+
+ 418: ocena_sprawnoœci_dzia³ania = "zbyt niska sprawnoœæ dzia³ania" if
+       wskaŸnik_operacyjnoœci = "WO > 90%",
+       wskaŸnik_rotacji_nale¿noœci = "wysoki",
+       wskaŸnik_rotacji_zapasów = "zani¿ony";
+ end;
+
+end;

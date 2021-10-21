@@ -1,0 +1,580 @@
+knowledge base edytor_wykresów
+ control
+  char Title;
+  int TitleID;
+
+  function nowyWykres
+  begin
+     TitleID := TitleID + 1;
+     sprintf( Title, "Wykres %d", TitleID );
+     openChart( Title, "" );
+     showChart( Title, 1 );
+  end;
+
+  function otwórzWykres
+  begin
+     char NazwaPliku;
+     fileBox( 0,0, "Otwórz wykres", 
+        "Wykres FirstImpression (*.vtc)|*.vtc|Inne (*.*)|*.*", 
+         NazwaPliku );
+     if ( RETURN <> 1 )
+     begin
+       return 0;
+     end;
+     TitleID := TitleID + 1;
+     sprintf( Title, "Wykres %d", TitleID );
+     openChart( Title, "" );     
+     showChart( Title, 0 );
+     readChart( Title, NazwaPliku );
+  end;
+
+  function zapiszWykres
+  begin
+     char ARKUSZ;
+     getActiveWindow( ARKUSZ );
+     if ( ARKUSZ <> "" )
+     begin
+       char TYP;
+       getWindowType( ARKUSZ, TYP );
+       if ( TYP == "chart" )
+       begin
+         writeChart( ARKUSZ, "" );
+       end;
+     end;
+  end;
+
+  function zapiszWykresJako
+  begin
+     char ARKUSZ;
+     getActiveWindow( ARKUSZ );
+     if ( ARKUSZ <> "" )
+     begin
+       char TYP;
+       getWindowType( ARKUSZ, TYP );
+       if ( TYP == "chart" )
+       begin
+         char NazwaPliku;
+         fileBox( 0,0, "Zapisz wykres jako...", 
+          "Wykres FirstImpression (*.vtc)|*.vtc|Mapa bitowa (*.bmp)|*.bmp|Metaplik (*.wmf)|*.wmf|Plik GIF (*.gif)|*.gif|Plik JPEG (*.jpeg)|*.jpeg|Inny (*.*)|*.*", 
+           NazwaPliku );
+         if ( RETURN == 1 )
+         begin
+             writeChart( ARKUSZ, NazwaPliku );
+         end;
+       end;
+     end;
+  end;
+
+  function zamknijAplikacjê
+  begin
+      mainMenu;
+  end;
+
+
+  function closeWnd
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+          closeChart( CHART );
+       end
+       else
+       begin
+          closeWindow( CHART );
+       end;
+     end;
+  end;
+
+  function oProgramie
+  begin
+     char  S1, S2, S3;
+     run;
+     S1 := "Edytor wykresów";
+     S2 := "Program demonstracyjny do edycji wykresów.\n\nAutor programu: Tomasz Kaczmarek\n\ne-mail: aitech@aitech.com.pl\nWWW: http://www.aitech.com.pl";
+     S3 := "(C) AITECH Artificial Intelligence Laboratory, Katowice 1990-2003";
+     vignette( S1, S2, S3 );
+  end;
+
+
+  function wstawLosoweDane
+  begin
+     int I[4, 7];
+     int R, C;
+     for R := 0 to 3 step 1 
+     begin
+      for C := 0 to 6 step 1
+      begin
+         random( 10, I[R,C] );
+      end;
+     end;
+
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+          setChartArray( CHART, I );
+       end;
+     end;
+  end;
+
+  function dane
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Wstaw dan¹", "Podaj adres danej w postac [R,C]:",0,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         double D;
+         neditBox(0,0, -100, 100, "Podaj dan¹:",D);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, S, D );
+       end;
+     end;
+  end;
+
+  function typWykresu
+  begin
+    char S[27];
+    S[0] := "3d Bar";
+    S[1] := "2d Bar";
+    S[2] := "3d Line";
+    S[3] := "2d Line";
+    S[4] := "3d Area";
+    S[5] := "2d Area";
+    S[6] := "3d Step";
+    S[7] := "2d Step";
+    S[8] := "3d Combination";
+    S[9] := "2d Combination";
+    S[10] := "3d Horizontal Bar";
+    S[11] := "2d Horizontal Bar";
+    S[12] := "3d Clustered Bar";
+    S[13] := "3d Pie";
+    S[14] := "2d Pie";
+    S[15] := "3d Doughnut";
+    S[16] := "2d XY";
+    S[17] := "2d Polar";
+    S[18] := "2d Radar";
+    S[19] := "2d Bubble";
+    S[20] := "2d HiLo";
+    S[21] := "2d Gantt";
+    S[22] := "3d Gantt";
+    S[23] := "3d Surface";
+    S[24] := "2d Contour";
+    S[25] := "3d Scatter";
+    S[26] := "3d XYZ";
+
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+          int SEL;
+          slistBox(0,0,"WYKRESY", "Wybierz Typ Wykresu", S, 27, SEL );
+          if (RETURN == 1 )
+          begin
+              setChartData( CHART, "Chart Type", S[SEL] );
+          end;
+       end;
+     end;
+  end;
+
+  function title
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0,"WYKRESY", "Podaj tytu³ wykresu",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Title", S );
+       end;
+     end;
+  end;
+
+  function titleFont
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0,"Tytu³", "Podaj czcionkê tytu³u",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Title Font", S );
+       end;
+     end;
+  end;
+
+  function footnote
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0,"WYKRESY", "Podaj tekst stopki",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Footnote", S );
+       end;
+     end;
+  end;
+
+  function footnoteFont
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0,"WYKRESY", "Podaj czcionkê stopki",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Footnote Font", S );
+       end;
+     end;
+  end;
+
+  function w³¹czLegende
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         setChartData( CHART, "Show Legend", 1 );
+       end;
+     end;
+  end;
+
+  function wy³¹czLegende
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         setChartData( CHART, "Show Legend", 0 );
+       end;
+     end;
+  end;
+ 
+  function ustawieniaR
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         int R;
+         neditBox( 0,0, 0, 100, "Podaj iloœæ wierszy", R );
+         if ( RETURN == 1 )
+         begin
+             setChartData( CHART, "Rows", R );           
+         end;
+       end;
+     end;
+  end;
+
+  function ustawieniaC
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         int C;
+         neditBox( 0,0, 0, 100, "Podaj iloœæ kolumn", C );
+         if ( RETURN == 1 ) 
+         begin
+             setChartData( CHART, "Cols", C );          
+         end;
+       end;
+     end;
+  end;
+
+  function titleX
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Oœ kategorii (X)", "Podaj tekst osi",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "X Axis Title", S );
+       end;
+     end;
+  end;
+
+  function titleY
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Oœ serii (Y)", "Podaj tekst osi",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Y Axis Title", S );
+       end;
+     end;
+  end;
+
+  function titleZ
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Oœ wartoœci (Z)", "Podaj tekst osi",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Z Axis Title", S );
+       end;
+     end;
+  end;
+
+  function fontX
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Oœ kategorii (X)", "Podaj czcionkê",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "X Axis Font", S );
+       end;
+     end;
+  end;
+
+  function fontY
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Oœ serii (Y)", "Podaj czcionkê",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Y Axis Font", S );
+       end;
+     end;
+  end;
+
+  function legendFont
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Legenda", "Podaj czcionkê",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Legend Font", S );
+       end;
+     end;
+  end;
+
+  function fontZ
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Oœ waroœci (Z)", "Podaj czcionkê",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Z Axis Font", S );
+       end;
+     end;
+  end;
+
+  function seriesX
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S, S1;
+         seditBox(0,0, "Oœ kategorii (X)", "Podaj index (R1)",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         seditBox(0,0, "Oœ kategorii (X)", "Podaj wartoœæ",1,S1);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, S, S1 );
+       end;
+     end;
+  end;
+
+  function seriesXFont
+  begin
+     char CHART;
+     getActiveWindow( CHART );
+     if ( CHART <> "" )
+     begin
+       char TYP;
+       getWindowType( CHART, TYP );
+       if ( TYP == "chart" )
+       begin
+         char S;
+         seditBox(0,0, "Oœ kategorii (X)", "Podaj czcionkê",1,S);
+         if ( RETURN <> 1 ) begin return 0; end;          
+         setChartData( CHART, "Rows Font", S );
+       end;
+     end;
+  end;
+
+  int MENUID, POPID1, POPID2, POPID3;
+  TitleID := 0;
+  setAppWinTitle( "Edytor wykresów - wersja 1.0" );
+  createAppWindow;
+  oProgramie;
+
+  createMenu(MENUID);
+
+  createPopupMenu(POPID1, "Wykres");
+  appendMenu(POPID1, "Nowy", nowyWykres );
+  appendMenu(POPID1, "Otwórz", otwórzWykres );
+  appendMenu(POPID1, "Zapisz", zapiszWykres );
+  appendMenu(POPID1, "Zapisz jako ...", zapiszWykresJako );
+  appendMenu(POPID1, separator, _);
+  appendMenu(POPID1, "Zamknij bie¿¹ce okno", closeWnd );
+  appendMenu(POPID1, separator, _);
+  appendMenu(POPID1, "Wyjœcie z programu", zamknijAplikacjê );
+  appendMenu(MENUID,menu,POPID1);
+
+  createPopupMenu(POPID1, "Wstaw");
+  appendMenu(POPID1, "Dan¹", dane );
+  appendMenu(POPID1, "Losowe dane", wstawLosoweDane );
+  appendMenu(MENUID,menu,POPID1);
+
+  createPopupMenu(POPID1, "Ustawienia");
+  createPopupMenu(POPID2, "Wielkoœæ wykresu");
+  appendMenu(POPID2, "Iloœæ wierszy", ustawieniaR );
+  appendMenu(POPID2, "Iloœæ kolumn",  ustawieniaC );
+  appendMenu(POPID1,menu,POPID2);
+  createPopupMenu(POPID2, "Tytu³");
+  appendMenu(POPID2, "Tekst", title );
+  appendMenu(POPID2, "Czcionka", titleFont );
+  appendMenu(POPID1,menu,POPID2);
+  createPopupMenu(POPID2, "Stopka");
+  appendMenu(POPID2, "Tekst", footnote );
+  appendMenu(POPID2, "Czcionka", footnoteFont );
+  appendMenu(POPID1,menu,POPID2);
+  createPopupMenu(POPID2, "Oœ X");
+  appendMenu(POPID2, "Tekst", seriesX );
+  appendMenu(POPID2, "Czcionka", seriesXFont );
+  appendMenu(POPID1,menu,POPID2);
+
+  createPopupMenu(POPID2, "Legenda");
+  appendMenu(POPID2, "W³¹cz", w³¹czLegende );
+  appendMenu(POPID2, "Wy³¹cz", wy³¹czLegende );
+  appendMenu(POPID2, "Czcionka", legendFont );
+  appendMenu(POPID1,menu,POPID2);
+
+  createPopupMenu(POPID2, "Oœ");
+  createPopupMenu(POPID3, "Kategorii (X)");
+  appendMenu(POPID3, "Tytu³", titleX );
+  appendMenu(POPID3, "Czcionka", fontX );
+  appendMenu(POPID2,menu,POPID3);
+  createPopupMenu(POPID3, "Serii (Y)");
+  appendMenu(POPID3, "Tytu³", titleY );
+  appendMenu(POPID3, "Czcionka", fontY );
+  appendMenu(POPID2,menu,POPID3);
+  createPopupMenu(POPID3, "Wartoœci (Z)");
+  appendMenu(POPID3, "Tytu³", titleZ );
+  appendMenu(POPID3, "Czcionka", fontZ );
+  appendMenu(POPID2,menu,POPID3);
+  appendMenu(POPID1,menu,POPID2);
+
+  appendMenu(POPID1, separator, _);
+  appendMenu(POPID1, "Typ wykresu", typWykresu );
+  appendMenu(MENUID,menu,POPID1);
+
+
+  appendMenu(MENUID,menu,window);
+  createPopupMenu(POPID1, "Pomoc");
+  appendMenu(POPID1, "O programie", oProgramie );
+  appendMenu(MENUID,menu,POPID1);
+  fullMenu(MENUID);
+
+ end;
+end;

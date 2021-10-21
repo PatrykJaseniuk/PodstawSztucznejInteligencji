@@ -1,0 +1,23 @@
+knowledge source zyskownosc
+
+rules
+
+  31: ocena_zyskownoœci = "firma zyskowna" if
+       wskaŸnik_zyskownoœci_kapita³u_w³asnego = "roœnie",
+       wskaŸnik_rentownoœci_maj¹tku = "roœnie";
+
+  32: ocena_zyskownoœci = "niska zyskownoœæ kapita³u w³asnego" if
+       wskaŸnik_zyskownoœci_kapita³u_w³asnego = "maleje",
+       wskaŸnik_rentownoœci_maj¹tku = "roœnie";
+
+  33: ocena_zyskownoœci = "niska zyskownoœæ aktywów" if
+       wskaŸnik_zyskownoœci_kapita³u_w³asnego = "roœnie",
+       wskaŸnik_rentownoœci_maj¹tku = "maleje";
+  
+  34: ocena_zyskownoœci = "zyskownoœæ firmy niedostateczna" if
+       wskaŸnik_zyskownoœci_kapita³u_w³asnego = "maleje",
+       wskaŸnik_rentownoœci_maj¹tku = "maleje";
+
+ end;
+
+end;

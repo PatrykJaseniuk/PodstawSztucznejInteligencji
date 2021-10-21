@@ -1,0 +1,31 @@
+knowledge base nazwa
+ control
+   variant ExcelApplication,ExcelWorkbooks,ExcelWorkbook,Range;
+
+   // utwórz obiekt Excel.Application
+   oleCreateObject( ExcelApplication, "Excel.Application" );
+
+   // poka¿ aplikacjê na ekranie 0 - wy³¹cza
+   olePropertySet(ExcelApplication,"Visible", 1);
+
+   
+   olePropertyGet(ExcelApplication,"Workbooks",ExcelWorkbooks);
+   // dodaj nowy  pusty arkusz
+   oleFunction(ExcelWorkbooks,"Add", ExcelWorkbook );   
+
+   // 
+   oleProcedure( ExcelApplication, "Goto",  "W1K1" );
+   olePropertyGet(ExcelApplication,"ActiveCell",Range );
+   olePropertySet(Range,"Value","4" );
+
+   oleProcedure( ExcelApplication, "Goto",  "W1K2" );
+   olePropertyGet(ExcelApplication,"ActiveCell",Range );
+   olePropertySet(Range,"FormulaR1C1","=W1K1*3,14" );
+   double D;
+   olePropertyGet(Range,"Value",D);
+   char S;
+   ntos( D, S );
+   messageBox(0,0,S,S);
+
+ end;
+end;

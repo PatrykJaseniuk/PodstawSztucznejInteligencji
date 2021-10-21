@@ -1,0 +1,37 @@
+knowledge base nazwa
+
+  sources
+    netSin : 
+        type neural_net
+        file ".\\sinus.npr";
+  end;
+
+ control
+    char NetSin;
+
+
+    record NeuralNet SinWe[3];
+    record NeuralNet SinWy[1];	
+
+    SinWe[0].Name := "y-1";
+    SinWe[0].DValue := 1;
+    SinWe[1].Name := "y-2";
+    SinWe[1].DValue := 1;
+    SinWe[2].Name := "y-3";
+    SinWe[2].DValue := 0;
+
+    SinWy[0].Name := "y";	
+    SinWy[0].DValue := 0.131313131;
+
+
+    initNetwork ( netSin );	
+    runNetwork ( netSin, SinWe, SinWy );
+    delNetwork ( netSin);
+     
+    char SSinWy, SSinOut;
+    precision ( 10,8 );	
+    ntos ( SinWy[0].DValue, SSinWy );
+	
+    messageBox( 0, 0, "Wartoœæ funkcji sinus", SSinWy );
+ end;
+end;

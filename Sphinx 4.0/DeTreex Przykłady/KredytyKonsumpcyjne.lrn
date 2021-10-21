@@ -1,0 +1,95 @@
+we	we	we	we	we	we	we	we	we	wy
+#praca	#kredytNa	#p³eæ	#¿onatyZamê¿na	wiek	oszczêdnoœci	kwotaKredytu	liczbaRat	sta¿Pracy	#decyzjaKredytowa
+tak	komputer	kobieta	nie	18	2,5	3,8	15	1	przyznaæ kredyt
+tak	komputer	kobieta	nie	20	1,3	5	20	2	przyznaæ kredyt
+nie	komputer	kobieta	tak	25	0,6	6	12	0	odmówiæ kredytu
+tak	komputer	kobieta	tak	40	0,6	10,5	12	2	przyznaæ kredyt
+tak	komputer	kobieta	nie	50	0,6	6	12	25	przyznaæ kredyt
+tak	komputer	mê¿czyzna	nie	18	1,3	5	8	1	przyznaæ kredyt
+tak	komputer	mê¿czyzna	nie	22	1,3	3	8	4	przyznaæ kredyt
+tak	komputer	mê¿czyzna	tak	28	1,9	5	10	5	przyznaæ kredyt
+tak	komputer	mê¿czyzna	tak	40	2,5	5	20	15	przyznaæ kredyt
+nie	komputer	mê¿czyzna	tak	50	0,6	6	12	0	odmówiæ kredytu
+tak	samochód	kobieta	nie	18	6,3	20	20	1	odmówiæ kredytu
+nie	samochód	kobieta	tak	20	6,3	25	20	0	odmówiæ kredytu
+tak	samochód	kobieta	nie	25	6,3	12,5	20	5	odmówiæ kredytu
+tak	samochód	kobieta	nie	38	18,8	25	20	15	przyznaæ kredyt
+tak	samochód	kobieta	tak	50	6,3	37,5	20	20	przyznaæ kredyt
+tak	samochód	mê¿czyzna	nie	19	6,3	17,5	20	2	odmówiæ kredytu
+tak	samochód	mê¿czyzna	tak	21	18,8	7,5	20	3	przyznaæ kredyt
+tak	samochód	mê¿czyzna	nie	25	18,8	25	20	2	przyznaæ kredyt
+tak	samochód	mê¿czyzna	tak	38	12,5	25	20	15	przyznaæ kredyt
+tak	samochód	mê¿czyzna	tak	50	6,3	37,5	30	2	odmówiæ kredytu
+tak	sprzêt rtv-agd	mê¿czyzna	tak	42	11,3	1,5	6	7	przyznaæ kredyt
+tak	sprzêt rtv-agd	mê¿czyzna	nie	28	1,3	6,3	5	3	przyznaæ kredyt
+nie	sprzêt rtv-agd	kobieta	tak	55	3,8	10	8	0	odmówiæ kredytu
+tak	sprzêt rtv-agd	kobieta	tak	21	1,3	1,5	12	1	przyznaæ kredyt
+tak	sprzêt rtv-agd	mê¿czyzna	nie	81	2,5	5	10	0	odmówiæ kredytu
+tak	sprzêt rtv-agd	kobieta	nie	23	10	7,5	6	1	odmówiæ kredytu
+tak	sprzêt rtv-agd	mê¿czyzna	tak	35	0,9	5	4	5	odmówiæ kredytu
+tak	sprzêt rtv-agd	kobieta	nie	47	0,6	2,6	7	8	przyznaæ kredyt
+tak	sprzêt rtv-agd	mê¿czyzna	tak	98	1,3	9,4	5	0	przyznaæ kredyt
+tak	sprzêt rtv-agd	kobieta	nie	68	0,3	7	8	0	odmówiæ kredytu
+tak	sprzêt rtv-agd	kobieta	nie	27	0,8	7,5	6	4	przyznaæ kredyt
+tak	sprzêt rtv-agd	kobieta	nie	20	0,6	5	20	1	przyznaæ kredyt
+tak	sprzêt rtv-agd	kobieta	nie	23	0,6	1,3	10	3	odmówiæ kredytu
+nie	sprzêt rtv-agd	kobieta	nie	25	1,3	10	20	0	odmówiæ kredytu
+tak	sprzêt rtv-agd	kobieta	tak	31	1,3	2,5	10	9	przyznaæ kredyt
+tak	sprzêt rtv-agd	kobieta	tak	34	0,1	25	20	12	odmówiæ kredytu
+tak	sprzêt rtv-agd	mê¿czyzna	nie	20	1,3	5	20	2	odmówiæ kredytu
+tak	sprzêt rtv-agd	mê¿czyzna	tak	32	0,6	5	10	14	przyznaæ kredyt
+nie	sprzêt rtv-agd	mê¿czyzna	tak	38	0,4	2,5	20	0	odmówiæ kredytu
+tak	sprzêt rtv-agd	mê¿czyzna	tak	45	1,3	17,5	20	1	przyznaæ kredyt
+tak	sprzêt rtv-agd	mê¿czyzna	nie	57	8,8	3,8	5	35	przyznaæ kredyt
+tak	mieszkanie	kobieta	nie	32	50	50	20	2	przyznaæ kredyt
+tak	mieszkanie	kobieta	tak	37	12,5	100	10	1	przyznaæ kredyt
+tak	mieszkanie	kobieta	tak	41	6,3	125	20	18	przyznaæ kredyt
+tak	mieszkanie	kobieta	tak	50	37,5	75	20	27	przyznaæ kredyt
+tak	mieszkanie	kobieta	tak	55	12,5	150	20	30	odmówiæ kredytu
+tak	mieszkanie	mê¿czyzna	nie	37	37,5	62,5	10	1	odmówiæ kredytu
+tak	mieszkanie	mê¿czyzna	tak	40	62,5	50	20	10	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	nie	46	25	62,5	10	18	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	tak	57	12,5	125	20	30	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	tak	63	6,3	125	20	25	przyznaæ kredyt
+tak	mieszkanie	kobieta	tak	52	6,3	50	20	11	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	nie	27	62,5	6,3	5	2	przyznaæ kredyt
+tak	mieszkanie	kobieta	nie	35	18,8	27	12	7	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	nie	26	25	25	10	13	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	tak	59	12,5	50	20	3	przyznaæ kredyt
+tak	mieszkanie	kobieta	nie	23	31,3	12,5	10	1	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	tak	51	6,3	50	20	9	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	tak	38	37,5	12,5	10	5	przyznaæ kredyt
+tak	mieszkanie	kobieta	tak	48	12,5	50	20	6	przyznaæ kredyt
+nie	mieszkanie	mê¿czyzna	nie	67	50	9,4	5	0	odmówiæ kredytu
+tak	mieszkanie	kobieta	tak	33	62,5	7,5	5	6	przyznaæ kredyt
+nie	sprzêt rtv-agd	kobieta	tak	52	12,5	3,1	5	0	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	nie	29	12,5	75	20	1	przyznaæ kredyt
+tak	sprzêt rtv-agd	kobieta	nie	23	0,3	2,5	10	5	przyznaæ kredyt
+nie	sprzêt rtv-agd	kobieta	tak	70	0,3	6,3	5	0	odmówiæ kredytu
+tak	sprzêt rtv-agd	mê¿czyzna	tak	25	0,6	2,5	10	5	przyznaæ kredyt
+tak	sprzêt rtv-agd	mê¿czyzna	nie	65	0,6	2,5	10	5	przyznaæ kredyt
+tak	sprzêt rtv-agd	mê¿czyzna	tak	30	1,3	12,5	10	7	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	tak	35	62,5	50	20	7	przyznaæ kredyt
+tak	mieszkanie	kobieta	nie	27	6,3	125	20	1	przyznaæ kredyt
+tak	mieszkanie	mê¿czyzna	tak	40	6,3	125	20	12	przyznaæ kredyt
+tak	mieszkanie	kobieta	nie	37	25	100	20	2	odmówiæ kredytu
+tak	rower	mê¿czyzna	nie	18	1,9	1,3	10	1	przyznaæ kredyt
+tak	rower	mê¿czyzna	nie	18	1,3	6,3	10	1	odmówiæ kredytu
+tak	rower	mê¿czyzna	nie	22	2,5	6,3	10	5	przyznaæ kredyt
+tak	rower	mê¿czyzna	nie	22	1,3	6,3	10	2	odmówiæ kredytu
+tak	rower	mê¿czyzna	tak	25	1,3	6,3	10	5	przyznaæ kredyt
+tak	rower	kobieta	tak	18	1,3	2,5	10	1	odmówiæ kredytu
+tak	rower	kobieta	tak	18	1,3	6,3	10	1	odmówiæ kredytu
+tak	rower	kobieta	tak	22	2,5	6,3	10	5	odmówiæ kredytu
+tak	rower	kobieta	nie	22	1,3	6,3	10	2	odmówiæ kredytu
+nie	rower	kobieta	tak	25	1,3	6,3	10	0	odmówiæ kredytu
+tak	meble	kobieta	tak	40	6,3	12,5	20	20	przyznaæ kredyt
+tak	meble	kobieta	tak	50	12,5	15	12	20	przyznaæ kredyt
+tak	meble	kobieta	nie	30	6,3	12,5	20	3	przyznaæ kredyt
+tak	meble	kobieta	tak	35	2,5	18,8	15	13	przyznaæ kredyt
+tak	meble	kobieta	tak	25	3,8	17,5	20	2	odmówiæ kredytu
+tak	meble	mê¿czyzna	tak	40	7,5	12,5	20	20	przyznaæ kredyt
+tak	meble	mê¿czyzna	tak	50	11,3	15	12	20	przyznaæ kredyt
+tak	meble	mê¿czyzna	nie	30	8,8	12,5	20	10	przyznaæ kredyt
+tak	meble	mê¿czyzna	tak	35	2,5	7,5	15	13	przyznaæ kredyt
+tak	meble	mê¿czyzna	tak	25	2,5	17,5	20	1	odmówiæ kredytu

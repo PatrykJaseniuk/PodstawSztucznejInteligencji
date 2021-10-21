@@ -1,0 +1,546 @@
+knowledge source server
+
+rules
+
+2001:konfiguracja_serwera="p³yta g³ówna 386dx 40 mhz" if
+  stacje="do 10",
+  rozbudowa="nie",
+  sprzêt="minimalna",
+  sql="nie";
+
+2002:konfiguracja_serwera="p³yta g³ówna 486sx 25 mhz" if
+  stacje="do 10",
+  rozbudowa="nie",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2003:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="do 10",
+  rozbudowa="nie",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2004:konfiguracja_serwera="p³yta g³ówna 486sx 25 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="minimalna",
+  sql="nie";
+
+2005:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2006:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2007:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="minimalna",
+  sql="nie";
+
+2008:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2009:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2010:konfiguracja_serwera="p³yta g³ówna 486sx 25 mhz" if
+  stacje="do 10",
+  rozbudowa="nie",
+  sprzêt="minimalna",
+  sql="tak";
+
+2011:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="do 10",
+  rozbudowa="nie",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2012:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="do 10",
+  rozbudowa="nie",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2013:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="minimalna",
+  sql="tak";
+
+2014:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2015:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2016:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="minimalna",
+  sql="tak";
+
+2017:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2018:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="do 10",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2019:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="10 do 20",
+  rozbudowa="nie",
+  sprzêt="minimalna",
+  sql="nie";
+
+2020:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="10 do 20",
+  rozbudowa="nie",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2021:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="10 do 20",
+  rozbudowa="nie",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2022:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="minimalna",
+  sql="nie";
+
+2023:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2024:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2025:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="minimalna",
+  sql="nie";
+
+2026:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2027:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2028:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="10 do 20",
+  rozbudowa="nie",
+  sprzêt="minimalna",
+  sql="tak";
+
+2029:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="10 do 20",
+  rozbudowa="nie",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2030:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="10 do 20",
+  rozbudowa="nie",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2031:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="minimalna",
+  sql="tak";
+
+2032:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2033:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2034:konfiguracja_serwera="p³yta g³ówna 486dx 33 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="minimalna",
+  sql="tak";
+
+2035:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2036:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="10 do 20",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2037:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="20 do 50",
+  rozbudowa="nie",
+  sprzêt="minimalna",
+  sql="nie";
+
+2038:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="20 do 50",
+  rozbudowa="nie",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2039:konfiguracja_serwera="p³yta g³ówna Pentium 90 mhz" if
+  stacje="20 do 50",
+  rozbudowa="nie",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2040:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="minimalna",
+  sql="nie";
+
+2041:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2042:konfiguracja_serwera="p³yta g³ówna Pentium 90 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2043:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="minimalna",
+  sql="nie";
+
+2044:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="sprzêt standardowy",
+  sql="nie";
+
+2045:konfiguracja_serwera="p³yta g³ówna Pentium 90 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="najlepsza",
+  sql="nie";
+
+2046:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="20 do 50",
+  rozbudowa="nie",
+  sprzêt="minimalna",
+  sql="tak";
+
+2047:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="20 do 50",
+  rozbudowa="nie",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2048:konfiguracja_serwera="p³yta g³ówna Pentium 90 mhz" if
+  stacje="20 do 50",
+  rozbudowa="nie",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2049:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="minimalna",
+  sql="tak";
+
+2050:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2051:konfiguracja_serwera="p³yta g³ówna Pentium 90 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie urz¹dzeñ peryferyjnych",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2052:konfiguracja_serwera="p³yta g³ówna 486dx2 66 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="minimalna",
+  sql="tak";
+
+2053:konfiguracja_serwera="p³yta g³ówna 486dx4 100 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="sprzêt standardowy",
+  sql="tak";
+
+2054:konfiguracja_serwera="p³yta g³ówna Pentium 90 mhz" if
+  stacje="20 do 50",
+  rozbudowa="tak",
+  char_rozbudowy="dodanie stacji roboczych",
+  sprzêt="najlepsza",
+  sql="tak";
+
+2055:konfiguracja_serwera="dysk twardy o pojemnoœci 540 MB" if
+  dane_il="do 300 MB",
+  rozb_oprogramowania="nie";
+
+2056:konfiguracja_serwera="dysk twardy o pojemnoœci 1 GB" if
+  dane_il="300 MB do 500 MB",
+  rozb_oprogramowania="nie";
+
+2057:konfiguracja_serwera="dysk twardy o pojemnoœci 2 GB" if
+  dane_il="500 MB do 1 GB",
+  rozb_oprogramowania="nie";
+
+2058:konfiguracja_serwera="dysk twardy o pojemnoœci 4 GB" if
+  dane_il="1 GB do 4 GB",
+  rozb_oprogramowania="nie";
+
+2059:konfiguracja_serwera="dysk twardy o pojemnoœci 8 GB" if
+  dane_il="ponad 4 GB",
+  rozb_oprogramowania="nie";
+
+2060:konfiguracja_serwera="dysk twardy o pojemnoœci 1 GB" if
+  dane_il="do 300 MB",
+  rozb_oprogramowania="tak";
+
+2061:konfiguracja_serwera="dysk twardy o pojemnoœci 2 GB" if
+  dane_il="300 MB do 500 MB",
+  rozb_oprogramowania="tak";
+
+2062:konfiguracja_serwera="dysk twardy o pojemnoœci 4 GB" if
+  dane_il="500 MB do 1 GB",
+  rozb_oprogramowania="tak";
+
+2063:konfiguracja_serwera="dysk twardy o pojemnoœci 8 GB" if
+  dane_il="1 GB do 4 GB",
+  rozb_oprogramowania="tak";
+
+2064:konfiguracja_serwera="dysk twardy o pojemnoœci 16 GB" if
+  dane_il="ponad 4 GB",
+  rozb_oprogramowania="tak";
+
+2065:konfiguracja_serwera="sterownik HDD typu IDE" if
+  dane_il="do 300 MB",
+  dostêpy="ma³a",
+  mirroring="nie";
+
+2066:konfiguracja_serwera="sterownik HDD typu IDE" if
+  dane_il="do 300 MB",
+  dostêpy="du¿a",
+  mirroring="nie";
+
+2067:konfiguracja_serwera="sterownik HDD typu ESDI" if
+  dane_il="do 300 MB",
+  dostêpy="ma³a",
+  mirroring="tak";
+
+2068:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="do 300 MB",
+  dostêpy="du¿a",
+  mirroring="tak";
+
+2069:konfiguracja_serwera="sterownik HDD typu IDE" if
+  dane_il="300 MB do 500 MB",
+  dostêpy="ma³a",
+  mirroring="nie";
+
+2070:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="300 MB do 500 MB",
+  dostêpy="du¿a",
+  mirroring="nie";
+
+2071:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="300 MB do 500 MB",
+  dostêpy="ma³a",
+  mirroring="tak";
+
+2072:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="300 MB do 500 MB",
+  dostêpy="du¿a",
+  mirroring="tak";
+
+2073:konfiguracja_serwera="sterownik HDD typu IDE" if
+  dane_il="500 MB do 1 GB",
+  dostêpy="ma³a",
+  mirroring="nie";
+
+2074:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="500 MB do 1 GB",
+  dostêpy="du¿a",
+  mirroring="nie";
+
+2075:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="500 MB do 1 GB",
+  dostêpy="ma³a",
+  mirroring="tak";
+
+2076:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="500 MB do 1 GB",
+  dostêpy="du¿a",
+  mirroring="tak";
+
+2077:konfiguracja_serwera="sterownik HDD typu IDE" if
+  dane_il="1 GB do 4 GB",
+  dostêpy="ma³a",
+  mirroring="nie";
+
+2078:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="1 GB do 4 GB",
+  dostêpy="du¿a",
+  mirroring="nie";
+
+2079:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="1 GB do 4 GB",
+  dostêpy="ma³a",
+  mirroring="tak";
+
+2080:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="1 GB do 4 GB",
+  dostêpy="du¿a",
+  mirroring="tak";
+
+2081:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="ponad 4 GB",
+  dostêpy="ma³a",
+  mirroring="nie";
+
+2082:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="ponad 4 GB",
+  dostêpy="du¿a",
+  mirroring="nie";
+
+2083:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="ponad 4 GB",
+  dostêpy="ma³a",
+  mirroring="tak";
+
+2084:konfiguracja_serwera="sterownik HDD typu SCSI" if
+  dane_il="ponad 4 GB",
+  dostêpy="du¿a",
+  mirroring="tak";
+
+2085:konfiguracja_serwera="pamiêæ ram o pojemnoœci 4 MB" if
+  dane_il="do 300 MB",
+  sql="nie";
+
+2086:konfiguracja_serwera="pamiêæ ram o pojemnoœci 8 MB" if
+  dane_il="do 300 MB",
+  sql="tak";
+
+2087:konfiguracja_serwera="pamiêæ ram o pojemnoœci 8 MB" if
+  dane_il="300 MB do 500 MB",
+  sql="nie";
+
+2088:konfiguracja_serwera="pamiêæ ram o pojemnoœci 16 MB" if
+  dane_il="300 MB do 500 MB",
+  sql="tak";
+
+2089:konfiguracja_serwera="pamiêæ ram o pojemnoœci 16 MB" if
+  dane_il="500 MB do 1 GB",
+  sql="nie";
+
+2090:konfiguracja_serwera="pamiêæ ram o pojemnoœci 32 MB" if
+  dane_il="500 MB do 1 GB",
+  sql="tak";
+
+2091:konfiguracja_serwera="pamiêæ ram o pojemnoœci 32 MB" if
+  dane_il="1 GB do 4 GB",
+  sql="nie";
+
+2092:konfiguracja_serwera="pamiêæ ram o pojemnoœci 64 MB" if
+  dane_il="1 GB do 4 GB",
+  sql="tak";
+
+2093:konfiguracja_serwera="pamiêæ ram o pojemnoœci 64 MB" if
+  dane_il="ponad 4 GB",
+  sql="nie";
+
+2094:konfiguracja_serwera="pamiêæ ram o pojemnoœci 128 MB" if
+  dane_il="ponad 4 GB",
+  sql="tak";
+
+end;
+end;

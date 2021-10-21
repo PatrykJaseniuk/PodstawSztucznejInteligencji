@@ -1,0 +1,119 @@
+knowledge source rynek_kapita≥owy
+
+//
+//  èrÛd≥o wiedzy oceniajπce zasadnoúÊ inwestycji na rynku kapita≥owym.
+//  Autor : Piotr Czop                                AITECH 08.03.1999
+//
+//  wersja 1.1
+//
+
+  facets
+
+    single yes;
+
+    long_profit :
+       val range <-100, 100>;
+
+    short_profit :
+       val range <-100, 100>;
+
+    long_risk :
+       val range < 0, 100>;
+
+    short_risk :
+       val range < 0, 100>;
+
+
+    d≥ugookresowa_stopa_zwrotu_z_indeksu :
+       query "Okreúl d≥ugookresowπ stopÍ zwrotu z przyjÍtego indeksu odniesienia."
+       val oneof { "Wysoka", "Niska" }; 
+
+    krÛtkookresowa_stopa_zwrotu_z_indeksu :
+       query "Okreúl krÛtkookresowπ stopÍ zwrotu z przyjÍtego indeksu odniesienia."
+       val oneof { "Wysoka", "Niska" }; 
+
+    d≥ugookresowe_ryzyko_rynku :
+       val oneof { "Wysokie", "Niskie"};
+    
+    krÛtkookresowe_ryzyko_rynku :
+       val oneof { "Wysokie", "Niskie"};
+    
+    strategia_preferowana_przez_inwestora :
+       query "Okreúl strategiÍ inwestowania na rynku kapita≥owym, biorπc pod uwagÍ awersjÍ do ryzyka oraz oczekiwanπ stopÍ zwrotu."
+       val oneof { "Agresywna", "Neutralna", "Bezpieczna" };
+ 
+    wskaünik_PE :
+       query "Podaj wartoúÊ wskaünika 'cena do zysku na akcjÍ' ( P/E ratio )"
+       val range < 0, 10 >;
+
+    ocena_rynku_kapita≥owego :
+       val oneof { "Inwestuj", "Czekaj", "Wycofaj siÍ" };
+
+ 
+  end;
+
+
+  rules
+
+   
+   30: d≥ugookresowa_stopa_zwrotu_z_indeksu = "Wysoka" if
+          long_profit > 10; 
+       
+   31: d≥ugookresowa_stopa_zwrotu_z_indeksu = "Niska" if
+          long_profit <= 10; 
+  
+   32: krÛtkookresowa_stopa_zwrotu_z_indeksu = "Wysoka" if
+          short_profit > 15; 
+      
+   33: krÛtkookresowa_stopa_zwrotu_z_indeksu = "Niska" if
+          short_profit <= 15; 
+
+           
+   34: d≥ugookresowe_ryzyko_rynku = "Wysokie" if
+          long_risk > 3; 
+
+   35: d≥ugookresowe_ryzyko_rynku = "Niskie" if
+          long_risk <= 3; 
+
+   36: krÛtkookresowe_ryzyko_rynku = "Wysokie" if
+          short_risk > 5; 
+      
+   37: krÛtkookresowe_ryzyko_rynku = "Niskie" if
+          short_risk <= 5; 
+      
+   38: ocena_rynku_kapita≥owego = "Inwestuj" if
+          d≥ugookresowa_stopa_zwrotu_z_indeksu="Wysoka",
+          d≥ugookresowe_ryzyko_rynku ="Niskie",
+          krÛtkookresowa_stopa_zwrotu_z_indeksu = "Wysoka",
+          krÛtkookresowe_ryzyko_rynku = "Wysokie" | krÛtkookresowe_ryzyko_rynku = "Niskie",
+          strategia_preferowana_przez_inwestora = "Neutralna" | strategia_preferowana_przez_inwestora = "Bezpieczna";
+
+
+   39: ocena_rynku_kapita≥owego = "Inwestuj" if
+          d≥ugookresowa_stopa_zwrotu_z_indeksu="Wysoka",
+          d≥ugookresowe_ryzyko_rynku="Wysokie",
+          krÛtkookresowa_stopa_zwrotu_z_indeksu = "Wysoka",
+          krÛtkookresowe_ryzyko_rynku = "Wysokie" | krÛtkookresowe_ryzyko_rynku = "Niskie",
+          strategia_preferowana_przez_inwestora = "Agresywna";
+
+
+   40: ocena_rynku_kapita≥owego = "Czekaj" if
+          d≥ugookresowa_stopa_zwrotu_z_indeksu="Niska",
+          d≥ugookresowe_ryzyko_rynku="Wysokie",
+          krÛtkookresowa_stopa_zwrotu_z_indeksu = "Wysoka" | krÛtkookresowa_stopa_zwrotu_z_indeksu = "Niska",
+          krÛtkookresowe_ryzyko_rynku = "Wysokie" | krÛtkookresowe_ryzyko_rynku = "Niskie",
+          strategia_preferowana_przez_inwestora = "Neutralna" | strategia_preferowana_przez_inwestora = "Bezpieczna";
+
+ 
+
+   41: ocena_rynku_kapita≥owego = "Wycofaj siÍ" if
+          d≥ugookresowa_stopa_zwrotu_z_indeksu="Niska",
+          d≥ugookresowe_ryzyko_rynku="Wysokie",
+          krÛtkookresowa_stopa_zwrotu_z_indeksu = "Wysoka" | krÛtkookresowa_stopa_zwrotu_z_indeksu = "Niska",
+          krÛtkookresowe_ryzyko_rynku = "Wysokie" | krÛtkookresowe_ryzyko_rynku = "Niskie",
+          strategia_preferowana_przez_inwestora = "Neutralna" | strategia_preferowana_przez_inwestora = "Bezpieczna";
+
+         
+     end;
+
+end;

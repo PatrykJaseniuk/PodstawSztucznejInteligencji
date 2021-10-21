@@ -1,0 +1,67 @@
+knowledge base nazwa
+ control
+   int I;
+ 
+   function init( variant &WordApplication, variant &WordDocument )
+   begin    
+     variant WordDocuments, WordOptions;
+     // Stwórz obiekt Word'a
+     oleCreateObject( WordApplication, "Word.Application" );
+
+    // Poka¿ na ekranie 
+     olePropertySet(WordApplication,"Visible", 1);
+     // Pobierz uchwyt obiektu 'Documents'
+     olePropertyGet(WordApplication,"Documents", WordDocuments);
+    // Dodaj nowy dokument i pobierz uchwyt
+     oleFunction( WordDocuments, "Add", WordDocument );
+ 
+     // Ustaw opcje  spowalniaj¹ce pracê na wartoœæ false
+     olePropertyGet(WordApplication,"Options",WordOptions);
+     olePropertySet(WordOptions,"CheckSpellingAsYouType", 0);
+     olePropertySet(WordOptions,"CheckGrammarAsYouType", 0);
+   end;
+
+   function fillTable( variant WordApplication, variant WordDocument, int C, int R )
+   begin
+     variant  WordSelection,WordTables,WordRange;
+     olePropertyGet( WordApplication, "Selection", WordSelection );
+
+     //  T A B E L A
+     olePropertyGet( WordDocument,"Tables",WordTables );
+     olePropertyGet( WordSelection,"Range",WordRange );
+
+     oleProcedure( WordTables,"Add", WordRange, R, C );
+     end;
+
+
+   
+
+   variant WordApplication,WordDocument,WordOptions,
+           WordSelection,WordFont, WordRange,WordTables,WordTable;
+
+   init( WordApplication, WordDocument );
+
+   olePropertyGet( WordApplication, "Selection", WordSelection );
+
+   olePropertyGet( WordSelection, "Font", WordFont );
+   olePropertySet( WordFont, "Bold", 1 );
+
+  oleProcedure( WordSelection, "TypeText", "To tekst wstawiony z bloku programowego jêzyka Sphinx\n" );
+   olePropertySet( WordFont, "Bold", 0 );
+
+  oleProcedure( WordSelection, "TypeText", "Poni¿ej wstawimy tabelê 2x2" );
+
+
+   fillTable( WordApplication, WordDocument, 2, 2 );
+   olePropertyGet( WordApplication, "Selection", WordSelection );
+
+  oleProcedure( WordSelection, "TypeText", "To jest pierwsza komórka tabeli" );
+
+  oleProcedure( WordSelection, "MoveRight", 1,1 );
+  oleProcedure( WordSelection, "TypeText", "To nastêpna" );
+  oleProcedure( WordSelection, "MoveRight", 1,5 );
+  oleProcedure( WordSelection, "TypeText", "A teraz jestem ju¿ poza tabel¹\n" );
+
+//   oleProcedure( WordApplication, "Quit" );  // to zamyka Worda
+ end;
+end;

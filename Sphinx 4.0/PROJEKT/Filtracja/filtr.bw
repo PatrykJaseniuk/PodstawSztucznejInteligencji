@@ -1,0 +1,251 @@
+//   Filtracja Sygna³ów
+//
+
+
+knowledge base Model
+sources
+	netProstokat : 
+		type neural_net
+			file ".\\prostok¹t\\prost.npr";
+	netTrojkat : 
+		type neural_net
+			file ".\\trójk¹t\\trojkat.npr";
+	netSinus : 
+		type neural_net
+			file ".\\sinus\\sinus.npr";
+
+ 
+       
+ 	
+end;
+
+control
+    
+	char Title;
+	int TitleID;
+	
+ 
+	record NeuralNet ProstWe[1];
+	record NeuralNet ProstWy[1];
+	record NeuralNet TrojkWe[2];
+	record NeuralNet TrojkWy[1];
+	record NeuralNet SinusWe[3];
+	record NeuralNet SinusWy[1];
+
+ 
+
+//================================= BLOK FUNKCJI ====================================
+
+
+
+
+function oProgramie
+begin
+	char  S1, S2, S3;
+	run;
+	S1 := "Filtracja sygna³ów";
+	S2 := "\nZastosowanie sieci neuronowej do filtracji zak³óceñ";
+	S3 := "(C) AITECH Artificial Intelligence Laboratory, Katowice 1999";
+	vignette( S1, S2, S3);
+
+end;
+
+
+function prepareDate
+	begin
+		openChart( "Przebieg zak³ócony", "we.vtc" );       
+		showChart( "Przebieg zak³ócony", 0);
+		setWindowPos( "", 35, 260, 350, 240, 0);
+		showWindow( "Przebieg zak³ócony", 0 );
+
+		openChart( "Przebieg odfiltrowany", "wy.vtc" );       
+		showChart( "Przebieg odfiltrowany", 0);
+		setWindowPos( "", 405, 260, 350, 240, 0);
+		showWindow( "Przebieg odfiltrowany", 0 );
+ 
+       
+		//arkusz niewidoczny podczas pracy aplikacji
+		openSheet( "model filtru", ".\\tlo.vts" );
+     		showSheet( "model filtru", 1 );
+		setWindowPos("model filtru", 35, 5, 720, 250, 0 );
+		showWindow("model filtru", 0);
+
+
+	end;		
+
+
+function netfiltr
+begin
+	int I,J,K;
+	char Przebieg;
+
+	getSheetValue( "model filtru", "", 100, 1, Przebieg );
+
+	if (Przebieg==prostok¹tny)
+	begin
+		openSheet( "Prostokat-dane", ".\\prostok¹t\\prost.vts" );
+     		showSheet( "Prostokat-dane", 1 );
+		showWindow( "Prostokat-dane", 4 );
+
+		initNetwork ( netProstokat );
+		
+		for I:=3 to 83 step 1
+		begin
+			ProstWe[0].Name := "x";
+			getSheetValue( "Prostokat-dane", "", I, 1, ProstWe[0].DValue );
+
+			ProstWy[0].Name := "y";
+    	
+    			runNetwork ( netProstokat, ProstWe, ProstWy );
+  
+			setSheetValue( "Prostokat-dane", "", I, 2, ProstWy[0].DValue );
+		end;
+
+    		delNetwork ( netProstokat);
+		
+		linkChart2Sheet( "Przebieg zak³ócony", "Prostokat-dane", "A3:A83", 2 );	
+		linkChart2Sheet( "Przebieg odfiltrowany", "Prostokat-dane", "B3:B83", 2 );
+
+end;
+
+	if (Przebieg==trójk¹tny)
+	begin
+		openSheet( "Trojkat-dane", ".\\trójk¹t\\trojkat.vts" );
+		showSheet( "Trojkat-dane", 1 );
+		showWindow( "Trojkat-dane",4);
+
+		TrojkWe[1].Name := "y-1";
+		TrojkWe[1].DValue := 0;
+		setSheetValue( "Trojkat-dane", "", 3, 2, TrojkWe[1].DValue );
+
+		initNetwork ( netTrojkat );
+
+		for I:=3 to 83 step 1
+		begin
+			J:=I+1;
+
+			TrojkWe[0].Name := "x";
+			getSheetValue( "Trojkat-dane", "", I, 1, TrojkWe[0].DValue );
+			TrojkWe[1].Name := "y-1";
+			getSheetValue( "Trojkat-dane", "", I, 2, TrojkWe[1].DValue );
+			TrojkWy[0].Name := "y";
+    	
+    			runNetwork ( netTrojkat, TrojkWe, TrojkWy );
+  
+			setSheetValue( "Trojkat-dane", "", I, 3, TrojkWy[0].DValue );
+			
+			if (J<84)
+			begin		
+				setSheetValue( "Trojkat-dane", "", J, 2, TrojkWy[0].DValue );
+			end;
+
+		end;
+    		
+		delNetwork ( netTrojkat);
+		
+		linkChart2Sheet( "Przebieg zak³ócony", "Trojkat-dane", "A3:A83", 2 );	
+		linkChart2Sheet( "Przebieg odfiltrowany", "Trojkat-dane", "C3:C83", 2 );	
+
+end;
+
+	if (Przebieg==sinusoidalny)
+	begin
+		openSheet( "Sinus-Dane", ".\\sinus\\sinus.vts" );
+     		showSheet( "Sinus-Dane", 1 );
+		showWindow( "Sinus-Dane",4);
+
+		SinusWe[1].Name := "y-2";
+		SinusWe[1].DValue := 0;
+		setSheetValue( "Sinus-Dane", "", 3, 2, SinusWe[1].DValue );
+		SinusWe[2].Name := "y-1";
+		SinusWe[2].DValue := 0;
+		setSheetValue( "Sinus-Dane", "", 3, 3, SinusWe[2].DValue );
+		setSheetValue( "Sinus-Dane", "", 4, 2, SinusWe[2].DValue );
+
+
+		initNetwork ( netSinus );
+
+		for I:=3 to 83 step 1
+		begin
+			J:=I+1;
+			K:=I+2;
+		
+			SinusWe[0].Name := "x";
+			getSheetValue( "Sinus-Dane", "", I, 1, SinusWe[0].DValue );
+			SinusWe[1].Name := "y-2";
+			getSheetValue( "Sinus-Dane", "", I, 2, SinusWe[1].DValue );
+			SinusWe[2].Name := "y-1";
+			getSheetValue( "Sinus-Dane", "", I, 3, SinusWe[2].DValue );
+			SinusWy[0].Name := "y";
+    	
+	    		runNetwork ( netSinus, SinusWe, SinusWy );
+  
+			setSheetValue( "Sinus-Dane", "", I, 4, SinusWy[0].DValue );
+			
+			if (J<84)
+			begin		
+				setSheetValue( "Sinus-Dane", "", J, 3, SinusWy[0].DValue );
+			end;
+			if (K<84)
+			begin		
+				setSheetValue( "Sinus-Dane", "", K, 2, SinusWy[0].DValue );
+			end;
+
+		end;
+    		
+		delNetwork ( netSinus);
+		
+		linkChart2Sheet( "Przebieg zak³ócony", "Sinus-dane", "A3:A83", 2 );	
+		linkChart2Sheet( "Przebieg odfiltrowany", "Sinus-dane", "D3:D83", 2 );	
+
+
+	end;
+
+
+end;
+
+
+function zamknijAplikacjê
+begin
+	mainMenu;
+end;
+
+
+
+//============================= BLOK G£ÓWNEGO PROGRAMU =====================================
+
+	int ID, ID1;
+
+	run;
+
+	
+	int MENUID, POPID1, POPID2, POPID3, POPID4;
+	TitleID := 0;
+	int Tab[10];
+	setAppWinTitle( "Zastosowanie Sieci Neuronowej do filtracji zak³óceñ" );
+	createAppWindow;
+	prepareDate;
+	
+	createMenu(MENUID);
+	
+	createPopupMenu(POPID1, "Dane");
+	appendMenu(POPID1, "Odfiltruj przebieg", netfiltr );
+	appendMenu(POPID1, separator, _);
+	appendMenu(POPID1, "Wyjœcie", zamknijAplikacjê );
+
+	
+
+	appendMenu(MENUID,menu,POPID1);
+	
+	appendMenu(MENUID,menu,window);
+	createPopupMenu(POPID1, "Pomoc");
+	appendMenu(POPID1, "O programie", oProgramie );
+	appendMenu(MENUID,menu,POPID1);
+
+  
+	fullMenu(MENUID);
+   
+	
+end;
+end;
+

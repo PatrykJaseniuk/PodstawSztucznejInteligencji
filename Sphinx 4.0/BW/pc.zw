@@ -1,0 +1,562 @@
+knowledge source pc
+
+rules
+
+3001:konfiguracja_koñcówek_sieciowych = "p³yta g³ówna 486dx 33 mhz" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3002:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3003:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx4 100 mhz" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3004:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3005:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx4 100 mhz" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3006:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 90 mhz" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3007:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3008:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx4 100 mhz" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3009:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 60 mhz" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3010:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx4 100 mhz" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3011:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 60 mhz" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3012:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 90 mhz" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3013:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx 33 mhz" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3014:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3015:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx4 100 mhz" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3016:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3017:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 60 mhz" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3018:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 90 mhz" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3019:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486sx 33 mhz" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3020:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx 33 mhz" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3021:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3022:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx 33 mhz" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3023:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3024:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx4 100 mhz" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3025:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 386dx 40 mhz" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3026:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486sx 33 mhz" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3027:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx 33 mhz" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3028:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486sx 33 mhz" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3029:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx 33 mhz" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3030:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3031:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx2 66 mhz" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3032:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx4 100 mhz" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3033:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 60 mhz" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3034:konfiguracja_koñcówek_sieciowych="p³yta g³ówna 486dx4 100 mhz" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3035:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 60 mhz" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3036:konfiguracja_koñcówek_sieciowych="p³yta g³ówna Pentium 90 mhz" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3037:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3038:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3039:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 32 MB" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3040:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3041:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 32 MB" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3042:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 64 MB" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3043:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3044:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3045:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 32 MB" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3046:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3047:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 20 MB" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3048:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 32 MB" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3049:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 4 MB" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3050:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3051:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3052:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3053:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3054:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 20 MB" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3055:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 4 MB" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3056:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3057:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3058:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 4 MB" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3059:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3060:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3061:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 2 MB" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3062:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 4 MB" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3063:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3064:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 4 MB" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3065:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3066:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3067:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 4 MB" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3068:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3069:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3070:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 8 MB" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3071:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 16 MB" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3072:konfiguracja_koñcówek_sieciowych="pamiêæ ram o pojemnoœci 20 MB" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3073:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci 512 KB vram" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3074:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci 1024 KB vram" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3075:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci 2048 KB vram" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3076:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci 512 KB vram" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3077:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci 1024 KB vram" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3078:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci 2048 KB vram" if
+   rodzaj_pracy="przetwarzanie grafiki",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3079:konfiguracja_koñcówek_sieciowych="specjalistyczna karta graficzna" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3080:konfiguracja_koñcówek_sieciowych="specjalistyczna karta graficzna" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3081:konfiguracja_koñcówek_sieciowych="specjalistyczna karta graficzna" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3082:konfiguracja_koñcówek_sieciowych="specjalistyczna karta graficzna" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3083:konfiguracja_koñcówek_sieciowych="specjalistyczna karta graficzna" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3084:konfiguracja_koñcówek_sieciowych="specjalistyczna karta graficzna" if
+   rodzaj_pracy="automatyzacja prac projektowych",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3085:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3086:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3087:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3088:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3089:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3090:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="obliczenia statystyczno-ekonometryczne",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3091:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3092:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3093:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3094:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3095:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3096:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="tworzenie oprogramowania",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3097:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3098:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3099:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3100:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3101:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3102:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="systemy ewidencyjne",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3103:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="minimalna";
+
+3104:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="sprzêt standardowy";
+
+3105:konfiguracja_koñcówek_sieciowych="karta graficzna vga" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="DOS",
+   sprzêt="najlepsza";
+
+3106:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="minimalna";
+
+3107:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="sprzêt standardowy";
+
+3108:konfiguracja_koñcówek_sieciowych="karta graficzna svga vlb lub pci" if
+   rodzaj_pracy="SIK lub SWD",
+   œrod_operacyjne="Windows",
+   sprzêt="najlepsza";
+
+3109:konfiguracja_koñcówek_sieciowych="dysk twardy nie jest konieczny" if
+   dane_ms="nie";
+
+3110:konfiguracja_koñcówek_sieciowych="dysk twardy o pojemnoœci 240 MB" if
+   dane_ms="tak",
+   local_MB="do 120 MB";
+
+3111:konfiguracja_koñcówek_sieciowych="dysk twardy o pojemnoœci 520 MB" if
+   dane_ms="tak",
+   local_MB="120 MB do 240 MB";
+
+3112:konfiguracja_koñcówek_sieciowych="dysk twardy o pojemnoœci 1 GB" if
+   dane_ms="tak",
+   local_MB="240 MB do 500 MB";
+
+end;
+end;
+

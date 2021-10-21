@@ -1,0 +1,87 @@
+:Base pcshell.hlp
+:Title Pomoc programu PC-Shell 4.0 dla Windows 9x/NT/2000
+:Index Pomoc inøyniera wiedzy=instr.hlp
+1 Opcje programu PC-Shell
+2 Menu Plik
+3 Otwarcie instniejπcej bazy wiedzy=ID_OPEN
+3 ZamkniÍcie bazy wiedzy=ID_CLOSE
+3 Retlanslacja bazy wiedzy=ID_REOPEN
+3 Wyjúcie z programu=ID_EXIT
+2 Menu Edycja
+3 Edycja bazy wiedzy=ID_EDIT
+2 Menu Wnioskowanie
+3 Wnioskowanie do przodu=ID_PRZOD
+3 Wnioskowanie do ty≥u=ID_TYL
+3 Wykonanie programu=ID_RUN
+2 Menu NarzÍdzia
+3 Dopisywanie faktÛw=ID_ADDFACT
+3 Podmenu Usuwanie faktÛw
+4 Wszystkie fakty=ID_DELALL
+4 Tylko nowe fakty=ID_DELNEW
+4 Faktu o wskazanej pozycji=ID_DELSEL
+3 Podmenu Przeglπdanie bazy wiedzy
+4 Ca≥a baza wiedzy=ID_SHOWALL
+4 Tylko fakty=ID_SHOWFACTS
+4 Tylko nowe fakty=ID_SHOWNEWFACTS
+4 Tylko regu≥y=ID_SHOWRULES
+4 PojedyÒcze fakty lub regu≥y=ID_SHOWSINGLE
+4 Od ... do ...=ID_SHOWSEL
+4 Regu≥y wg trÛjki OAW=ID_SHOWOAW
+3 Parametryzacja=ID_PARAMETRYZACJA
+2 Menu Opcje
+3 Opcje=ID_OPCJE
+2 Menu Pomoc
+3 Skorowidz=ID_SKOROWIDZ
+3 O firmie=ID_FIRMA
+3 O programie=ID_ABOUT
+1 Pomoc inøyniera wiedzy
+2 Informacje ogÛlne o jÍzyku Sphinx=ID_INFORMACJAO@instr.hlp
+2 Demonstracyjne bazy wiedzy=IDD_DEMOBASES@instr.hlp
+2 Struktura jÍzyka opisu bazy wiedzy=ID_STRUKTURA@instr.hlp
+2 Opis blokÛw bazy wiedzy
+3 Blok ürÛde≥
+4 Deklarowanie ürÛde≥=ID_ZRODLA@instr.hlp
+4 èrÛd≥a eksperckie=ID_KB@instr.hlp
+4 Deklarowanie sieci neuronowych=ID_NEURALNET@instr.hlp
+4 Deklarowanie plikÛw metafor i wyjaúnieÒ Co to jest=ID_META@instr.hlp
+3 Blok faset
+4 Deklarowanie bloku faset=ID_FACETS@instr.hlp
+4 Faseta ask=ID_FASK@instr.hlp
+4 Faseta query=ID_FQUERY@instr.hlp
+4 Faset single=ID_FSINGLE@instr.hlp
+4 Faseta unit=ID_FUNIT@instr.hlp
+4 Faseta val=ID_FVAL@instr.hlp
+4 Faseta param=ID_FPARAM@instr.hlp
+4 Faseta picture=ID_FPICTURE@instr.hlp
+4 Faseta sound=ID_FSOUND@instr.hlp
+4 Faseta video=ID_FVIDEO@instr.hlp
+3 Blok faktÛw
+4 Deklarowanie bloku faktÛw=ID_FACTS@instr.hlp
+3 Blok regu≥
+4 Deklarowanie bloku regu≥=ID_RULES@instr.hlp
+4 Wyraøenia relacyjne w warunkach=ID_RELACJE@instr.hlp
+4 Przypisanie w warunkach=ID_PRZYPISANIE@instr.hlp
+4 Funkcje matematyczne moøliwe do uøycia w warunkach=ID_FUNKCJE_MAT@instr.hlp
+3 Blok programu
+4 Deklarowanie bloku control=ID_CONTROL@instr.hlp
+4 Typy zmiennych w jÍzyku Sphinx=IN_ZMIENNE@instr.hlp
+4 Deklarowanie funkcji=IN_FUNKCJE@instr.hlp
+4 Wykaz alfabetyczny instrukcji=ID_ALFABET@instr.hlp
+4 Wykaz nowych instrukcji=IN_NOWE22@instr.hlp
+4 Zestawienie tematyczne instrukcji
+5 Obs≥uga arkuszy kalkulacyjnych=IN_SHEETS@instr.hlp
+5 Obs≥uga wykresÛw (2.3)=IN_CHARTS@instr.hlp
+5 Obs≥uga plikÛw=ID_INPLIKI@instr.hlp
+5 Sterowanie wykonywaniem programu=IN_INCONTROL@instr.hlp
+5 Sterowanie i inicjowanie wnioskowania=IN_THINKING@instr.hlp
+5 Operacje na bazie wiedzy=IN_INKB@instr.hlp
+5 Komunikacja z uøytkownikiem=IN_BOXY@instr.hlp
+5 Kownersja=IN_CONVERT@instr.hlp
+5 Sterowanie oknami=IN_INWINDOWS@instr.hlp
+5 Obs≥uga sieci neuronowych=IN_INNRX@instr.hlp
+5 Obs≥uga parametryzacji=IN_INPARAM@instr.hlp
+5 DostÍp do baz danych=IN_INODBC@instr.hlp
+5 Obs≥uga plikÛw konfiguracyjnych=IN_ININI@instr.hlp
+5 Dynamiczna wymiana informacji=IN_INDDE@instr.hlp
+5 Obs≥uga okienek dialogowych=IN_DIALOGS@instr.hlp
+5 Inne=IN_INOTHER@instr.hlp

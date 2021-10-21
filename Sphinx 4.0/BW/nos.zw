@@ -1,0 +1,1158 @@
+knowledge source nos
+
+rules
+
+1001: typ_systemu_operacyjnego = "sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1002: typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1003:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1004:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1005:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1006:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1007:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1008:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1009:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1010:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1011:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1012:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1013:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1014:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1015:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1016:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1017:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1018:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1019:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1020:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1021:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1022:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1023:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1024:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1025:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1026:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1027:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1028:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1029:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1030:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1031:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1032:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1033:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1034:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1035:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1036:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1037:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1038:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1039:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1040:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1041:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1042:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1043:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1044:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1045:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1046:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1047:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1048:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="do 10",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1049:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1050:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1051:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1052:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1053:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1054:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1055:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1056:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1057:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1058:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1059:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1060:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1061:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1062:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1063:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1064:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1065:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1066:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1067:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1068:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1069:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1070:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1071:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1072:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1073:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1074:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1075:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1076:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1077:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1078:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1079:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1080:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1081:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1082:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1083:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1084:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1085:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1086:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1087:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1088:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1089:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1090:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1091:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1092:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1093:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1094:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1095:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1096:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="10 do 20",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1097:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1098:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1099:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1100:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1101:typ_systemu_operacyjnego="sieæ równorzêdna peer to peer" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1102:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1103:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1104:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1105:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1106:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1107:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1108:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1109:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1110:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1111:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1112:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1113:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1114:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1115:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1116:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1117:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1118:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1119:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1120:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1121:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1122:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1123:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1124:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1125:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1126:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1127:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1128:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="tak",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1129:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1130:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1131:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1132:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="nie",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1133:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1134:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1135:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1136:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="nie",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1137:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1138:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1139:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1140:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="tak",
+  swd="nie",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+1141:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="lokalne";
+
+1142:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="ma³a",
+  zasoby="sieciowe";
+
+1143:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="lokalne";
+
+1144:typ_systemu_operacyjnego="system zcentralizowany" if
+  stacje="20 do 50",
+  integracja="nie wiem",
+  sql="tak",
+  swd="tak",
+  dostêpy="du¿a",
+  zasoby="sieciowe";
+
+end;
+end;

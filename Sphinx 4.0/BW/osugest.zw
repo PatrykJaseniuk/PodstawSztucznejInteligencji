@@ -1,0 +1,282 @@
+knowledge source sugestie
+
+rules
+
+  61:   sugestia = "Uwaga - firma dzia³a z dnia na dzieñ" if
+          p³ynnoœæ_finansowa = "firma dzia³a z dnia na dzieñ";
+
+  62:   sugestia = "Uwaga - firma mo¿e nie sprostaæ zobowi¹zaniom" if
+          p³ynnoœæ_finansowa = "firma mo¿e nie sprostaæ zobowi¹zaniom";
+
+  63:   sugestia = "Uwaga - firma powa¿nie zad³u¿ona" if
+          ocena_zad³u¿enia = "firma powa¿nie zad³u¿ona";
+
+  64:   sugestia = "Uwaga - firma nie jest w stanie pokryæ d³ugu" if
+          ocena_zad³u¿enia = "firma nie jest w stanie pokryæ d³ugu";
+
+  65:   sugestia = "Uwaga - œrodki trwa³e nie pokrywaj¹ kredytu" if
+          ocena_zad³u¿enia = "œrodki trwa³e nie pokrywaj¹ kredytu";
+
+  66:   sugestia = "Uwaga - wysoki poziom zad³u¿enia w aktywach" if
+          ocena_zad³u¿enia = "wysoki poziom zad³u¿enia w aktywach";
+
+  67:   sugestia = "Uwaga - istnieje ryzyko zwi¹zane z obecnym zad³u¿eniem firmy" if
+          ocena_zad³u¿enia = "istnieje ryzyko zwi¹zane z zad³u¿eniem firmy";
+
+  68:   sugestia = "Uwaga - niska zyskownoœæ kapita³u w³asnego" if
+          ocena_zyskownoœci = "niska zyskownoœæ kapita³u w³asnego";
+
+  69:   sugestia = "Uwaga - niska zyskownoœæ aktywów" if
+          ocena_zyskownoœci = "niska zyskownoœæ aktywów";
+
+ 610:   sugestia = "Uwaga - niska sprawnoœæ dzia³ania firmy" if
+          ocena_sprawnoœci_dzia³ania = "niska sprawnoœæ dzia³ania";
+
+ 611:   sugestia = "Uwaga - firma bardzo surowa w egzekwowaniu nale¿noœci" if
+          ocena_sprawnoœci_dzia³ania = "firma surowo egzekwuje nale¿noœci";
+
+ 612:   sugestia = "Uwaga - firma ma zbyt wysokie zapasy" if
+          ocena_sprawnoœci_dzia³ania = "firma ma zbyt wysokie zapasy";
+
+ 613:   sugestia="Uwaga - firma ma zbyt niskie zapasy" if
+          ocena_sprawnoœci_dzia³ania="firma ma zbyt niskie zapasy";
+ 
+ 614:  sugestia="Uwaga - firma ma raczej nisk¹ sprawnoœæ dzia³ania" if
+          ocena_sprawnoœci_dzia³ania = "niska sprawnoœæ dzia³ania";
+
+ 615:   sugestia="Uwaga - niski zysk na jedn¹ akcjê" if
+          ocena_rynkowa_akcji_i_kapita³u="niski zysk na jedn¹ akcjê";
+
+ 616:   sugestia="Uwaga - os³abia siê pozycja firmy na rynku" if
+          ocena_rynkowa_akcji_i_kapita³u="os³abia siê pozycja firmy na rynku";
+
+ 617:   sugestia = "Udzieliæ kredytu - doskona³a kondycja finansowa firmy" if
+          p³ynnoœæ_finansowa = "zachowana",
+          ocena_zad³u¿enia = "zad³u¿enie w normie",
+          ocena_zyskownoœci = "firma zyskowna",
+          ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u = "mocna pozycja firmy na rynku";
+
+ 618:  sugestia="Nie udzielaæ kredytu - firma na skraju bankructwa" if
+          p³ynnoœæ_finansowa = "niezachowana",
+          ocena_zad³u¿enia = "firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci = "zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania = "zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u = "s³aba pozycja firmy na rynku";
+
+ 619:  sugestia="Mo¿na udzieliæ kredytu, ale bêdzie to ryzykowne" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 620:  sugestia="Mo¿na udzieliæ kredytu, ale bêdzie to ryzykowne" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 621:  sugestia="Mo¿na udzieliæ kredytu, ale bêdzie to ryzykowne" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 622:  sugestia="Mo¿na udzieliæ kredytu, ale bêdzie to ryzykowne" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania = "zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 623:  sugestia="Mo¿na udzieliæ kredytu, ale bêdzie to ryzykowne" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 624:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 625:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 626:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 627:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 628:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 629:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 630:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 631:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 632:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 633:  sugestia="Udzielenie kredytu wi¹¿e siê z powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 634:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 635:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 636:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 637:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 638:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 639:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania = "wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u = "s³aba pozycja firmy na rynku";
+
+ 640:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u = "mocna pozycja firmy na rynku";
+
+ 641:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa = "niezachowana",
+          ocena_zad³u¿enia = "firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 642:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 643:  sugestia="Udzielenie kredytu wi¹¿e siê z bardzo powa¿nym ryzykiem" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 644:  sugestia="Nie udzielaæ kredytu - zbyt wysokie ryzyko" if
+          p³ynnoœæ_finansowa="zachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 645:  sugestia="Nie udzielaæ kredytu - zbyt wysokie ryzyko" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="zad³u¿enie w normie",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 646:  sugestia="Nie udzielaæ kredytu - zbyt wysokie ryzyko" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="firma zyskowna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 647:  sugestia="Nie udzielaæ kredytu - zbyt wysokie ryzyko" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="wysoka sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="s³aba pozycja firmy na rynku";
+
+ 648:  sugestia="Nie udzielaæ kredytu - zbyt wysokie ryzyko" if
+          p³ynnoœæ_finansowa="niezachowana",
+          ocena_zad³u¿enia="firma zbyt wysoko zad³u¿ona",
+          ocena_zyskownoœci="zyskownoœæ firmy niedostateczna",
+          ocena_sprawnoœci_dzia³ania="zbyt niska sprawnoœæ dzia³ania",
+          ocena_rynkowa_akcji_i_kapita³u="mocna pozycja firmy na rynku";
+
+ 649:  sugestia="UWAGA !!! Brak podstaw prawnych do udzielenia kredytu" if
+          profil_klienta="nieprawid³owy";
+
+end;
+
+end;

@@ -1,0 +1,103 @@
+knowledge source zadluzenie
+
+rules
+
+  21: ocena_zad≥uøenia = "zad≥uøenie w normie" if
+        wskaünik_d≥ugu = "oko≥o 50%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Tak",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Tak",
+        wskaünik_ogÛlnego_zad≥uøenia = "niski";
+
+  22: ocena_zad≥uøenia = "firma zbyt wysoko zad≥uøona" if
+        wskaünik_d≥ugu = "powyøej 100%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Nie",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Nie",
+        wskaünik_ogÛlnego_zad≥uøenia = "wysoki";
+
+  23: ocena_zad≥uøenia = "firma zbyt wysoko zad≥uøona" if
+        wskaünik_d≥ugu = "oko≥o 50%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Nie",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Nie",
+        wskaünik_ogÛlnego_zad≥uøenia = "wysoki";
+
+  24: ocena_zad≥uøenia="firma zbyt wysoko zad≥uøona" if
+        wskaünik_d≥ugu = "powyøej 100%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Tak",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Nie",
+        wskaünik_ogÛlnego_zad≥uøenia = "wysoki";
+
+  25: ocena_zad≥uøenia = "firma zbyt wysoko zad≥uøona" if
+        wskaünik_d≥ugu = "powyøej 100%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Nie",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Tak",
+        wskaünik_ogÛlnego_zad≥uøenia = "wysoki";
+
+  26: ocena_zad≥uøenia = "firma zbyt wysoko zad≥uøona" if
+        wskaünik_d≥ugu = "powyøej 100%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Nie",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Nie",
+        wskaünik_ogÛlnego_zad≥uøenia = "niski";
+
+  27: ocena_zad≥uøenia = "firma powaønie zad≥uøona" if
+        wskaünik_d≥ugu = "powyøej 100%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Tak",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Tak",
+        wskaünik_ogÛlnego_zad≥uøenia = "niski";
+
+  28: ocena_zad≥uøenia="firma nie jest w stanie pokryÊ d≥ugu" if
+        wskaünik_d≥ugu = "oko≥o 50%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Nie",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Tak",
+        wskaünik_ogÛlnego_zad≥uøenia = "niski";
+
+  29: ocena_zad≥uøenia = "úrodki trwa≥e nie pokrywajπ kredytu" if
+        wskaünik_d≥ugu = "oko≥o 50%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Tak",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Nie",
+        wskaünik_ogÛlnego_zad≥uøenia = "niski";
+
+ 210: ocena_zad≥uøenia = "wysoki poziom zad≥uøenia w aktywach" if
+        wskaünik_d≥ugu = "oko≥o 50%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Tak",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Tak",
+        wskaünik_ogÛlnego_zad≥uøenia = "wysoki";
+
+ 211: ocena_zad≥uøenia = "istnieje ryzyko zwiπzane z zad≥uøeniem firmy" if
+        wskaünik_d≥ugu = "powyøej 100%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Nie",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Tak",
+        wskaünik_ogÛlnego_zad≥uøenia = "niski";
+
+ 212: ocena_zad≥uøenia = "istnieje ryzyko zwiπzane z zad≥uøeniem firmy" if
+        wskaünik_d≥ugu = "oko≥o 50%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Tak",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Nie",
+        wskaünik_ogÛlnego_zad≥uøenia = "wysoki";
+
+ 213: ocena_zad≥uøenia = "istnieje ryzyko zwiπzane z zad≥uøeniem firmy" if
+        wskaünik_d≥ugu = "oko≥o 50%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Nie",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Nie",
+        wskaünik_ogÛlnego_zad≥uøenia = "niski";
+
+ 214: ocena_zad≥uøenia = "istnieje ryzyko zwiπzane z zad≥uøeniem firmy" if
+        wskaünik_d≥ugu = "powyøej 100%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Tak",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Tak",
+        wskaünik_ogÛlnego_zad≥uøenia = "wysoki";
+
+ 215: ocena_zad≥uøenia = "istnieje ryzyko zwiπzane z zad≥uøeniem firmy" if
+        wskaünik_d≥ugu = "powyøej 100%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Tak",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Nie",
+        wskaünik_ogÛlnego_zad≥uøenia = "niski";
+
+ 216: ocena_zad≥uøenia="istnieje ryzyko zwiπzane z zad≥uøeniem firmy" if
+        wskaünik_d≥ugu = "oko≥o 50%",
+        wskaünik_pokrycia_obs≥ugi_d≥ugu = "Nie",
+        wskaünik_pokrycia_d≥ugu_w_úrodkach = "Tak",
+        wskaünik_ogÛlnego_zad≥uøenia = "wysoki";
+
+ end;
+
+end;

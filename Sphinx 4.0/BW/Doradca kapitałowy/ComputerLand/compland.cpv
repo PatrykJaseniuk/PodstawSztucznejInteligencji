@@ -1,0 +1,128 @@
+[Parametry sieci neuronowej]
+w. wejœciowa=40
+w. ukryta 1=15
+w. ukryta 2=0
+w. ukryta 3=0
+w. wyjœciowa=6
+f. aktywacji dla w.u.=logistyczna
+f. aktywacji dla w.wy.=logistyczna
+bias=tak
+rozmiar cyklu ucz¹cego=1
+metoda uczenia=spadek gradientu
+maksymalna wartoœæ wag=0,5
+mieszanie wzorców=nie
+warunek zakoñczenia=rms uczenia < 'epsilon'
+%wzorców ucz¹cych=100
+%wzorców testowych=100
+epoka uczenia=100000
+epsilon=0,01
+wspó³czynnik uczenia=0,9
+wspó³czynnik momentu=0,7
+tolerancja uczenia=0,1
+%próg zmiany tolerancji=100
+wspó³czynnik zmiany toleracji=0,99
+czêstoœæ testowania=0
+tolerancja testowania=0,25
+plik ucz¹cy=compland.lrn
+plik testowy=
+plik wag=compland.wgt
+plik programu=
+
+[Parametry plików tekstowych]
+znak koñca linii=<lf>
+znak rozdzielaj¹cy=<tab>
+znak zastêpczy=<tab>
+znak dziesiêtny=,
+oznaczenie wejœcia=we
+oznaczenie wyjœcia=wy
+wiersz typu=1
+wiersz nazwy=2
+
+[Parametry generacji plików]
+plik ucz¹cy=AAA.LRN
+plik testowy=AAA.TST
+roz³¹czne=tak
+rozmiar pliku ucz¹cego [%]=90
+rozmiar pliku testowego [%]=10
+losowa zawartoœæ plików=nie
+
+[Statystyka uczenia]
+Statystyki=1
+Wykresu RMS=0
+Autozapis=0
+Zapis najlepszej=0
+Praca krokowa=0
+
+[Praca krokowa]
+Warunek kroku=2
+
+[Zapis najlepszej]
+Plik najlepszych wag=
+RMS uczenia=0
+RMS testowania=0
+
+[Autozapis]
+Czas pomiêdzy zapisami=300
+
+[Katalogi systemowe]
+Katalog PC-SHELL=C:\WINSHELL\PCSHELL.EXE
+Edytor systemowy=C:\WINDOWS\NOTEPAD.EXE
+
+[Lista okien]
+Nazwa pliku 0=C:\SPHINX23\PROJEKT\DORADCA KAPITA³OWY\COMPUTERLAND\COMPLAND.VTS
+x0=383
+y0=6
+w0=933
+h0=356
+Nazwa pliku 1=C:\SPHINX23\PROJEKT\DORADCA KAPITA³OWY\COMPUTERLAND\COMPLAND.VTC
+x1=20
+y1=277
+w1=966
+h1=628
+Nazwa pliku 2=
+x2=
+y2=
+w2=
+h2=
+Nazwa pliku 3=
+x3=
+y3=
+w3=
+h3=
+Nazwa pliku 4=
+x4=
+y4=
+w4=
+h4=
+Nazwa pliku 5=
+x5=
+y5=
+w5=
+h5=
+Nazwa pliku 6=
+x6=
+y6=
+w6=
+h6=
+Nazwa pliku 7=
+x7=
+y7=
+w7=
+h7=
+Nazwa pliku 8=
+x8=
+y8=
+w8=
+h8=
+Nazwa pliku 9=
+x9=
+y9=
+w9=
+h9=
+
+[Monitoring procesu uczenia]
+Statystyki=1
+Wykresu RMS=0
+Autozapis=0
+Zapis najlepszej=0
+Praca krokowa=0

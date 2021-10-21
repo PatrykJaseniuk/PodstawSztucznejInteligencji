@@ -1,0 +1,745 @@
+//------------------------------------------------------------------------------
+//
+// Tekst Ÿród³a zapisanego w pliku:
+//  rozp.bzw
+//
+//------------------------------------------------------------------------------
+// Opis Ÿród³a:
+//  Identyfikacja polimerów w oparciu o badanie rozpuszczalnoœci w okreœlonych rozpuszczalnikach oraz badanie odczynu produktów pirolizy.
+//------------------------------------------------------------------------------
+
+knowledge source badanie_rozpuszczalnoœci
+
+facets
+
+  ask     no;
+  single  yes;
+
+  rozpuszczalnoœæ_w_benzynie :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w benzynie"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "pêcznieje"
+     };
+
+  rozpuszczalnoœæ_w_benzenie :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w benzenie"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "pêcznieje",
+        "rozpuszczalna",
+        "rozpuszczalna na gor¹co"
+     };
+
+  rozpuszczalnoœæ_w_chlorku_metylenu :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w chlorku metylenu"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "pêcznieje",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_eterze_etylowym :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w eterze etylowym"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "pêcznieje",
+        "rozpuszczalna",
+        "rozpuszczalna na gor¹co"
+     };
+
+  rozpuszczalnoœæ_w_acetonie :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w acetonie"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "pêcznieje",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_octanie_etylu :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w octanie etylu"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "pêcznieje",
+        "rozpuszczalna",
+        "rozpuszczalna na gor¹co"
+     };
+
+  rozpuszczalnoœæ_w_alkoholu_etylowym :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w alkoholu etylowym"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "pêcznieje",
+        "rozpuszczalna",
+        "rozpuszczalna na gor¹co"
+     };
+
+  rozpuszczalnoœæ_w_wodzie :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w wodzie"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_cykloheksanolu :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w cykloheksanolu"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_czterochlorku_wêgla :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w czterochlorku wêgla"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "pêcznieje",
+        "rozpuszczalna",
+        "rozpuszczalna na gor¹co"
+     };
+
+  rozpuszczalnoœæ_w_chloroformie :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w chloroformie"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna",
+        "rozpuszczalna na gor¹co"
+     };
+
+  rozpuszczalnoœæ_w_dioksanie :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w dioksanie"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_fenolu_80proc :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w fenolu 80 proc."
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_kwasie_mrówkowym :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w kwasie mrówkowym"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_kwasie_octowym :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w kwasie octowym"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w stê¿onym kwasie solnym"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozk³ad",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w stê¿onym kwasie siarkowym"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozk³ad",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_czterohydrofuranie :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w czterohydrofuranie"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna"
+     };
+
+  rozpuszczalnoœæ_w_pirydynie :
+     ask     yes
+     single  yes
+     query   "Okreœl rozpuszczalnoœæ substancji w pirydynie"
+     val oneof  
+     { 
+        "nierozpuszczalna",
+        "rozpuszczalna",
+        "rozpuszczalna na gor¹co"
+     };
+
+  odczyn_produktów_pirolizy :
+     ask     yes
+     single  yes
+     query   "Okreœl odczyn produktów pirolizy"
+     val oneof  
+     { 
+        "odczyn kwaœny",
+        "odczyn zasadowy"
+     };
+
+  rodzaj_tworzywa :
+     ask     no
+     single  no
+     val oneof  
+     { 
+        "acetyloceluloza",
+        "acetylomaœlan celulozy",
+        "azotan celulozy",
+        "benzyloceluloza",
+        "eter poliwinylowy",
+        "etyloceluloza",
+        "octan celulozy",
+        "poliakrylan",
+        "polialkohol winylowy",
+        "polibutyral winylowy",
+        "polichlorek winylidenu",
+        "polichlorek winylu",
+        "polietylen",
+        "polietylen chlorosulfonowany",
+        "poliizobutylen",
+        "polimetakrylan metylu",
+        "polioctan winylu",
+        "polistyren",
+        "politetrafluoroetylen",
+        "¿ywica anilinowo-formaldehydowa",
+        "¿ywica epoksydowa",
+        "¿ywica fenolowo-formaldehydowa",
+        "¿ywica melaminowo-formaldehydowa",
+        "¿ywica mocznikowo-formaldehydowa",
+        "¿ywica poliamidowa",
+        "¿ywica poliestrowa",
+        "¿ywica poliuretanowa"
+     };
+
+end; // facets
+
+rules
+
+   1001: rodzaj_tworzywa = "benzyloceluloza" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "pêcznieje" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1002: rodzaj_tworzywa = "¿ywica fenolowo-formaldehydowa" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1003: rodzaj_tworzywa = "¿ywica mocznikowo-formaldehydowa" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "rozk³ad" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "rozk³ad" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna na gor¹co";
+
+   1004: rodzaj_tworzywa = "¿ywica melaminowo-formaldehydowa" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "rozk³ad" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "rozk³ad" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna na gor¹co";
+
+   1005: rodzaj_tworzywa = "¿ywica anilinowo-formaldehydowa" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna na gor¹co";
+
+   1006: rodzaj_tworzywa = "¿ywica poliamidowa" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "nierozpuszczalna";
+
+   1007: rodzaj_tworzywa = "¿ywica poliuretanowa" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "nierozpuszczalna";
+
+   1008: rodzaj_tworzywa = "¿ywica epoksydowa" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1009: rodzaj_tworzywa = "¿ywica poliestrowa" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "nierozpuszczalna";
+
+   1010: rodzaj_tworzywa = "polichlorek winylu" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "pêcznieje" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "pêcznieje" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "nierozpuszczalna";
+
+   1011: rodzaj_tworzywa = "polichlorek winylidenu" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna na gor¹co";
+
+   1012: rodzaj_tworzywa = "polioctan winylu" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "pêcznieje" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1013: rodzaj_tworzywa = "polibutyral winylowy" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1014: rodzaj_tworzywa = "polialkohol winylowy" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "nierozpuszczalna";
+
+   1015: rodzaj_tworzywa = "poliakrylan" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "pêcznieje" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna";
+
+   1016: rodzaj_tworzywa = "polimetakrylan metylu" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1017: rodzaj_tworzywa = "polistyren" if
+             rozpuszczalnoœæ_w_benzynie = "pêcznieje" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "pêcznieje" 
+             & rozpuszczalnoœæ_w_acetonie = "pêcznieje" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "pêcznieje" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1018: rodzaj_tworzywa = "polietylen" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna na gor¹co" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "rozpuszczalna na gor¹co" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna na gor¹co" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_fenolu_80proc = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_mrówkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_solnym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_stê¿onym_kwasie_siarkowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterohydrofuranie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna na gor¹co";
+
+   1019: rodzaj_tworzywa = "politetrafluoroetylen" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "nierozpuszczalna";
+
+   1020: rodzaj_tworzywa = "azotan celulozy" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "pêcznieje" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1021: rodzaj_tworzywa = "octan celulozy" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna na gor¹co" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chloroformie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1022: rodzaj_tworzywa = "acetylomaœlan celulozy" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "pêcznieje" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "pêcznieje" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1023: rodzaj_tworzywa = "etyloceluloza" if
+             rozpuszczalnoœæ_w_benzynie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_benzenie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_chlorku_metylenu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_eterze_etylowym = "rozpuszczalna na gor¹co" 
+             & rozpuszczalnoœæ_w_acetonie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_octanie_etylu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_alkoholu_etylowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_wodzie = "nierozpuszczalna" 
+             & rozpuszczalnoœæ_w_cykloheksanolu = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_czterochlorku_wêgla = "pêcznieje" 
+             & rozpuszczalnoœæ_w_dioksanie = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_kwasie_octowym = "rozpuszczalna" 
+             & rozpuszczalnoœæ_w_pirydynie = "rozpuszczalna";
+
+   1024: rodzaj_tworzywa ( piroliza ) = "¿ywica mocznikowo-formaldehydowa" if
+             odczyn_produktów_pirolizy = "odczyn zasadowy" 
+             & rodzaj_tworzywa = "¿ywica mocznikowo-formaldehydowa";
+
+   1025: rodzaj_tworzywa ( piroliza ) = "¿ywica melaminowo-formaldehydowa" if
+             odczyn_produktów_pirolizy = "odczyn zasadowy" 
+             & rodzaj_tworzywa = "¿ywica melaminowo-formaldehydowa";
+
+   1026: rodzaj_tworzywa ( piroliza ) = "¿ywica anilinowo-formaldehydowa" if
+             odczyn_produktów_pirolizy = "odczyn zasadowy" 
+             & rodzaj_tworzywa = "¿ywica anilinowo-formaldehydowa";
+
+   1027: rodzaj_tworzywa ( piroliza ) = "¿ywica poliamidowa" if
+             odczyn_produktów_pirolizy = "odczyn zasadowy" 
+             & rodzaj_tworzywa = "¿ywica poliamidowa";
+
+   1028: rodzaj_tworzywa ( piroliza ) = "¿ywica poliuretanowa" if
+             odczyn_produktów_pirolizy = "odczyn zasadowy" 
+             & rodzaj_tworzywa = "¿ywica poliuretanowa";
+
+   1029: rodzaj_tworzywa ( piroliza ) = "¿ywica poliestrowa" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "¿ywica poliestrowa";
+
+   1030: rodzaj_tworzywa ( piroliza ) = "polichlorek winylu" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "polichlorek winylu";
+
+   1031: rodzaj_tworzywa ( piroliza ) = "polichlorek winylidenu" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "polichlorek winylidenu";
+
+   1032: rodzaj_tworzywa ( piroliza ) = "polioctan winylu" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "polioctan winylu";
+
+   1033: rodzaj_tworzywa ( piroliza ) = "polibutyral winylowy" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "polibutyral winylowy";
+
+   1034: rodzaj_tworzywa ( piroliza ) = "poliakrylan" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "poliakrylan";
+
+   1035: rodzaj_tworzywa ( piroliza ) = "polimetakrylan metylu" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "polimetakrylan metylu";
+
+   1036: rodzaj_tworzywa ( piroliza ) = "octan celulozy" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "octan celulozy";
+
+   1037: rodzaj_tworzywa ( piroliza ) = "azotan celulozy" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "azotan celulozy";
+
+   1038: rodzaj_tworzywa ( piroliza ) = "acetylomaœlan celulozy" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "acetylomaœlan celulozy";
+
+   1039: rodzaj_tworzywa ( piroliza ) = "etyloceluloza" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "etyloceluloza";
+
+   1040: rodzaj_tworzywa ( piroliza ) = "benzyloceluloza" if
+             odczyn_produktów_pirolizy = "odczyn kwaœny" 
+             & rodzaj_tworzywa = "benzyloceluloza";
+
+
+end; // rules
+
+end; // knowledge source

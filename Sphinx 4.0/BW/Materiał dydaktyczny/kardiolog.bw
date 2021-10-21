@@ -1,0 +1,89 @@
+knowledge base przyk³ad1
+  facets
+    ryzyko_rozwoju_choroby_wieñcowej:
+	query "czy wystêpuj¹ sk³onnoœci dziedziczne"
+	val oneof{"wystêpuje","nie wystêpuje"};
+
+    ryzyko_mia¿dzycy_têtnic_wieñcowych:
+	val oneof{"tak","nie"};
+
+    sk³onnoœci_dziedziczone_do_rozwoju_choroby_wieñcowej:
+	val oneof{"tak","nie"};
+
+    nadciœnienie_têtnicze:
+	val oneof{"tak","nie"};
+
+    podwy¿szony_poziom_cholesterolu_w_osoczu:
+	val oneof{"tak","nie"};
+
+    poziom_cholesterolu_w_osoczu:
+	val range<100,400>;
+
+    ciœnienie_rozkurczowe_krwi:
+	val range<30,160>;
+
+    ciœnienie_skurczowe_krwi:
+	val range<70,250>;
+  end;
+  rules
+     ryzyko_rozwoju_choroby_wieñcowej="wystêpuje" if
+	ryzyko_mia¿dzycy_têtnic_wieñcowych ="tak",
+	sk³onnoœci_dziedziczone_do_rozwoju_choroby_wieñcowej="tak";
+
+     ryzyko_mia¿dzycy_têtnic_wieñcowych ="tak" if
+	nadciœnienie_têtnicze="tak",
+	podwy¿szony_poziom_cholesterolu_w_osoczu="tak";
+
+    nadciœnienie_têtnicze="tak" if
+	ciœnienie_rozkurczowe_krwi=X,  X >= 95,
+    ciœnienie_skurczowe_krwi=Y,  Y >= 140;
+
+    podwy¿szony_poziom_cholesterolu_w_osoczu="tak" if
+	poziom_cholesterolu_w_osoczu=X,  X >= 210;
+
+  end;
+  control
+
+    char Ocena, S;   
+    float Dane[3];
+
+    run;
+    setSysText( problem, "Ocena ryzyka wyst¹pienia choroby wieñcowej" );
+    setSysText( notConfirmed, "Brak podstaw do uznania, ¿e wystêpuje ryzyko choroby wieñcowej" );
+    createAppWindow;
+    setAppWinTitle("Ryzyko choroby wieñcowej");
+    vignette("Ryzyko choroby wieñcowej", "Przyk³adowa aplikacja do oceny ryzyka wyst¹pienia choroby wieñcowej", "(c) 2003 AITECH");
+    openSheet( "Dane wejœciowe", "krew.vts");
+    getProfile( "Krew", "CiœnienieRozkurczowe", S, "", "krew.ini");
+    setSheetValue( "Dane wejœciowe","",4,3, S ); 
+    getProfile( "Krew", "CiœnienieSkurczowe", S, "", "krew.ini");
+    setSheetValue( "Dane wejœciowe","",5,3, S );
+    getProfile( "Krew", "PoziomCholesterolu", S, "", "krew.ini");
+    setSheetValue( "Dane wejœciowe","",6,3, S );
+
+    menu "Menu"
+      1. "Poka¿ arkusz"
+      2. "Konsultacja"
+      3. "Zapamiêtanie i wyjœcie"
+      case 1:
+	showSheet( "Dane wejœciowe", 0 );  
+      case 2:
+                delNewFacts;
+  	getSheetValue( "Dane wejœciowe","",4,3, Dane[0] );
+  	getSheetValue( "Dane wejœciowe","",5,3, Dane[1] );
+  	getSheetValue( "Dane wejœciowe","",6,3, Dane[2] );
+     	addFact( _, "ciœnienie_rozkurczowe_krwi", Dane[0] );
+     	addFact ( _, "ciœnienie_skurczowe_krwi", Dane[1] );
+     	addFact ( _, "poziom_cholesterolu_w_osoczu", Dane[2] );
+  	goal( "ryzyko_rozwoju_choroby_wieñcowej = Ocena" );
+      case 3:
+  	getSheetValue( "Dane wejœciowe","",4,3, S );
+  	writeProfile( "Krew", "CiœnienieRozkurczowe", S, "krew.ini");
+  	getSheetValue( "Dane wejœciowe","",5,3, S );
+  	writeProfile( "Krew", "CiœnienieSkurczowe", S, "krew.ini");
+  	getSheetValue( "Dane wejœciowe","",6,3, S );
+  	writeProfile( "Krew", "PoziomCholesterolu", S,  "krew.ini");
+  	exit;
+    end;
+  end;
+end;

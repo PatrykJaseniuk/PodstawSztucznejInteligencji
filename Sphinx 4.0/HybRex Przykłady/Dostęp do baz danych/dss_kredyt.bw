@@ -1,0 +1,53 @@
+knowledge base kredyt
+
+  sources
+
+    deckred :
+        type kb
+        file "deckred.zw";
+
+    profil :
+        type kb
+        file "profil.zw";
+
+    gwarancje :
+        type kb
+        file "gwaranc.zw";
+
+    sytfin :
+        type kb
+        file "sytfin.zw";
+
+  end;
+
+  control
+
+    int   Odp, I, IsValue;
+    char  S1, S2, S3;
+    char  Firma;
+    char  Firmy[10];
+    int   Sel;
+
+    run;    // automatycznie uruchom program po wczytaniu bazy wiedzy
+
+    setWindowPos( solution, 100,100,600,200,0 );
+
+    // poka¿ winietê tytu³ow¹ programu :
+    solutionWin( no );
+
+     // ocena profilu klienta :
+     solve( profil, "profil_klienta = Profil_klienta" );
+
+    // ocena gwarancji kredytowych :
+    solve( gwarancje, "gwarancje_kredytowe = Gwarancje_kredytowe" );
+
+    // ocena sytuacji finansowej :
+    solve( sytfin, "sytuacja_finansowa = Sytuacja_finansowa" );
+    solutionWin( yes );
+
+    // g³ówna ocena wniosku kredytowego :
+    solve( deckred, "decyzja_kredytowa = DECYZJA_KREDYTOWA" );
+
+   fsaveExplan("dss_kredyt.html",decyzja_kredytowa,2 );
+ end;
+end;
