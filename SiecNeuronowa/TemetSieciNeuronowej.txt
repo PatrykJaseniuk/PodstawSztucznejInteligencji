@@ -1,0 +1,11 @@
+SSN temat:
+MLS2 - dwuwarstwowa sigmoidalna - algorytm: wsteczna propagacja błędów
+Dane do SSN:
+przykłady (*.lrn) z etapu I (SE)
+
+Literatura:
+Tadeusiewicz R.: Sieci neuronowe. Akademicka Oficyna Wydawnicza, Warszawa 1993 [http://winntbg.bg.agh.edu.pl/skrypty/0001/main.html]
+
+Rutkowski L.: Metody i techniki sztucznej inteligencji, PWN 2003
+Hertz J., Krogh A., Palmer R. G.: Wstęp do teorii obliczeń neuronowych. WNT, Warszawa 1993
+Osowski S.: Sieci neuronowe w ujęciu algorytmicznym. WNT, Warszawa 1997

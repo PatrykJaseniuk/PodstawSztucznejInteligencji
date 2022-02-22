@@ -1,0 +1,30 @@
+[Parametry sieci neuronowej]
+plik ucz¹cy=Andrzej.lrn
+plik testowy=Andrzej.tst
+plik wag=Andrzej.wgt
+Ù
+plik programu=¶
+Ù
+w. wejœciowa=
+w. ukryta 1=1
+w. ukryta 2=0
+w. ukryta 3=0
+w. wyjœciowa=
+bias=tak
+maksymalna wartoœæ wag=0,5
+wspó³czynnik momentu=0,7
+wspó³czynnik uczenia=0,9
+rozmiar cyklu ucz¹cego=1
+mieszanie wzorców=nie
+czêstoœæ testowania=1
+tolerancja uczenia=
+%próg zmiany tolerancji=
+wspó³czynnik zmiany toleracji=
+%wzorców ucz¹cych=
+%wzorców testowych=
+epsilon=0.5
+warunek zakoñczenia=rms uczenia < 'epsilon'
+Ù
+Ù
+Ù
+Ù
